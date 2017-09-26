@@ -62,7 +62,7 @@ public class DBConnection {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         List<Bank> bankList = new ArrayList<>();
-        String period = " and DATE_FORMAT(date,'%Y-%m')='2017-06'";
+        String period = " and DATE_FORMAT(date,'%Y-%m')='2017-08'";
         try {
             connection = getDBConnection();
             String sql = "SELECT name, \n" +

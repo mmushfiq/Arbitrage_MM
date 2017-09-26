@@ -35,7 +35,14 @@ public class Arbitrage3 {
     public void choice(int n) {
         switch (n) {
             case 1:
-                d = new ExcelData();
+                /* excel melumatlari esasinda aydinlashdirdim ki, Bellman-Ford ancaq tapdigi ilk 'negative cycle'-i
+                *  gosterir ve en pisi de odur ki, bu en yaxshi arbitraj imkani deyil. 32 azn profit azn-eur-azn oldugu
+                *  halda 28 azn profit olan azn-rub-azn gosterir. rub.li manual azaltdiqda 3 azn profit olan azn-gbp-azn
+                *  gosterir. Onu da manual azaltdiqdan sonra azn-eur-azn i gosterir. Onu da azaltdiqda ise usd-rub-usd
+                *  gosterir. Bele chixir ki, onda bu kod negative cycle-ni source vertex-den hesablamir, tapdigi en qisa
+                *  cycle.ni gosterir. Indi esas meqsed butun negative cycle-lari gostere bilmekdir.
+                */
+                d = new ExcelData(); 
                 break;
             case 2:
                 d = new AznTodayData();

@@ -19,14 +19,11 @@ public abstract class Data {
         try {
             for (int i = 0; i < currencies.length; i++) {
                 Map<String, OptimalRate> map = new LinkedHashMap();
-//                Map<String, Double> map = (Map) jsonObject.get("rates");
-                    
-                    for (int j = 0; j < currencies.length; j++) {
-                        if(i==j) continue;
-                        OptimalRate opt = getOptimalRates(currencies[i], currencies[j], bankList);
-                        map.put(currencies[j], opt);
-                    }
-
+                for (int j = 0; j < currencies.length; j++) {
+                    if(i==j) continue;
+                    OptimalRate opt = getOptimalRates(currencies[i], currencies[j], bankList);
+                    map.put(currencies[j], opt);
+                }
                 ratesMap.put(currencies[i], map);
             }
 
@@ -68,6 +65,7 @@ public abstract class Data {
                 }
 
                 opt = new OptimalRate(id, name, round(1 / rate));
+//                opt = new OptimalRate(id, name, 0.4876);  //	0.5076 - excel data uchun deyishmishdim
                 return opt;
 
             case "AZN-GBP":
@@ -82,6 +80,7 @@ public abstract class Data {
                     }
                 }
                 opt = new OptimalRate(id, name, round(1 / rate));
+//                opt = new OptimalRate(id, name, 0.4413);  //	0.4513 - excel data uchun deyishmishdim
                 return opt;
 
             case "AZN-RUB":
@@ -97,7 +96,7 @@ public abstract class Data {
                 }
 
                 opt = new OptimalRate(id, name, round(1 / rate));
-//                opt = new OptimalRate(id, name, 35.1297);  //34.1297
+//                opt = new OptimalRate(id, name, 34.0877);  //	35.0877 - excel data uchun deyishmishdim
                 return opt;
 
             case "AZN-TRY":
@@ -349,7 +348,6 @@ public abstract class Data {
                 }
 
                 opt = new OptimalRate(id, name, rate);
-//                opt = new OptimalRate(id, name, 0.0210);  //0.0293
                 return opt;
 
             case "RUB-USD":
@@ -477,11 +475,10 @@ public abstract class Data {
             case "TRY-RUB":
                 rate = Double.MIN_VALUE;
                 for (Bank b : bankList) {
-                    if (b.getbTRY() < 0 || b.getsRUB() < 0) {
-                        continue;
-                    }
-                    if (rate < b.getbTRY() / b.getsRUB()) {
-                        rate = b.getbTRY() / b.getsRUB();
+                    if (b.getbTRY() < 0 || b.getsRUB() < 0) continue;
+                    
+                    if (rate < b.getbTRY()/b.getsRUB()) {
+                        rate = b.getbTRY()/b.getsRUB();
                         id = b.getId();
                         name = b.getName();
                     }
