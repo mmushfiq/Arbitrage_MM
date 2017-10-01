@@ -62,7 +62,7 @@ public class DBConnection {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         List<Bank> bankList = new ArrayList<>();
-        String period = " and DATE_FORMAT(date,'%Y-%m')='2017-08'";
+        String period = " and DATE_FORMAT(date,'%Y-%m')='2017-09'";
         try {
             connection = getDBConnection();
             String sql = "SELECT name, \n" +
@@ -100,6 +100,7 @@ public class DBConnection {
                         "ORDER BY cr.date DESC, cr.bank_id, cr.currency_id) cr) t\n" +
                         "GROUP BY DATE, bank_id\n" +
                         "ORDER BY DATE DESC;";
+            System.out.println(sql);
             preparedStatement = connection.prepareStatement(sql);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

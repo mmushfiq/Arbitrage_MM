@@ -81,7 +81,7 @@ public class BellmanFordSP {
         queue = new Queue<Integer>();
         queue.enqueue(s);
         onQueue[s] = true;
-        while (!queue.isEmpty() && !hasNegativeCycle()) {
+        while (!queue.isEmpty() && !hasNegativeCycle()) {  //!hasNegativeCycle() bu setre gore ilk negative cycle tapilan kimi dayanir
             int v = queue.dequeue();
             onQueue[v] = false;
             relax(G, v);
