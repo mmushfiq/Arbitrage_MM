@@ -1,4 +1,4 @@
-package az.mm.arbitrage.test;
+package az.mm.arbitrage.permutation;
 
 import az.mm.arbitrage.data.AniMezenneData;
 import az.mm.arbitrage.data.AznTodayData;
@@ -7,6 +7,7 @@ import az.mm.arbitrage.data.ExcelData;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.ArrayList;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
  *
  * @author MM
  */
-public class ArbitragePermutation {
+public class ArbitragePermutationCopy {
 
     static int countK;
     static int arbitrageNumber;
@@ -44,7 +45,7 @@ public class ArbitragePermutation {
             for (int i = n; i < a.size(); i++) {
                 singlePermutation.add(a.get(i));
             }
-            isArbitrage(singlePermutation);
+//            isArbitrage(singlePermutation);
             allPermutations.add(singlePermutation);
             return;
         }
@@ -69,10 +70,10 @@ public class ArbitragePermutation {
         // n is the end item of the array.
         // if n = 5, the array is [0, 1, 2, 3, 4, 5]
         // k is the number of elements of each permutation.
-        int n = 5;
+        int n = 8;
         int k = 5;
 
-        String[] arr = {/*"AZN",*/"USD", "EUR", "GBP", "RUB", "TRY",};
+        String[] arr = {/*"AZN",*/"USD", "EUR", "GBP", "RUB", "TRY","CAD", "AUD", "CHF"};
 
         // create original array
         ArrayList<String> elements = new ArrayList<>();

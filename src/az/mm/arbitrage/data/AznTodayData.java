@@ -31,6 +31,7 @@ public class AznTodayData extends Data {
         List<Bank> bankList = new ArrayList<>();
         Bank bank;
         try {
+//            System.out.println("AznTodayBankList");
             Document doc = Jsoup.connect("http://azn.today/").get();
             Elements thead = doc.select("#basic-mezenne > thead th");
             Elements tbody = doc.select("#basic-mezenne > tbody tr");
@@ -78,7 +79,8 @@ public class AznTodayData extends Data {
     
     
     public static void main(String[] args) {
-//        fillAznTodayBankList();
+        AznTodayData azn = new AznTodayData();
+        System.out.println(azn.fillAznTodayBankList());
     }
 
 }

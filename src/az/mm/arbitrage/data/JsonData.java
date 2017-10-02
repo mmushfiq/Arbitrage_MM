@@ -1,6 +1,7 @@
 package az.mm.arbitrage.data;
 
 import az.mm.arbitrage.model.Bank;
+import az.mm.arbitrage.model.OptimalRate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,28 @@ import org.json.simple.parser.JSONParser;
  * @author USER
  */
 public class JsonData extends Data {
+    
+    @Override
+    public List<Bank> getBankList() {
+        return new ArrayList<Bank>();
+    }
+
+    @Override
+    public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList) {
+        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
+
+        getRatesMap().forEach((key, value) -> {
+            Map<String, OptimalRate> map = new HashMap();
+            value.forEach((k2, v2) -> {
+                OptimalRate opt = new OptimalRate();
+                opt.setValue(v2);
+                map.put(k2, opt);
+            });
+            ratesMap.put(key, map);
+        });
+
+        return ratesMap;
+    }
 
     public Map<String, Map<String, Double>> getRatesMap() {
         String[] currencies = {"USD", "CHF", "GBP", "JPY", "RUB", "TRY", "EUR"};
@@ -64,7 +87,6 @@ public class JsonData extends Data {
         return sb.toString();
     }
 
-       
     public static void main(String[] args) {
         // http://api.fixer.io/latest?base=USD
         /*
@@ -129,8 +151,4 @@ public class JsonData extends Data {
         }
     }
 
-    @Override
-    public List<Bank> getBankList() {
-        return new ArrayList<Bank>();
-    }
 }
