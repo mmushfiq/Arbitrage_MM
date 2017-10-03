@@ -2,6 +2,7 @@ package az.mm.arbitrage.permutation;
 
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,12 +15,10 @@ public class Permutation {
     private Arbitrage arb;
     private int count;
     private final String baseCurrency;
-    private List<ArrayList<String>> arbitragePermutations;
 
     public Permutation(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
         arb = new Arbitrage(map, baseCurrency);
         this.baseCurrency = baseCurrency;
-        arbitragePermutations = new ArrayList<>();
     }
 
     // a is the original array
@@ -40,8 +39,7 @@ public class Permutation {
             for (int i = n; i < a.size(); i++) {
                 singlePermutation.add(a.get(i));
             }
-            if(arb.isArbitrage(singlePermutation)) 
-                arbitragePermutations.add(singlePermutation);
+            arb.isArbitrage(singlePermutation); 
             allPermutations.add(singlePermutation);
             return;
         }
@@ -68,11 +66,9 @@ public class Permutation {
         }
         System.out.println(baseCurrency);
     }
-
-    public List<ArrayList<String>> getArbitragePermutations() {
-        return new ArrayList<ArrayList<String>>(arbitragePermutations);
+    
+    public Map<Double, List<ArbitrageModel>> getArbitrageListMap(){
+        return arb.getArbitrageListMap();
     }
     
-    
-
 }

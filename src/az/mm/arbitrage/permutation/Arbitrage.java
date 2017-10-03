@@ -2,6 +2,9 @@ package az.mm.arbitrage.permutation;
 
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,41 +13,48 @@ import java.util.Map;
  */
 public class Arbitrage {
     private final Map<String, Map<String, OptimalRate>> ratesMap;
-    private int arbitrageNumber;
-    private final String baseCurrency;
+    private String baseCurrency;
+    private Map<Double, List<ArbitrageModel>> arbitrageListMap;
 
+    public Arbitrage() {
+        ratesMap = null;
+    }
+    
     public Arbitrage(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
         ratesMap = map;
         this.baseCurrency = baseCurrency;
+        arbitrageListMap = new LinkedHashMap<>();
     }
  
 
     public boolean isArbitrage(ArrayList<String> list) {
         String from, to;
-        double result = 1000;
-        StringBuilder sb = new StringBuilder();
+        double startValue = 1000;
+        double result = startValue;
+//        StringBuilder sb = new StringBuilder(); //duzgun ishlese bunlari yigishdiracam..
         OptimalRate opt;
+        List<ArbitrageModel> arbList = new ArrayList<>();
+        
         for (int i = 0; i < list.size(); i++) {
             from = (i == 0) ? baseCurrency : list.get(i - 1);
             to = list.get(i);
             opt = getRate(from, to);
-            sb.append(round(result)).append(" "+from+" = ");
             result *= opt.getValue();
-            sb.append(round(result)).append(" "+to).append(" ("+opt.getName()+")\n");
+            arbList.add(new ArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getName()));
         }
         from = list.get(list.size()-1);
         to = baseCurrency;
         opt = getRate(from, to);
-        sb.append(round(result)).append(" "+from+" = ");
         result *= opt.getValue();
-        sb.append(round(result)).append(" "+to).append(" ("+opt.getName()+")\n");
+        arbList.add(new ArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getName()));
         
-        if(result>1000){
+        if(result > startValue){
 //            if(result-1000<20) return true;
-            System.out.printf("Arbitrage %d:\n", ++arbitrageNumber);
-            System.out.println(sb);
+            arbitrageListMap.put(result-startValue, arbList);
             return true;
-        }
+        } 
+        else
+            arbList = null; //for helping GC
 
         return false;
     }
@@ -58,5 +68,10 @@ public class Arbitrage {
     
     private double round(double value) {
         return Math.round(value * 10000.0) / 10000.0;
+    }
+    
+    
+    public Map<Double, List<ArbitrageModel>> getArbitrageListMap(){
+        return new LinkedHashMap<>(arbitrageListMap);
     }
 }
