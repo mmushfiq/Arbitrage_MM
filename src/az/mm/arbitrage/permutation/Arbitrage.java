@@ -35,21 +35,20 @@ public class Arbitrage {
         OptimalRate opt;
         List<ArbitrageModel> arbList = new ArrayList<>();
         
-        for (int i = 0; i < list.size(); i++) {
-            from = (i == 0) ? baseCurrency : list.get(i - 1);
-            to = list.get(i);
+        for (int i = 0, size = list.size(); i <= size; i++) {
+            if(i == size){
+                from = list.get(size-1);
+                to = baseCurrency;
+            } else {
+                from = (i == 0) ? baseCurrency : list.get(i - 1);
+                to = list.get(i);
+            }
             opt = getRate(from, to);
             result *= opt.getValue();
             arbList.add(new ArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getName()));
         }
-        from = list.get(list.size()-1);
-        to = baseCurrency;
-        opt = getRate(from, to);
-        result *= opt.getValue();
-        arbList.add(new ArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getName()));
         
         if(result > startValue){
-//            if(result-1000<20) return true;
             arbitrageListMap.put(result-startValue, arbList);
             return true;
         } 

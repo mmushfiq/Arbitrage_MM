@@ -11,8 +11,9 @@ import java.util.Map;
  * @author MM
  */
 public abstract class Data {
+
     public abstract List<Bank> getBankList();
-    
+
     public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList) {
         String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",};
         Map<String, Map<String, OptimalRate>> ratesMap = new LinkedHashMap();
@@ -20,7 +21,9 @@ public abstract class Data {
             for (int i = 0; i < currencies.length; i++) {
                 Map<String, OptimalRate> map = new LinkedHashMap();
                 for (int j = 0; j < currencies.length; j++) {
-                    if(i==j) continue;
+                    if (i == j) {
+                        continue;
+                    }
                     OptimalRate opt = getOptimalRates(currencies[i], currencies[j], bankList);
                     map.put(currencies[j], opt);
                 }
@@ -33,7 +36,7 @@ public abstract class Data {
             return ratesMap;
         }
     }
-    
+
     public OptimalRate getOptimalRates(String from, String to, List<Bank> bankList) {
         int id = 0;
         String name = null;
@@ -50,8 +53,8 @@ public abstract class Data {
                         name = b.getName();
                     }
                 }
-                
-                opt = new OptimalRate(id, name, round(1/rate));  //	0.5882
+
+                opt = new OptimalRate(id, name, round(1 / rate));  //	0.5882
 //                opt = new OptimalRate(id, name, 0.63);
                 return opt;
 
@@ -475,10 +478,12 @@ public abstract class Data {
             case "TRY-RUB":
                 rate = Double.MIN_VALUE;
                 for (Bank b : bankList) {
-                    if (b.getbTRY() < 0 || b.getsRUB() < 0) continue;
-                    
-                    if (rate < b.getbTRY()/b.getsRUB()) {
-                        rate = b.getbTRY()/b.getsRUB();
+                    if (b.getbTRY() < 0 || b.getsRUB() < 0) {
+                        continue;
+                    }
+
+                    if (rate < b.getbTRY() / b.getsRUB()) {
+                        rate = b.getbTRY() / b.getsRUB();
                         id = b.getId();
                         name = b.getName();
                     }
@@ -494,5 +499,34 @@ public abstract class Data {
     private double round(double value) {
         return Math.round(value * 10000.0) / 10000.0;
     }
-    
+
+    public OptimalRate[][] getOptimalRatesArray(List<Bank> bankList) {
+        int id = 0;
+        String name = null;
+        double curRate = Double.MAX_VALUE;
+        double newRate = 0;
+        OptimalRate opt = new OptimalRate();
+        String[] cur = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",}; //bunu sonra param kimi gondermek
+        OptimalRate arr[][] = new OptimalRate[cur.length][cur.length];
+
+        for (Bank b : bankList) {
+            for (int i = 0; i < arr.length; i++) {
+                for (int j = 0; j < arr.length; j++) {
+
+                    switch (cur[i]) {
+                        case "AZN":
+                        case "USD":
+                        case "EUR":
+                        case "RUB":
+                        case "GBP":
+                        case "TRY":
+
+                    }
+                }
+            }
+        }
+
+        return arr;
+    }
+
 }

@@ -56,7 +56,7 @@ public class ArbitragePermutation {
         }
         
         checkArbitrageOpportunity(p);
-//        printAllPermutations();
+        printAllPermutations();
     }
 
     private void startForAniMezenne(String[] currencies) {
