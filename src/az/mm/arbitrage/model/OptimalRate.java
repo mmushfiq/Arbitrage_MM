@@ -12,11 +12,16 @@ public class OptimalRate {
     public OptimalRate() {
         id = 0;
         name = "";
-        value = Double.MAX_VALUE;
+        value = Double.MIN_VALUE;
     }
 
     public OptimalRate(int id, String name, double value) {
         this.id = id;
+        this.name = name;
+        this.value = value;
+    }
+    
+    public OptimalRate(String name, double value) {
         this.name = name;
         this.value = value;
     }

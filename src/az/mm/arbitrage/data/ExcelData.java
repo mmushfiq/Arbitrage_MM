@@ -39,7 +39,7 @@ public class ExcelData extends Data {
         FileInputStream file = null;
 
         try {
-            file = new FileInputStream(new File("C:\\Users\\USER\\Desktop\\arbitrage.xlsx"));
+            file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xlsx")); 
 
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheetAt(4);
@@ -109,7 +109,9 @@ public class ExcelData extends Data {
 
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        FileInputStream file = new FileInputStream(new File("C:\\Users\\USER\\Desktop\\arbitrage.xlsx"));
+        
+        FileInputStream file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xlsx"));
+//        file = new FileInputStream(new File("arbitrage.xlsx")); 
         XSSFWorkbook workbook = new XSSFWorkbook(file);
         XSSFSheet sheet = workbook.getSheetAt(3);
 

@@ -1,21 +1,8 @@
 package az.mm.arbitrage.permutation;
 
-import az.mm.arbitrage.data.AniMezenneData;
-import az.mm.arbitrage.data.AznTodayData;
-import az.mm.arbitrage.data.Data;
-import az.mm.arbitrage.data.ExcelData;
-import az.mm.arbitrage.data.JsonData;
-import az.mm.arbitrage.model.Bank;
-import az.mm.arbitrage.model.OptimalRate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import az.mm.arbitrage.data.*;
+import az.mm.arbitrage.model.*;
+import java.util.*;
 
 /**
  *
@@ -32,13 +19,14 @@ public class ArbitragePermutation {
         Scanner sc = new Scanner(System.in);
         System.out.println("Currency list: AZN USD EUR GBP RUB TRY");
         System.out.println("Select base currency from the list: ");
-        baseCurrency = sc.next();
+//        baseCurrency = sc.next().toUpperCase();
+        baseCurrency = "AZN";
         System.out.println("Select currencies which you want:");
-        sc.nextLine(); //bunu yazmayanda Exception verir..
-        String curString = sc.nextLine();
-        String[] currencies = curString.split(" ");
+//        sc.nextLine(); //bunu yazmayanda Exception verir..
+//        String curString = sc.nextLine();
+//        String[] currencies = curString.trim().toUpperCase().split(" ");
 
-//        String[] currencies = {/*"AZN",*/"USD", "EUR", "GBP", "RUB", "TRY",};
+        String[] currencies = {/*"AZN",*/"USD", "EUR", "GBP", "RUB", "TRY",};
         ArbitragePermutation ap = new ArbitragePermutation();
         ap.start(currencies);
 //        ap.startForAniMezenne(currencies);
@@ -55,8 +43,8 @@ public class ArbitragePermutation {
             allPermutationMap.put(i, p.permute(curList, i));
         }
         
-        checkArbitrageOpportunity(p);
-        printAllPermutations();
+//        checkArbitrageOpportunity(p);
+//        printAllPermutations();
     }
 
     private void startForAniMezenne(String[] currencies) {
@@ -130,6 +118,8 @@ public class ArbitragePermutation {
         }
 
         Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(d.getBankList());
+        
+        d.getOptimalRatesArray(d.getBankList());
         
         return ratesMap;
     }

@@ -2,6 +2,7 @@ package az.mm.arbitrage.data;
 
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,20 +22,33 @@ public abstract class Data {
             for (int i = 0; i < currencies.length; i++) {
                 Map<String, OptimalRate> map = new LinkedHashMap();
                 for (int j = 0; j < currencies.length; j++) {
-                    if (i == j) {
-                        continue;
-                    }
+                    if (i == j) continue;
                     OptimalRate opt = getOptimalRates(currencies[i], currencies[j], bankList);
                     map.put(currencies[j], opt);
                 }
                 ratesMap.put(currencies[i], map);
             }
+            
+            printMap(ratesMap);
 
         } catch (Exception ex) {
             System.out.println(ex);
         } finally {
             return ratesMap;
         }
+    }
+    
+    private void printMap(Map<String, Map<String, OptimalRate>> map){
+        map.forEach((k,v) -> {
+            System.out.print(k + "\t");
+            v.forEach((k2,v2) -> {
+                
+                System.out.printf("%.4f (%s) ", v2.getValue(), v2.getName());
+            });
+            System.out.println("");
+        });
+        
+    
     }
 
     public OptimalRate getOptimalRates(String from, String to, List<Bank> bankList) {
@@ -501,32 +515,111 @@ public abstract class Data {
     }
 
     public OptimalRate[][] getOptimalRatesArray(List<Bank> bankList) {
-        int id = 0;
-        String name = null;
-        double curRate = Double.MAX_VALUE;
-        double newRate = 0;
-        OptimalRate opt = new OptimalRate();
+        String name = "-";
+        double curRate = Double.MIN_VALUE;
+        double newRate;
+//        OptimalRate opt = new OptimalRate();
         String[] cur = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",}; //bunu sonra param kimi gondermek
-        OptimalRate arr[][] = new OptimalRate[cur.length][cur.length];
+        OptimalRate R[][] = new OptimalRate[cur.length][cur.length];
 
         for (Bank b : bankList) {
-            for (int i = 0; i < arr.length; i++) {
-                for (int j = 0; j < arr.length; j++) {
+            for (int i = 0; i < R.length; i++) {
+                for (int j = 0; j < R.length; j++) {
+                    newRate = 0;
+                    
+                    if (/*i == 0 || j == 0 ||*/ i == j) continue;
+                
 
                     switch (cur[i]) {
-                        case "AZN":
+                        case "AZN": 
+                            newRate = 1;
+                            break;
                         case "USD":
+                            newRate = b.getbUSD();
+                            break;
                         case "EUR":
+                            newRate = b.getbEUR();
+                            break;
                         case "RUB":
+                            newRate = b.getbRUB();
+                            break;
                         case "GBP":
+                            newRate = b.getbGBP();
+                            break;
                         case "TRY":
-
+                            newRate = b.getbTRY();
+                            break;
                     }
+
+                    switch (cur[j]) {
+                        case "AZN": break;
+                        case "USD":
+//                            newRate = cur[i].equals("AZN") ? b.getsUSD() : newRate / b.getsUSD();
+                            newRate = newRate / b.getsUSD();
+                            break;
+                        case "EUR":
+                            newRate = newRate / b.getsEUR();
+                            break;
+                        case "RUB":
+                            newRate = newRate / b.getsRUB();
+                            break;
+                        case "GBP":
+                            newRate = newRate / b.getsGBP();
+                            break;
+                        case "TRY":
+                            newRate = newRate / b.getsTRY();
+                            break;
+                    }
+
+//                    System.out.println("curRate=" + curRate + ", newRate=" + newRate);
+                    
+                    curRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
+                    if (cur[i].equals("AZN")) {
+//                        curRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
+//                        newRate = 1 / newRate;
+                        if (newRate > 0 && curRate < newRate) {
+//                            curRate = newRate;
+//                            name = b.getName();
+//                            R[i][j] = new OptimalRate(name, round(curRate));
+                            R[i][j] = new OptimalRate(b.getName(), newRate);
+                        }
+                    } else {
+//                        curRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
+                        if (curRate < newRate) {
+//                            curRate = newRate;
+//                            name = b.getName();
+//                            R[i][j] = new OptimalRate(name, curRate);
+                            R[i][j] = new OptimalRate(b.getName(), newRate);
+                        }
+                    }
+
+                   
                 }
             }
         }
 
-        return arr;
+        for (int i = 0; i < R.length; i++) {
+            
+            System.out.print("\n"+cur[i]+"\t");
+            for (int j = 0; j < R.length; j++) {
+                
+                if(R[i][j] == null) 
+                    R[i][j] = new OptimalRate("", 0);
+//                System.out.print(R[i][j].getValue()+" ("+ R[i][j].getName()+")\t");
+                System.out.printf("%.4f (%s)    ", R[i][j].getValue(), R[i][j].getName());
+            }
+        }
+
+        return R;
+    }
+    
+
+
+    public static void prTitles() {
+        System.out.printf("\n%-20s %10s %10s %10s", "Item", "Quantity", "Price", "Total");
+    }
+    public static void prLine(String item, int quantity, double price, double total) {
+        System.out.printf("\n%-20.20s %10d %10.2f %10.2f", item, quantity, price, total);
     }
 
 }
