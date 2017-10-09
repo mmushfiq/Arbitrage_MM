@@ -12,21 +12,21 @@ public class ArbitragePermutation {
 
     private Map<Integer, ArrayList<ArrayList<String>>> allPermutationMap;
     private static String baseCurrency;
-    private int arbitrageNumber;
+    private int count;
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Currency list: AZN USD EUR GBP RUB TRY");
         System.out.println("Select base currency from the list: ");
-//        baseCurrency = sc.next().toUpperCase();
-        baseCurrency = "AZN";
+        baseCurrency = sc.next().toUpperCase();
+//        baseCurrency = "AZN";
         System.out.println("Select currencies which you want:");
-//        sc.nextLine(); //bunu yazmayanda Exception verir..
-//        String curString = sc.nextLine();
-//        String[] currencies = curString.trim().toUpperCase().split(" ");
+        sc.nextLine(); //bunu yazmayanda Exception verir..
+        String curString = sc.nextLine();
+        String[] currencies = curString.trim().toUpperCase().split(" ");
 
-        String[] currencies = {/*"AZN",*/"USD", "EUR", "GBP", "RUB", "TRY",};
+//        String[] currencies = {/*"AZN",*/"USD", "EUR", "GBP", "RUB", "TRY",};
         ArbitragePermutation ap = new ArbitragePermutation();
         ap.start(currencies);
 //        ap.startForAniMezenne(currencies);
@@ -35,7 +35,7 @@ public class ArbitragePermutation {
 
     private void start(String[] currencies) {
         allPermutationMap = new LinkedHashMap<>();
-        Permutation p = new Permutation(getOptimalRatesMap(), baseCurrency);
+        Permutation p = new Permutation(getOptimalRatesMap(currencies), baseCurrency);
         List<String> curList = Arrays.asList(currencies);
         System.out.println("");
 
@@ -43,8 +43,8 @@ public class ArbitragePermutation {
             allPermutationMap.put(i, p.permute(curList, i));
         }
         
-//        checkArbitrageOpportunity(p);
-//        printAllPermutations();
+        checkArbitrageOpportunity(p);
+        printAllPermutations();
     }
 
     private void startForAniMezenne(String[] currencies) {
@@ -60,7 +60,7 @@ public class ArbitragePermutation {
             if (date.equals(b.getDate())) partList.add(b);
             else {
                 System.out.println("\n---------------------------------\n" + date);
-                Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(partList);
+                Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(partList, baseCurrency, currencies);
                 Permutation p = new Permutation(ratesMap, baseCurrency);
                 List<String> curList = Arrays.asList(currencies);
                 System.out.println("");
@@ -78,48 +78,32 @@ public class ArbitragePermutation {
     }
 
     private void printAllPermutations() {
-        int count = 1;
-        System.out.println("");
-        for (Map.Entry<Integer, ArrayList<ArrayList<String>>> entry : allPermutationMap.entrySet()) {
-            System.out.print(entry.getKey());
-            List<ArrayList<String>> value = entry.getValue();
-            System.out.println(" - say: " + value.size());
-            for (ArrayList<String> list : value) {
-                System.out.printf("%d. %s --> ", count++, baseCurrency);
-                for (String s : list) 
+        count = 0;
+        allPermutationMap.forEach((k, v) -> {
+            System.out.printf("%n%d - say: %d%n", k, v.size());
+            v.forEach((v2) -> {
+                System.out.printf("%d. %s --> ", ++count, baseCurrency);
+                for (String s : v2) 
                     System.out.print(s + " --> ");
                 System.out.println(baseCurrency);
-            }
-            System.out.println();
-        }
+            });
+        });
     }
 
-    private static Map<String, Map<String, OptimalRate>> getOptimalRatesMap() {
+    private static Map<String, Map<String, OptimalRate>> getOptimalRatesMap(String[] cur) {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nSelect data: \n 1 - Excel, 2 - AznToday, 3 - AniMezenne, 4 - Json");
         int n = sc.nextInt();
         Data d;
         switch (n) {
-            case 1:
-                d = new ExcelData();
-                break;
-            case 2:
-                d = new AznTodayData();
-                break;
-            case 3:
-                d = new AniMezenneData();  //butun melumatlari eyni vaxtda verende duzgun ishlemir, gun gun yoxlamaq lazimdi.. 1-den chox gunu yoxlamaq uchun ayrica metod yazmisham yuxarida..
-                break;
-            case 4:
-                d = new JsonData();
-                break;
-            default:
-                d = new ExcelData();
-                break;
+            case 1:  d = new ExcelData();      break;
+            case 2:  d = new AznTodayData();   break;
+            case 3:  d = new AniMezenneData(); break;  //butun melumatlari eyni vaxtda verende duzgun ishlemir, gun gun yoxlamaq lazimdi.. 1-den chox gunu yoxlamaq uchun ayrica metod yazmisham yuxarida..
+            case 4:  d = new JsonData();       break;
+            default: d = new ExcelData();      break;
         }
 
-        Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(d.getBankList());
-        
-        d.getOptimalRatesArray(d.getBankList());
+        Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(d.getBankList(), baseCurrency, cur);
         
         return ratesMap;
     }
@@ -138,7 +122,7 @@ public class ArbitragePermutation {
             );
             treeMap.putAll(arbitrageListMap);
             treeMap.forEach((key, value) -> {
-                System.out.printf("\nArbitrage %d: (profit - %.2f %s) \n", ++arbitrageNumber, key, baseCurrency);
+                System.out.printf("\nArbitrage %d: (profit - %.2f %s) \n", ++count, key, baseCurrency);
                 for(ArbitrageModel a: value)
                     System.out.printf("%.4f %s = %.4f %s (%s)\n", a.getFirstResult(), a.getFromCur(), a.getLastResult(), a.getToCur(), a.getBankName());
             });

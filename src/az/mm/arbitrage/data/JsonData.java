@@ -30,10 +30,10 @@ public class JsonData extends Data {
         return new ArrayList<Bank>();
     }
 
-    @Override
-    public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList) {
-        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
 
+    @Override
+    public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList, String baseCurrency, String[] cur) {
+        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
         getRatesMap().forEach((key, value) -> {
             Map<String, OptimalRate> map = new HashMap();
             value.forEach((k2, v2) -> {
@@ -46,6 +46,8 @@ public class JsonData extends Data {
 
         return ratesMap;
     }
+    
+    
 
     public Map<String, Map<String, Double>> getRatesMap() {
         String[] currencies = {"USD", "CHF", "GBP", "JPY", "RUB", "TRY", "EUR"};

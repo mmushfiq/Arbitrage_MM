@@ -7,6 +7,7 @@ import az.mm.arbitrage.data.ExcelData;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -114,7 +115,8 @@ public class ArbitragePermutationCopy {
         Data data = new ExcelData();
 //        Data data = new AznTodayData();
 //        Data data = new AniMezenneData();
-        Map<String, Map<String, OptimalRate>> ratesMap = data.getOptimalRatesMap(data.getBankList());
+//        Map<String, Map<String, OptimalRate>> ratesMap = data.getOptimalRatesMap(data.getBankList()); //bu metod achilmalidi..
+        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
 
         return ratesMap;
     }

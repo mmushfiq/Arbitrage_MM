@@ -11,6 +11,7 @@ import az.mm.arbitrage.model.OptimalRate;
 import edu.princeton.cs.introcs.StdOut;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -86,7 +87,8 @@ public class Arbitrage3 {
     public void startArbitrage(List<Bank> bankList) {
         String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",};
 
-        Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(bankList);
+//        Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(bankList);
+        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
 
         String bankName;
 
