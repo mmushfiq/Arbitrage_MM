@@ -94,15 +94,8 @@ public class ArbitragePermutation {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nSelect data: \n 1 - Excel, 2 - AznToday, 3 - AniMezenne, 4 - Json");
         int n = sc.nextInt();
-        Data d;
-        switch (n) {
-            case 1:  d = new ExcelData();      break;
-            case 2:  d = new AznTodayData();   break;
-            case 3:  d = new AniMezenneData(); break;  //butun melumatlari eyni vaxtda verende duzgun ishlemir, gun gun yoxlamaq lazimdi.. 1-den chox gunu yoxlamaq uchun ayrica metod yazmisham yuxarida..
-            case 4:  d = new JsonData();       break;
-            default: d = new ExcelData();      break;
-        }
-
+        DataFactory factory = new DataFactory();
+        Data d = factory.getData(n);
         Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(d.getBankList(), baseCurrency, cur);
         
         return ratesMap;

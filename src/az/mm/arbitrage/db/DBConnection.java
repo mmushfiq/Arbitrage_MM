@@ -23,11 +23,13 @@ public class DBConnection {
     
     private static final DBConnection instance = new DBConnection();
 
+    private DBConnection() {}
+    
     public static DBConnection getInstance() {
         return instance;
     }
 
-    private static Connection getDBConnection() {
+    private Connection getDBConnection() {
         Connection connection = null;
 
         try {

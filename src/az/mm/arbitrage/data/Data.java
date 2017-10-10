@@ -102,7 +102,7 @@ public abstract class Data {
         }
     }
 
-    // It is written elaborately to understand the above getOptimalRatesMap() method.
+    // It is written elaborately to understand the above first getOptimalRatesMap() method.
     public OptimalRate getOptimalRates(String from, String to, List<Bank> bankList) {
         int id = 0;
         String name = null;
