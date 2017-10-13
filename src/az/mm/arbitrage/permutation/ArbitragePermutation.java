@@ -97,6 +97,7 @@ public class ArbitragePermutation {
         DataFactory factory = new DataFactory();
         Data d = factory.getData(n);
         Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(d.getBankList(), baseCurrency, cur);
+//        Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(d.getBankList());
         
         return ratesMap;
     }

@@ -7,7 +7,7 @@ package az.mm.arbitrage.data;
 
 /**
  * 
- * factory pattern
+ * Factory pattern
  */
 public class DataFactory {
     public Data getData(int n){

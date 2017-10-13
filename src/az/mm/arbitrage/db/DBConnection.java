@@ -25,6 +25,7 @@ public class DBConnection {
 
     private DBConnection() {}
     
+    //Singleton pattern
     public static DBConnection getInstance() {
         return instance;
     }

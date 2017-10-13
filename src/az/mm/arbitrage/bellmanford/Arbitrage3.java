@@ -1,4 +1,4 @@
-package az.mm.arbitrage;
+package az.mm.arbitrage.bellmanford;
 
 import az.mm.arbitrage.data.AniMezenneData;
 import az.mm.arbitrage.data.AznTodayData;
@@ -28,7 +28,8 @@ public class Arbitrage3 {
     public static void main(String[] args) {
         System.out.println("Choose process number: ");
         Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
+//        int choice = sc.nextInt();
+        int choice = 1;
         Arbitrage3 arb = new Arbitrage3();
         arb.choice(choice);
     }
@@ -85,10 +86,11 @@ public class Arbitrage3 {
     }
 
     public void startArbitrage(List<Bank> bankList) {
+        
         String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",};
 
-//        Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(bankList);
-        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
+        Map<String, Map<String, OptimalRate>> ratesMap = d.getOptimalRatesMap(bankList);
+//        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
 
         String bankName;
 
@@ -100,6 +102,7 @@ public class Arbitrage3 {
         EdgeWeightedDigraph G = new EdgeWeightedDigraph(V);
         for (int v = 0; v < V; v++) {
             name[v] = currencies[v];
+            
             System.out.print(name[v] + "\t");
             Map<String, OptimalRate> map = ratesMap.get(currencies[v]);
             for (int w = 0; w < V; w++) {
@@ -139,7 +142,7 @@ public class Arbitrage3 {
             Map<String, Double> map = ratesMap.get(currencies[v]);
             for (int w = 0; w < V; w++) {
                 
-                double rate = (v == w) ? 1 : map.get(currencies[w]);
+                double rate = (v == w) ? 1 : map.get(currencies[w]); 
                 System.out.print(rate+"\t\t");
                 DirectedEdge e = new DirectedEdge(v, w, -Math.log(rate));
                 G.addEdge(e);

@@ -77,7 +77,7 @@ public abstract class Data {
     }
     
     
-    /************************* OLD VERSION **********************************************
+//    /************************* OLD VERSION **********************************************
       
     public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList) {
         String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",};
@@ -557,7 +557,11 @@ public abstract class Data {
 
         return opt;
     }
-    * 
-    * *************************************************************************/
+    
+     private double round(double value) {
+        return Math.round(value * 10000.0) / 10000.0;
+     }
+    
+//    * *************************************************************************/
   
 }
