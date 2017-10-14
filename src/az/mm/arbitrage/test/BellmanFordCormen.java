@@ -13,7 +13,8 @@ public class BellmanFordCormen {
 //    private static double[][] adj;
     private static int[][] adj;
     private static boolean hasNegativeCycle = false;
-    
+//  int INF = Integer.MAX_VALUE;
+    int INF = 999;
 
     
     
@@ -58,13 +59,15 @@ public class BellmanFordCormen {
 //                {2.035,	  1.1964,   1,	      0.9049,  },
 //                {2.223,	  1.3061,   1.0823,   1,       }
 //            };
-//        adj = new int[][]{
-//                {10,   5,   10,   4,  },
-//                {-4,	10,  3,   7,  },
-//                {20,	11,  10,  -5,  },
-//                {22,	1,  10,  10, }
-//                
-//            };
+        
+        adj = new int[][]{
+                {10,   5,   10,   4,  },
+                {-4,	10,  3,   7,  },
+                {20,	11,  10,  -5,  },
+                {22,	1,  10,  10, }
+                
+            };
+        
 //         adj = new int[][]{
 //                {0,   5,   10,  4,  10,  14 },
 //                {4,   0,   3,   7,  5,   4 },
@@ -76,7 +79,6 @@ public class BellmanFordCormen {
         
         
         //http://algs4.cs.princeton.edu/lectures/44DemoBellmanFord.pdf - bu linkdeki numuneni tetbiq edib test edecem..
-        int INF = Integer.MAX_VALUE;
 //        adj = new double[][]{
 //                {INF,   5,     INF,  INF,  9,    INF,  INF,  8   },
 //                {INF,   INF,   12,   15,   INF,  INF,  INF,  4   },
@@ -90,12 +92,12 @@ public class BellmanFordCormen {
         
         
         //https://www.dyclassroom.com/graph/detecting-negative-cycle-using-bellman-ford-algorithm - with negative weight
-        adj = new int[][]{
-                {INF,   5,    4,    INF,  },
-                {INF,   INF,  INF,  3,    },
-                {INF,   -6,   INF,  INF,  },
-                {INF,   INF,  2,    INF,  },
-            };
+//        adj = new int[][]{
+//                {INF,   5,    4,    INF,  },
+//                {INF,   INF,  INF,  3,    },
+//                {INF,   -6,   INF,  INF,  },
+//                {INF,   INF,  2,    INF,  },
+//            };
         
     }
     
@@ -124,7 +126,7 @@ public class BellmanFordCormen {
 
     public void relax(int u, int v) {
         double weight = adj[u][v];
-        if (weight != Integer.MAX_VALUE && dist[v] > dist[u] + weight) {
+        if (weight != INF && dist[v] > dist[u] + weight) {
             dist[v] = dist[u] + weight;
             p[v] = u;
         }
@@ -136,7 +138,7 @@ public class BellmanFordCormen {
                 double weight = adj[u][v];
                 if (dist[v] > dist[u] + weight) {
                     System.out.print("\nFound negative cycle! path: ");
-                    printNegativeCycle(v);
+                    printNegativeCycle(v, 0);
                     System.out.println("");
                 }
             }
@@ -150,7 +152,7 @@ public class BellmanFordCormen {
                 if (dist[v] > dist[u] + weight) {
                     hasNegativeCycle = true;
                     System.out.print("\nFound negative cycle! path: ");
-                    printNegativeCycle(v);
+                    printNegativeCycle(v, 0);
                     System.out.println("");
                     return;
                 }
@@ -158,18 +160,19 @@ public class BellmanFordCormen {
         }
     }
     
-    private void printNegativeCycle(int v){
+    private void printNegativeCycle(int v, int count){
 //        System.out.println("v="+v);
         if(v==0){
             System.out.print(v+" -> ");
-        return;
-        } 
-        printNegativeCycle(p[v]);
+            return;
+        }
+        if(count <= v)
+            printNegativeCycle(p[v], ++count);
         System.out.print(v+" -> ");
     }
     
     private void printPath(int v){
-        printNegativeCycle(v);
+        printNegativeCycle(v, 0);
     }
     
     

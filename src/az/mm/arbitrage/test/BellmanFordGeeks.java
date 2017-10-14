@@ -1,7 +1,7 @@
 package az.mm.arbitrage.test;
 
 // A class to represent a connected, directed and weighted graph
-class Graph { 
+class Graph {  
 
     // A class to represent a weighted edge in graph
     class Edge {

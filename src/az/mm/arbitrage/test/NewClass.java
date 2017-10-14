@@ -20,7 +20,7 @@ class Edge {
     }
 }
 
-class BellmanFord {
+class BellmanFord1 {  
 
     public final int INFINITY = Integer.MAX_VALUE;
     private int mNumOfVertexes, mSource, mDestination;
@@ -28,7 +28,7 @@ class BellmanFord {
     private ArrayList<Edge> mEdges;
     private boolean mHasNegativeCycle;
 
-    public BellmanFord(int numofvertexes, ArrayList edges) {
+    public BellmanFord1(int numofvertexes, ArrayList edges) {
         this.mNumOfVertexes = numofvertexes;
         this.mEdges = edges;
     }
@@ -75,7 +75,7 @@ class BellmanFord {
 
 }
 
-class Main_Wormholes_558_BellmanFord {
+class Main_Wormholes_558_BellmanFord1 {
 
     public static void main(String[] args) {
 
@@ -86,7 +86,7 @@ class Main_Wormholes_558_BellmanFord {
         int numofvertexes, numofedges, source, target, weight;
 
         ArrayList<Edge> edges;
-        BellmanFord blmnfrd;
+        BellmanFord1 blmnfrd;
 
         for (int tc = 1; tc <= testCase; tc++) {
             numofvertexes = sc.nextInt();
@@ -101,7 +101,7 @@ class Main_Wormholes_558_BellmanFord {
                 edges.add(new Edge(source, target, weight));
             }
 
-            blmnfrd = new BellmanFord(numofvertexes, edges);
+            blmnfrd = new BellmanFord1(numofvertexes, edges);
 
             if (blmnfrd.hasNegativeCycle(0, numofvertexes - 1)) {
                 System.out.println("possible");
