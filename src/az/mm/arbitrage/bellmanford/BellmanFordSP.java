@@ -61,6 +61,8 @@ public class BellmanFordSP {
     private Queue<Integer> queue;          // queue of vertices to relax
     private int cost;                      // number of calls to relax()
     private Iterable<DirectedEdge> cycle;  // negative cycle (or null if no such cycle)
+    
+    private int count;
 
     /**
      * Computes a shortest paths tree from <tt>s</tt> to every other vertex in
@@ -77,6 +79,7 @@ public class BellmanFordSP {
             distTo[v] = Double.POSITIVE_INFINITY;
         distTo[s] = 0.0;
 
+        /* hele ki commente atiram, Queue ile yox, for ile yoxlayacam.. - 16.10.2017
         // Bellman-Ford algorithm
         queue = new Queue<Integer>();
         queue.enqueue(s);
@@ -86,6 +89,13 @@ public class BellmanFordSP {
             onQueue[v] = false;
             relax(G, v);
         }
+        */
+        
+        for (int pass = 0; pass < G.V(); pass++) 
+            for (int v = 0; v < G.V(); v++) 
+                relax2(G, v);
+        
+//        findNegativeCycle();
 
         assert check(G, s);
     }
@@ -101,6 +111,19 @@ public class BellmanFordSP {
                     queue.enqueue(w);
                     onQueue[w] = true;
                 }
+            }
+            if (cost++ % G.V() == 0)
+                findNegativeCycle();
+        }
+    }
+    
+    //16.10.2017-de ozum elave etmishem
+    private void relax2(EdgeWeightedDigraph G, int v) {
+        for (DirectedEdge e : G.adj(v)) {
+            int w = e.to();
+            if (distTo[w] > distTo[v] + e.weight()) {
+                distTo[w] = distTo[v] + e.weight();
+                edgeTo[w] = e;
             }
             if (cost++ % G.V() == 0)
                 findNegativeCycle();
@@ -129,13 +152,24 @@ public class BellmanFordSP {
     // by finding a cycle in predecessor graph
     private void findNegativeCycle() {
         int V = edgeTo.length;
+//        System.out.println("edgeTo.length: "+V);
         EdgeWeightedDigraph spt = new EdgeWeightedDigraph(V);
         for (int v = 0; v < V; v++)
-            if (edgeTo[v] != null)
+            if (edgeTo[v] != null){
+//                System.out.println("edgeTo["+v+"]: "+edgeTo[v]);
                 spt.addEdge(edgeTo[v]);
+            }
+                
 
+        System.out.println("spt: "+spt);
+        
         EdgeWeightedDirectedCycle finder = new EdgeWeightedDirectedCycle(spt);
         cycle = finder.cycle();
+        
+//        EdgeWeightedCycleFinder finder = new EdgeWeightedCycleFinder(spt);
+//        cycle = finder.cycle();
+        
+        System.out.println(++count +" negative cycle value: "+cycle);
     }
 
     /**
