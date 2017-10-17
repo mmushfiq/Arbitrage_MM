@@ -18,11 +18,28 @@ public abstract class Data {
     public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList, String baseCurrency, String[] cur) {
         cur = Arrays.copyOf(cur, cur.length+1);
         cur[cur.length-1] = baseCurrency; 
+        OptimalRate R[][] = getOptimalRatesArray(bankList, baseCurrency, cur); //adjency array
+        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
+        Map<String, OptimalRate> curMap;
+       
+        for (int i = 0; i < R.length; i++) {
+            curMap = new HashMap();
+            for (int j = 0; j < R.length; j++) {
+                if (i == j) continue;
+                curMap.put(cur[j], R[i][j]);
+            }
+            ratesMap.put(cur[i], curMap);
+        }
+        
+        printMap(ratesMap);
+
+        return ratesMap;
+    }
+    
+    public OptimalRate [][] getOptimalRatesArray(List<Bank> bankList, String baseCurrency, String[] cur) {
         
         double curRate, r1 = 0, r2 = 0;
         OptimalRate R[][] = new OptimalRate[cur.length][cur.length];
-        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
-        Map<String, OptimalRate> curMap;
 
         for (Bank b : bankList)
             for (int i = 0; i < R.length; i++) 
@@ -52,20 +69,10 @@ public abstract class Data {
                     if (r1 > 0 && r2 > 0 && curRate < r1/r2)
                         R[i][j] = new OptimalRate(b.getName(), r1/r2);
                 }
-            
-        for (int i = 0; i < R.length; i++) {
-            curMap = new HashMap();
-            for (int j = 0; j < R.length; j++) {
-                if (i == j) continue;
-                curMap.put(cur[j], R[i][j]);
-            }
-            ratesMap.put(cur[i], curMap);
-        }
-        
-        printMap(ratesMap);
 
-        return ratesMap;
+        return R;
     }
+    
 
     private void printMap(Map<String, Map<String, OptimalRate>> map){
         map.forEach((k,v) -> {
