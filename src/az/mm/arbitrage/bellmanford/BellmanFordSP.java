@@ -2,6 +2,7 @@ package az.mm.arbitrage.bellmanford;
 
 import edu.princeton.cs.introcs.In;
 import edu.princeton.cs.introcs.StdOut;
+import java.util.Arrays;
 
 /*************************************************************************
  *  Compilation:  javac BellmanFordSP.java
@@ -98,6 +99,8 @@ public class BellmanFordSP {
 //        findNegativeCycle();
 
         assert check(G, s);
+//        System.out.println("----------------\n"+Arrays.toString(distTo)+"\n----------------");
+//        System.out.println("----------------\n"+Arrays.toString(edgeTo)+"\n----------------");
     }
 
     // relax vertex v and put other endpoints on queue if changed
@@ -114,6 +117,7 @@ public class BellmanFordSP {
             }
             if (cost++ % G.V() == 0)
                 findNegativeCycle();
+            
         }
     }
     
@@ -125,8 +129,11 @@ public class BellmanFordSP {
                 distTo[w] = distTo[v] + e.weight();
                 edgeTo[w] = e;
             }
-            if (cost++ % G.V() == 0)
+            if (cost++ % G.V() == 0){
+                System.out.println("----------------\n"+Arrays.toString(distTo)+"\n----------------");
+                System.out.println("----------------\n"+Arrays.toString(edgeTo)+"\n----------------");
                 findNegativeCycle();
+            }
         }
     }
 

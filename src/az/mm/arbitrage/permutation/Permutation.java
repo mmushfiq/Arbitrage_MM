@@ -39,7 +39,7 @@ public class Permutation {
             for (int i = n; i < a.size(); i++) {
                 singlePermutation.add(a.get(i));
             }
-            arb.isArbitrage(singlePermutation); 
+            arb.hasArbitrage(singlePermutation); 
             allPermutations.add(singlePermutation);
             return;
         }

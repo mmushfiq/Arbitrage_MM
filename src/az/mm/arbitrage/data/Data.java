@@ -18,9 +18,39 @@ public abstract class Data {
     public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList, String baseCurrency, String[] cur) {
         cur = Arrays.copyOf(cur, cur.length+1);
         cur[cur.length-1] = baseCurrency; 
-        OptimalRate R[][] = getOptimalRatesArray(bankList, baseCurrency, cur); //adjency array
         Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
         Map<String, OptimalRate> curMap;
+        OptimalRate R[][] = new OptimalRate[cur.length][cur.length];
+        double curRate, r1 = 0, r2 = 0;
+
+        for (Bank b : bankList)
+            for (int i = 0; i < R.length; i++) 
+                for (int j = 0; j < R.length; j++) {
+                    
+                    if (i == j) continue;
+                
+                    switch (cur[i]) {
+                        case "AZN": r1 = 1; break;
+                        case "USD": r1 = b.getbUSD(); break;
+                        case "EUR": r1 = b.getbEUR(); break;
+                        case "RUB": r1 = b.getbRUB(); break;
+                        case "GBP": r1 = b.getbGBP(); break;
+                        case "TRY": r1 = b.getbTRY(); break;
+                    }
+                    
+                    switch (cur[j]) {
+                        case "AZN": r2 = 1; break;
+                        case "USD": r2 = b.getsUSD(); break;
+                        case "EUR": r2 = b.getsEUR(); break;
+                        case "RUB": r2 = b.getsRUB(); break;
+                        case "GBP": r2 = b.getsGBP(); break;
+                        case "TRY": r2 = b.getsTRY(); break;
+                    }
+
+                    curRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
+                    if (r1 > 0 && r2 > 0 && curRate < r1/r2)
+                        R[i][j] = new OptimalRate(b.getName(), r1/r2);
+                }
        
         for (int i = 0; i < R.length; i++) {
             curMap = new HashMap();
@@ -35,8 +65,12 @@ public abstract class Data {
 
         return ratesMap;
     }
+
     
-    public OptimalRate [][] getOptimalRatesArray(List<Bank> bankList, String baseCurrency, String[] cur) {
+    //test uchun sonra silecem..
+    public OptimalRate [][] getOptimalRatesArrayTest(List<Bank> bankList, String[] cur) {
+//        cur = Arrays.copyOf(cur, cur.length+1);
+//        cur[cur.length-1] = baseCurrency; 
         
         double curRate, r1 = 0, r2 = 0;
         OptimalRate R[][] = new OptimalRate[cur.length][cur.length];
@@ -45,7 +79,10 @@ public abstract class Data {
             for (int i = 0; i < R.length; i++) 
                 for (int j = 0; j < R.length; j++) {
                     
-                    if (i == j) continue;
+                    if (i == j){
+                        R[i][j] = new OptimalRate("", 1);
+                        continue;
+                    } 
                 
                     switch (cur[i]) {
                         case "AZN": r1 = 1; break;

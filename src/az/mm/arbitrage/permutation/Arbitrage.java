@@ -27,7 +27,7 @@ public class Arbitrage {
     }
  
 
-    public boolean isArbitrage(ArrayList<String> list) {
+    public boolean hasArbitrage(ArrayList<String> list) {
         String from, to;
         double startValue = 1000;
         double result = startValue;
