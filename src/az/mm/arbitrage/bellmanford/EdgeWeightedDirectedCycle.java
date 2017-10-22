@@ -66,7 +66,7 @@ public class EdgeWeightedDirectedCycle {
         onStack[v] = true;
         marked[v] = true;
         for (DirectedEdge e : G.adj(v)) {
-            System.out.println("dfs");
+//            System.out.println("dfs");
             int w = e.to();
 
             // short circuit if directed cycle found
@@ -75,14 +75,20 @@ public class EdgeWeightedDirectedCycle {
                 
 //                return;
             }
-                
-
             //found new vertex, so recur
             else if (!marked[w]) {
                 edgeTo[w] = e;
                 dfs(G, w);
             }
 
+//            if (!marked[w]) {
+//                if (cycle != null) {
+//                    System.out.println("c: " + cycle);
+//                    cycle = null;
+//                }
+//                edgeTo[w] = e;
+//                dfs(G, w);
+//            }
             // trace back directed cycle
             else if (onStack[w]) {
                 cycle = new Stack<DirectedEdge>();

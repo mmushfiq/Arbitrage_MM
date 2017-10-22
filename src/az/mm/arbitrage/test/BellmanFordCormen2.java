@@ -83,7 +83,7 @@ public class BellmanFordCormen2 {
     public void BellmanFord() {
         initializeSingleSource();
         for (int k = 1; k < vertex; k++) { //iterate (vertex-1)
-            System.out.println("count relax: "+k);
+//            System.out.println("count relax: "+k);
             for (int u = 0; u < vertex; u++) {
                 for (int v = 0; v < vertex; v++) { //probably v haven't to be 0
                     relax(u, v);
@@ -120,7 +120,8 @@ public class BellmanFordCormen2 {
                     hasNegativeCycle = true;
                     System.out.print("\ndist["+v+"]("+dist[v]+") > dist["+u+"]("+dist[u]+") + weight("+weight+")");
                     System.out.print("\nNegative cycle detected! path: ");
-                    printNegativeCycle(v);
+//                    printNegativeCycle(v);
+                    printNegativeCycle2(v);
                     System.out.println("");
 //                    return;
                 }
@@ -130,8 +131,6 @@ public class BellmanFordCormen2 {
     
     
     private void checkArbitrage(){
-        
-        
         number=0;
         System.out.println("\n---------------");
         System.out.println("map: "+listCycle);
@@ -215,6 +214,32 @@ public class BellmanFordCormen2 {
         result *= Math.exp(-adj[p[v]][v].getValue());
         System.out.print(result+" "+cur[v]+" -> ");
     }
+    
+    private void printNegativeCycle2(int v) {
+        System.out.println("printNegativeCycle2 v: " + v);
+        int y = v;
+//        for (int i=0; i<n; ++i)
+            y = p[y];
+
+        int c=0;
+        Stack<Integer> path = new Stack<>();
+        for (int cur = y; c++ < p.length; cur = p[cur]) {
+            path.push(cur);
+            if ((cur == y && path.size() > 1) /*|| cur == 0*/) {
+                break;
+            }
+        }
+//        reverse (path.begin(), path.end());
+
+        System.out.println("Stack Negative cycle: ");
+//        for (int i=0; i<path.size(); ++i)
+//            cout << path[i] << ' ';
+
+        for (Integer i : path) {
+            System.out.print(i + " ");
+        }
+
+    }
        
     /*chox qeribedi, bu kod metoddan chole compile xetasi vermir, kodu chalishdirdiqda da main metod yoxdur xetasi verir..
         StdOut.printf("%10.5f %s ", stake, name[e.from()]);
@@ -260,8 +285,8 @@ public class BellmanFordCormen2 {
     
     private void initializeAdj() {
 //        String[] cur = {"AZN", "USD", "EUR", "GBP", "RUB","TRY"};
-//        Data d = new ExcelData();
-        Data d = new AznTodayData();
+        Data d = new ExcelData();
+//        Data d = new AznTodayData();
         adj = d.getOptimalRatesArrayTest(d.getBankList(), cur);
         
 //        for(OptimalRate[] opt: adj){

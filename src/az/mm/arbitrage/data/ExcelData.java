@@ -39,7 +39,8 @@ public class ExcelData extends Data {
         FileInputStream file = null;
 
         try {
-            file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xlsx")); 
+//            file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xlsx")); 
+            file = new FileInputStream(new File("C:\\Users\\User\\Desktop\\arbitrage.xlsx")); 
 
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheetAt(3);
@@ -67,6 +68,7 @@ public class ExcelData extends Data {
 
         } catch (Exception ex) {
             System.out.println(ex);
+            ex.printStackTrace();
         } finally  {
             try {
                 if(file != null) file.close();
