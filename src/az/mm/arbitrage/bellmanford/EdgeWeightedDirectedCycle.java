@@ -54,8 +54,11 @@ public class EdgeWeightedDirectedCycle {
         onStack = new boolean[G.V()];
         edgeTo  = new DirectedEdge[G.V()];
         for (int v = 0; v < G.V(); v++)
-            if (!marked[v]) 
+            if (!marked[v]){
+                System.out.println("----\nif v = "+v);
                 dfs(G, v);
+            } 
+                
 
         // check that digraph has a cycle
         assert check(G);
@@ -65,8 +68,9 @@ public class EdgeWeightedDirectedCycle {
     private void dfs(EdgeWeightedDigraph G, int v) {
         onStack[v] = true;
         marked[v] = true;
+        System.out.println(v + " -> " + G.adj(v));
         for (DirectedEdge e : G.adj(v)) {
-//            System.out.println("dfs");
+            System.out.println("dfs e: " + e);
             int w = e.to();
 
             // short circuit if directed cycle found

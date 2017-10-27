@@ -90,6 +90,10 @@ public class JsonData extends Data {
     }
 
     public static void main(String[] args) {
+        
+        //23.10.2017 - ayliq 1000 request limit - soruce olaraq ancaq USD sechmek olur deyesen free plan uchun
+        //http://apilayer.net/api/live?access_key=0cf46fd6827802b0c5ef4757c6158cbe&currencies=AZN,USD,EUR,GBP,RUB,TRY&format=1
+        
         // http://api.fixer.io/latest?base=USD
         /*
          USD CAD CHF GBP JPY RUB TRY EUR

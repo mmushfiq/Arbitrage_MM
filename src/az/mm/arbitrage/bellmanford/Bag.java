@@ -59,6 +59,12 @@ public class Bag<Item> implements Iterable<Item> {
     private static class Node<Item> {
         private Item item;
         private Node<Item> next;
+
+        @Override
+        public String toString() {
+            return "Node{" + "item=" + item + ", next=" + next + '}';
+        }
+        
     }
 
     /**
@@ -126,6 +132,11 @@ public class Bag<Item> implements Iterable<Item> {
             current = current.next; 
             return item;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Bag{" + "N=" + N + ", first=" + first + '}';
     }
 
     /**

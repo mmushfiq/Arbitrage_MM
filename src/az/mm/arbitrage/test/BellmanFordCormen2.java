@@ -75,7 +75,7 @@ public class BellmanFordCormen2 {
         p = new int[vertex];
         for (int i = 0; i < vertex; i++) {
             dist[i] = INF;
-            p[i] = 0;
+            p[i] = -1;
         }
         dist[source] = 0; //chox guman ki, bunun qiymeti sona qeder deyishmemelidi, for.da v.ni 0 verende deyishir, 0 vermeyende de source.den birbasha negative cycle gostermir.. arashdirmaq lazimdi..
     }
@@ -120,8 +120,8 @@ public class BellmanFordCormen2 {
                     hasNegativeCycle = true;
                     System.out.print("\ndist["+v+"]("+dist[v]+") > dist["+u+"]("+dist[u]+") + weight("+weight+")");
                     System.out.print("\nNegative cycle detected! path: ");
-//                    printNegativeCycle(v);
-                    printNegativeCycle2(v);
+                    printNegativeCycle(v);
+//                    printNegativeCycle2(v);
                     System.out.println("");
 //                    return;
                 }
@@ -219,7 +219,7 @@ public class BellmanFordCormen2 {
         System.out.println("printNegativeCycle2 v: " + v);
         int y = v;
 //        for (int i=0; i<n; ++i)
-            y = p[y];
+//            y = p[y];
 
         int c=0;
         Stack<Integer> path = new Stack<>();

@@ -4,13 +4,18 @@ import az.mm.arbitrage.model.Bank;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -39,8 +44,8 @@ public class ExcelData extends Data {
         FileInputStream file = null;
 
         try {
-//            file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xlsx")); 
-            file = new FileInputStream(new File("C:\\Users\\User\\Desktop\\arbitrage.xlsx")); 
+            file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xlsx")); 
+//            file = new FileInputStream(new File("C:\\Users\\User\\Desktop\\arbitrage.xlsx")); 
 
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheetAt(3);
@@ -112,8 +117,12 @@ public class ExcelData extends Data {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         
+        new ExcelData().printExcellSenaye(new ArrayList<>());
+        
+        if(true) return;
+        
         FileInputStream file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xlsx"));
-//        file = new FileInputStream(new File("arbitrage.xlsx")); 
+//        file = new FileInputStream(new File("./arbitrage.xls")); 
         XSSFWorkbook workbook = new XSSFWorkbook(file);
         XSSFSheet sheet = workbook.getSheetAt(3);
 
@@ -145,6 +154,48 @@ public class ExcelData extends Data {
 
         }
 
+    }
+    
+    
+    //test uchun..
+    public String printExcellSenaye(List<List<Object>> list){
+        System.out.println("printExcellSenaye metoduna girdi");
+//        File f = new File("./table");
+        File f = new File("./arbitrage");
+
+        String fileName = f.toString();
+        InputStream input = getClass().getResourceAsStream(fileName);
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("firstSheet");
+
+        HSSFRow rowhead = sheet.createRow((short) 0);
+        rowhead.createCell(0).setCellValue("KOD");
+        rowhead.createCell(1).setCellValue("ERAZI");
+        rowhead.createCell(2).setCellValue("FN");
+        for (int i = 1; i <=25; i++) {
+            rowhead.createCell(2+i).setCellValue("A"+i);
+        }
+        rowhead.createCell(28).setCellValue("N1");
+        rowhead.createCell(29).setCellValue("NH1");
+        rowhead.createCell(30).setCellValue("N2");
+        rowhead.createCell(31).setCellValue("NH2");
+        HSSFRow row;
+ 
+        for (List<Object> l : list) {
+            row = sheet.createRow(sheet.getLastRowNum()+1);
+            for (int i = 0; i < 32; i++) {
+                row.createCell(i).setCellValue(String.valueOf(l.get(i)));
+            }
+        }
+        
+
+        try (FileOutputStream fileOut = new FileOutputStream(fileName);) {
+            workbook.write(fileOut);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return f.toString();
     }
 
 }
