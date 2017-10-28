@@ -1,5 +1,6 @@
 package az.mm.arbitrage.test;
 
+import az.mm.arbitrage.data.AniMezenneData;
 import az.mm.arbitrage.data.AznTodayData;
 import az.mm.arbitrage.data.Data;
 import az.mm.arbitrage.data.ExcelData;
@@ -8,9 +9,12 @@ import az.mm.arbitrage.princeton.Stack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -37,10 +41,12 @@ public class BellmanFordCormen2 {
     private List<Integer> list;
     static int number;
     
+    private Set<List> setCycle;
     
 
     public BellmanFordCormen2() {
         listCycle = new LinkedHashMap<>();
+        setCycle = new LinkedHashSet();
     }
     
     
@@ -93,7 +99,10 @@ public class BellmanFordCormen2 {
 //            checkArbitrage();
         }
         checkNegativeCycle();
-        checkArbitrage();
+//        checkArbitrage();
+        checkArbitrage2();
+        System.out.println("\n-----------with set-------------------\n");
+        checkArbitrage3Set();
     }
     
 
@@ -120,8 +129,10 @@ public class BellmanFordCormen2 {
                     hasNegativeCycle = true;
                     System.out.print("\ndist["+v+"]("+dist[v]+") > dist["+u+"]("+dist[u]+") + weight("+weight+")");
                     System.out.print("\nNegative cycle detected! path: ");
-                    printNegativeCycle(v);
+//                    printNegativeCycle(v);
 //                    printNegativeCycle2(v);
+//                    printPath3(source, v);
+                    printNegativeCycle4(v);
                     System.out.println("");
 //                    return;
                 }
@@ -161,6 +172,60 @@ public class BellmanFordCormen2 {
             }
         });
         
+    }
+    
+    
+    private void checkArbitrage2(){
+        number=0;
+        System.out.println("\n---------------");
+        System.out.println("map: "+listCycle);
+        
+        listCycle.forEach((k, v) -> {
+            System.out.printf("\nArbitrage %d: \n", ++number);
+            result = 1000;
+//            if(v.size()==1) return;
+             
+//            Collections.reverse(v);
+//            v.add(v.get(0));
+            System.out.println(v);
+            for(int i=0; i<v.size()-1; i++){
+                int m = (int)v.get(i);
+                int n = (int)v.get(i+1);
+                OptimalRate opt = adj[m][n];
+                
+//                System.out.print(result + " " + cur[m]+" = ");
+//                result *= opt.getValue();
+//                System.out.println(result + " " + cur[n]+" ("+opt.getName()+")");
+                
+                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
+                
+//                System.out.println("---------------------------");
+                
+//                for(ArbitrageModel a: value)
+//                    System.out.printf("%.4f %s = %.4f %s (%s)\n", a.getFirstResult(), a.getFromCur(), a.getLastResult(), a.getToCur(), a.getBankName());
+            }
+        });
+        
+    }
+    
+    
+    private void checkArbitrage3Set(){
+        number=0;
+        System.out.println("\n---------------");
+        System.out.println("set: "+setCycle);
+        
+        setCycle.forEach(v -> {
+            System.out.printf("\nArbitrage %d: \n", ++number);
+            result = 1000;
+            System.out.println(v);
+            for (int i = 0; i < v.size() - 1; i++) {
+                int m = (int) v.get(i);
+                int n = (int) v.get(i + 1);
+                OptimalRate opt = adj[m][n];
+
+                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
+            }
+        });
     }
     
 
@@ -235,10 +300,6 @@ public class BellmanFordCormen2 {
 //        for (int i=0; i<path.size(); ++i)
 //            cout << path[i] << ' ';
 
-        for (Integer i : path) {
-            System.out.print(i + " ");
-        }
-
     }
        
     /*chox qeribedi, bu kod metoddan chole compile xetasi vermir, kodu chalishdirdiqda da main metod yoxdur xetasi verir..
@@ -251,6 +312,68 @@ public class BellmanFordCormen2 {
     
     private void printPath(int v){
         printNegativeCycle(v, 0);
+    }
+    
+    /*
+    * https://mitpress.mit.edu/sites/default/files/titles/content/Intro_to_Algo_Selected_Solutions.pdf - page 65
+    
+    PRINT-PATH (G, s, v) 
+    1 if v == s
+    2   print s
+    3 elseif v.p == NIL
+    4   print “no path from” s “to” v “exists”
+    5 else PRINT-PATH (G, s, v.p)
+    6   print v
+    
+    */
+    
+    
+    private void printPath3(int s, int v){
+        if(v == s){
+            System.out.print(s + " ");
+            return;
+        }
+//        else if(p[v] == -1)
+//            System.out.println("no path from s to v exists");
+//        else 
+            printPath3(s, p[v]);
+        System.out.print(v+" ");
+    }
+    
+    
+    private void printNegativeCycle4(int v) {
+        if(v==0) return;
+        System.out.println("v="+v);
+        boolean visited[] = new boolean[p.length];
+
+        Stack<Integer> path = new Stack<>();
+        for (int cur = v; ; cur = p[cur]) {
+            path.push(cur);
+//            if(cur == 0) break;
+//            if(!visited[cur]) visited[cur]=true;
+//            else break;
+            
+            if (cur == 0 || visited[cur]) break;
+            else visited[cur] = true;
+            
+            
+            
+        }
+
+        System.out.println("Stack Negative cycle: ");
+
+        list = new ArrayList();
+        for (Integer i : path) {
+            System.out.print(i + " ");
+
+            if(list.contains(i)) break;
+            list.add(i);
+        }
+        if(list.size()>1)list.add(list.get(0));
+        System.out.println("\nlist: "+list);
+        
+        listCycle.put(v, list);
+        setCycle.add(list);
     }
     
     
@@ -285,8 +408,9 @@ public class BellmanFordCormen2 {
     
     private void initializeAdj() {
 //        String[] cur = {"AZN", "USD", "EUR", "GBP", "RUB","TRY"};
-        Data d = new ExcelData();
+//        Data d = new ExcelData();
 //        Data d = new AznTodayData();
+        Data d = new AniMezenneData();
         adj = d.getOptimalRatesArrayTest(d.getBankList(), cur);
         
 //        for(OptimalRate[] opt: adj){

@@ -29,7 +29,7 @@ public class Arbitrage3 {
         System.out.println("Choose process number: ");
         Scanner sc = new Scanner(System.in);
 //        int choice = sc.nextInt();
-        int choice = 1;
+        int choice = 3;
         Arbitrage3 arb = new Arbitrage3();
         arb.choice(choice);
     }
@@ -51,8 +51,9 @@ public class Arbitrage3 {
                 break;
             case 3:
                 d = new AniMezenneData();
-                checkAniMezenneOldData();
-                return;
+                break;
+//                checkAniMezenneOldData();
+//                return;
             case 4:
                 d = new JsonData();
                 break;
