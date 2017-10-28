@@ -66,7 +66,7 @@ public class DBConnection {
         PreparedStatement preparedStatement = null;
         List<Bank> bankList = new ArrayList<>();
         String period = "";
-        period = " and DATE_FORMAT(date,'%Y-%m-%d')='2017-05-10'";  //DATE_FORMAT(date,'%Y-%m-%d') between '2017-09-02' and '2017-09-07' - DATE_FORMAT(date,'%Y-%m')='2017-09'
+        period = " and DATE_FORMAT(date,'%Y-%m-%d')='2017-05-22'";  //DATE_FORMAT(date,'%Y-%m-%d') between '2017-09-02' and '2017-09-07' - DATE_FORMAT(date,'%Y-%m')='2017-09'
         try {
             connection = getDBConnection();
             String sql = "SELECT name, \n" +

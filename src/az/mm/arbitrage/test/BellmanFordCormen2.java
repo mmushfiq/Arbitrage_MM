@@ -54,7 +54,7 @@ public class BellmanFordCormen2 {
 
         BellmanFordCormen2 b = new BellmanFordCormen2();
         b.initializeAdj();
-//        b.convertAdjToLog();
+        b.convertAdjToLog();
         b.BellmanFord(); 
         
         b.printArr();
@@ -109,8 +109,8 @@ public class BellmanFordCormen2 {
     public void relax(int u, int v) {
         if(u==v) return;
 //        System.out.println("edge "+u+" -> "+v);
-//        double weight = adj[u][v].getValue();
-        double weight = -Math.log(adj[u][v].getValue());
+        double weight = adj[u][v].getValue();
+//        double weight = -Math.log(adj[u][v].getValue());
         if (weight != INF /*&& dist[u] != INF*/ && (dist[v] > dist[u] + weight)) {   //if(d[u] != INFINITY && d[v] > d[u] + w) - lazim olsa bu sherti arashdirmaq mene lazimdi ya yox.
             dist[v] = dist[u] + weight;
             p[v] = u;
@@ -125,6 +125,7 @@ public class BellmanFordCormen2 {
             for (int v = 0; v < vertex; v++) {
                 if(u==v) continue;
                 double weight = adj[u][v].getValue();
+//                double weight = -Math.log(adj[u][v].getValue());
                 if (dist[v] > dist[u] + weight) {
                     hasNegativeCycle = true;
                     System.out.print("\ndist["+v+"]("+dist[v]+") > dist["+u+"]("+dist[u]+") + weight("+weight+")");
@@ -210,6 +211,19 @@ public class BellmanFordCormen2 {
     
     
     private void checkArbitrage3Set(){
+        /**
+         * chox guman hesablamada hardasa xirda sehv var, ola bilsin ona gore chox cuzi ferqle
+         * duzgun olmayan neqativ cycle. da detect olunur, onu arashdirib tapsam tamamdir
+         * 
+         * princeton numunesi:
+            1000.00000 AZN =  453.40000 GBP (DəmirBank)
+             453.40000 GBP = 1002.01400 AZN (Gunay Bank)
+           menim numunem:
+            1000.00000 AZN =  453.41192 GBP (DəmirBank)
+             453.41192 GBP = 1002.04035 AZN (Gunay Bank)
+         * 
+         * */
+        
         number=0;
         System.out.println("\n---------------");
         System.out.println("set: "+setCycle);
@@ -223,14 +237,16 @@ public class BellmanFordCormen2 {
                 int n = (int) v.get(i + 1);
                 OptimalRate opt = adj[m][n];
 
-                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
+//                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
+                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", result, cur[m], result *= Math.exp(-opt.getValue()), cur[n], opt.getName());
+
             }
         });
     }
     
 
     private void printNegativeCycle(int v){
-        list = new ArrayList<>();
+        
         System.out.println("v="+v);
         result = 1000;
         printNegativeCycle(v, 0);
@@ -242,6 +258,7 @@ public class BellmanFordCormen2 {
     
 
     private void printNegativeCycle(int v, int count){
+        list = new ArrayList<>();
 //        System.out.println("v="+v);
         if(v == source){
 //            sb.append(v+" ");
@@ -382,8 +399,11 @@ public class BellmanFordCormen2 {
         for (int i = 0; i < vertex; i++) {
             for (int j = 0; j < vertex; j++) {
 //                adj[i][j] = -Math.log(adj[i][j]);
-//                if(i==j) continue;
-//                adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
+//                if(i==j){
+//                    adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
+//                continue;
+//                } 
+                adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
             }
         }
     }
@@ -400,6 +420,14 @@ public class BellmanFordCormen2 {
             for (int j = 0; j < adj.length; j++) {
 //                System.out.printf("%f ", adj[i][j]);
                 System.out.print(adj[i][j].getValue()+" \t");
+            }
+             System.out.println("");
+        }
+         
+        System.out.println("------------------------------------------------");
+        for (int i = 0; i < adj.length; i++) {
+            for (int j = 0; j < adj.length; j++) {
+                System.out.print(-Math.log(adj[i][j].getValue())+" \t");
             }
              System.out.println("");
         }
