@@ -46,6 +46,7 @@ public class DirectedEdge {
     
     @Override
     public String toString() {
-        return v + "->" + w + " " + String.format("%5.2f", weight);
+//        return v + "->" + w + " " + String.format("%5.2f", weight);
+        return v + "->" + w + " " + weight;
     }
 }

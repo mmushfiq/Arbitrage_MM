@@ -92,6 +92,8 @@ public class BellmanFordSP {
         }
         */
         
+        System.out.println("\n\n\nG: "+G);
+        
         for (int pass = 0; pass < G.V(); pass++) 
             for (int v = 0; v < G.V(); v++) 
                 relax2(G, v);
@@ -125,6 +127,7 @@ public class BellmanFordSP {
     private void relax2(EdgeWeightedDigraph G, int v) {
         for (DirectedEdge e : G.adj(v)) {
             int w = e.to();
+            System.out.print("\ndist["+w+"]("+distTo[w]+") > distTo["+v+"]("+distTo[v]+") + weight("+e.weight()+")");
             if (distTo[w] > distTo[v] + e.weight()) {
                 distTo[w] = distTo[v] + e.weight();
                 edgeTo[w] = e;
@@ -163,7 +166,7 @@ public class BellmanFordSP {
         EdgeWeightedDigraph spt = new EdgeWeightedDigraph(V);
         for (int v = 0; v < V; v++)
             if (edgeTo[v] != null){
-//                System.out.println("edgeTo["+v+"]: "+edgeTo[v]);
+                System.out.println("edgeTo["+v+"]: "+edgeTo[v]);
                 spt.addEdge(edgeTo[v]);
             }
                 
