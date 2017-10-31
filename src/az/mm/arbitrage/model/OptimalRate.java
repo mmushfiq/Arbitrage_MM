@@ -7,7 +7,7 @@ package az.mm.arbitrage.model;
 public class OptimalRate {
     private int id;
     private String name;
-    private double value;
+    private Double value;
 
     public OptimalRate() {
         id = 0;
@@ -15,13 +15,13 @@ public class OptimalRate {
         value = Double.MIN_VALUE;
     }
 
-    public OptimalRate(int id, String name, double value) {
+    public OptimalRate(int id, String name, Double value) {
         this.id = id;
         this.name = name;
         this.value = value;
     }
     
-    public OptimalRate(String name, double value) {
+    public OptimalRate(String name, Double value) {
         this.name = name;
         this.value = value;
     }
@@ -42,11 +42,11 @@ public class OptimalRate {
         this.name = name;
     }
 
-    public double getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

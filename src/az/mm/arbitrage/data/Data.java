@@ -80,7 +80,7 @@ public abstract class Data {
                 for (int j = 0; j < R.length; j++) {
                     
                     if (i == j){
-                        R[i][j] = new OptimalRate("", 1);
+                        R[i][j] = new OptimalRate("", 1.);
                         continue;
                     } 
                 
@@ -103,13 +103,25 @@ public abstract class Data {
                     }
 
                     curRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
-                    if (r1 > 0 && r2 > 0 && curRate < r1/r2)
+                    if (r1 > 0 && r2 > 0 && curRate < r1/r2){
+                        System.out.println("r1/r2 = " + r1/r2);
                         R[i][j] = new OptimalRate(b.getName(), r1/r2);
+                    }
                 }
 
+        printArr(R);
         return R;
     }
     
+    void printArr(OptimalRate[][] R){
+        for(OptimalRate[] d: R){
+            for(OptimalRate m: d)
+                System.out.print(m.getValue()+" \t");
+        System.out.println("");
+        }
+        
+        System.out.println("-----------------R--------------------------");
+    }
 
     private void printMap(Map<String, Map<String, OptimalRate>> map){
         map.forEach((k,v) -> {

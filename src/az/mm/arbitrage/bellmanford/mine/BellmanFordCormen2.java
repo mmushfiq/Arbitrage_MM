@@ -1,4 +1,4 @@
-package az.mm.arbitrage.test;
+package az.mm.arbitrage.bellmanford.mine;
 
 import az.mm.arbitrage.data.AniMezenneData;
 import az.mm.arbitrage.data.AznTodayData;

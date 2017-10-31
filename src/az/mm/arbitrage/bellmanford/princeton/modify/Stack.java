@@ -1,4 +1,4 @@
-package az.mm.arbitrage.bellmanford;
+package az.mm.arbitrage.bellmanford.princeton.modify;
 
 /*************************************************************************
  *  Compilation:  javac Stack.java

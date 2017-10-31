@@ -1,4 +1,4 @@
-package az.mm.arbitrage.bellmanford;
+package az.mm.arbitrage.bellmanford.princeton.modify;
 
 import edu.princeton.cs.introcs.StdOut;
 import edu.princeton.cs.introcs.StdRandom;

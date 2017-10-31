@@ -1,4 +1,4 @@
-package az.mm.arbitrage.bellmanford;
+package az.mm.arbitrage.bellmanford.princeton.modify;
 
 import az.mm.arbitrage.data.JsonData;
 import edu.princeton.cs.introcs.StdIn;

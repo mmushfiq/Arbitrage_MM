@@ -1,4 +1,4 @@
-package az.mm.arbitrage.test;
+package az.mm.arbitrage.bellmanford.mine;
 
 import java.util.Arrays;
 import java.util.Stack;

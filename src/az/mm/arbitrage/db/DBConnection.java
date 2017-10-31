@@ -33,9 +33,10 @@ public class DBConnection {
     private Connection getDBConnection() {
         Connection connection = null;
 
+        //url, login, password-u sonra kodun icherisinden chixarmaq..
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "mm654874");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "root");
             return connection;
         } catch (SQLException e) {
             infoCatchMessage(e, "getDBConnection");
@@ -69,6 +70,7 @@ public class DBConnection {
         period = " and DATE_FORMAT(date,'%Y-%m-%d')='2017-05-22'";  //DATE_FORMAT(date,'%Y-%m-%d') between '2017-09-02' and '2017-09-07' - DATE_FORMAT(date,'%Y-%m')='2017-09'
         try {
             connection = getDBConnection();
+            //sqli sonra deyishmek, view edib ordan chixarmaq..
             String sql = "SELECT name, \n" +
                         "IF(SUM(bUSD)=0, -1, SUM(bUSD)) bUSD, \n" +
                         "IF(SUM(sUSD)=0, -1, SUM(sUSD)) sUSD, \n" +

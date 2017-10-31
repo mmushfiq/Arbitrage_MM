@@ -1,6 +1,7 @@
 package az.mm.arbitrage.permutation;
 
 import az.mm.arbitrage.data.*;
+import az.mm.arbitrage.factory.Algorithm;
 import az.mm.arbitrage.model.*;
 import java.util.*;
 
@@ -8,7 +9,7 @@ import java.util.*;
  *
  * @author MM
  */
-public class ArbitragePermutation {
+public class ArbitragePermutation implements Algorithm {
 
     private Map<Integer, ArrayList<ArrayList<String>>> allPermutationMap;
     private static String baseCurrency;

@@ -1,4 +1,4 @@
-package az.mm.arbitrage.bellmanford;
+package az.mm.arbitrage.bellmanford.princeton.modify;
 
 import az.mm.arbitrage.data.AniMezenneData;
 import az.mm.arbitrage.data.AznTodayData;
@@ -6,6 +6,7 @@ import az.mm.arbitrage.data.Data;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.data.ExcelData;
 import az.mm.arbitrage.data.JsonData;
+import az.mm.arbitrage.factory.Algorithm;
 import az.mm.arbitrage.model.OptimalRate;
 
 import edu.princeton.cs.introcs.StdOut;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Arbitrage3 {
+public class Arbitrage3 implements Algorithm {
 
     private static List<Bank> bankList;
     private Data d;
@@ -29,7 +30,7 @@ public class Arbitrage3 {
         System.out.println("Choose process number: ");
         Scanner sc = new Scanner(System.in);
 //        int choice = sc.nextInt();
-        int choice = 3;
+        int choice = 2;
         Arbitrage3 arb = new Arbitrage3();
         arb.choice(choice);
     }
