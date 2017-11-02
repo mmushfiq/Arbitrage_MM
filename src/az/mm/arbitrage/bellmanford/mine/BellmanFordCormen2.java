@@ -2,7 +2,7 @@ package az.mm.arbitrage.bellmanford.mine;
 
 import az.mm.arbitrage.data.AniMezenneData;
 import az.mm.arbitrage.data.AznTodayData;
-import az.mm.arbitrage.data.Data;
+import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.data.ExcelData;
 import az.mm.arbitrage.model.OptimalRate;
 import az.mm.arbitrage.princeton.Stack;
@@ -439,7 +439,7 @@ public class BellmanFordCormen2 {
 //        Data d = new ExcelData();
 //        Data d = new AznTodayData();
         Data d = new AniMezenneData();
-        adj = d.getOptimalRatesArrayTest(d.getBankList(), cur);
+        adj = d.getOptimalRatesAdjencyMatrix(d.getBankList(), cur);
         
 //        for(OptimalRate[] opt: adj){
 //            for(OptimalRate o: opt){

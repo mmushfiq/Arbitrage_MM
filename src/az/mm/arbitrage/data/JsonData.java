@@ -1,5 +1,6 @@
 package az.mm.arbitrage.data;
 
+import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
 import java.io.BufferedReader;
@@ -31,7 +32,7 @@ public class JsonData extends Data {
     }
 
 
-    @Override
+//    @Override
     public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList, String baseCurrency, String[] cur) {
         Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
         getRatesMap().forEach((key, value) -> {
@@ -46,6 +47,7 @@ public class JsonData extends Data {
 
         return ratesMap;
     }
+ 
     
     
 

@@ -12,12 +12,12 @@ import java.util.Map;
  */
 public class Permutation {
 
-    private Arbitrage arb;
+    private ArbitrageChecker arb;
     private int count;
     private final String baseCurrency;
 
     public Permutation(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
-        arb = new Arbitrage(map, baseCurrency);
+        arb = new ArbitrageChecker(map, baseCurrency);
         this.baseCurrency = baseCurrency;
     }
 

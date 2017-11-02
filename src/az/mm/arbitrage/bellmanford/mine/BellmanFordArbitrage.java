@@ -1,31 +1,21 @@
 package az.mm.arbitrage.bellmanford.mine;
 
-import az.mm.arbitrage.data.AniMezenneData;
-import az.mm.arbitrage.data.AznTodayData;
-import az.mm.arbitrage.data.Data;
-import az.mm.arbitrage.data.ExcelData;
-import az.mm.arbitrage.factory.Algorithm;
+import az.mm.arbitrage.factory.Data;
+import az.mm.arbitrage.factory.Arbitrage;
 import az.mm.arbitrage.model.OptimalRate;
 import az.mm.arbitrage.princeton.Stack;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  *
  * @author MM
  */
-public class BellmanFordCormen3 implements Algorithm {
-    private double[] dist;
-    private int[] p; 
-//    private static double[][] adj;
-//    private static int[][] adj;
+public class BellmanFordArbitrage implements Arbitrage {
+    private double[] dist; //distance array
+    private int[] p;       //precedessor array
     private OptimalRate adj[][];
     
 //    private static boolean hasNegativeCycle = false;
@@ -35,44 +25,24 @@ public class BellmanFordCormen3 implements Algorithm {
     private static int source = 0;
     private int number;
     
-    private String[] currency = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",};
+//    private String[] currency = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",};
     private List<Integer> cycle;
-    
     private Set<List> cycleList;
     
 
-    public BellmanFordCormen3() {
+    public BellmanFordArbitrage() {
         cycleList = new LinkedHashSet();
     }
     
-    
-    public static void main(String[] args) {
 
-        BellmanFordCormen3 b = new BellmanFordCormen3();
-        b.initializeAdj();
-        b.printArr();
-        b.createNegativeWeightedAdjencyMatrix();
-        b.BellmanFord(); 
-        
-//        b.printArr();
-        
-        System.out.println("\ndistance arr: "+Arrays.toString(b.dist));
-        System.out.println("\npath arr: "+Arrays.toString(b.p));
-        
+    @Override
+    public void start(Data data) {
+        adj = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
+        callBellmanFord();
     }
     
-    
-    public void initializeSingleSource() {
-        dist = new double[vertex];
-        p = new int[vertex];
-        for (int i = 0; i < vertex; i++) {
-            dist[i] = INF;
-            p[i] = -1;
-        }
-        dist[source] = 0; //chox guman ki, bunun qiymeti sona qeder deyishmemelidi, for.da v.ni 0 verende deyishir, 0 vermeyende de source.den birbasha negative cycle gostermir.. arashdirmaq lazimdi.. princeton numunesine baxdim orda da deyishir..
-    }
 
-    public void BellmanFord() {
+    public void callBellmanFord() {
         initializeSingleSource();
         for (int k = 1; k < vertex; k++) { //iterate (vertex-1)
             for (int u = 0; u < vertex; u++) {
@@ -87,11 +57,21 @@ public class BellmanFordCormen3 implements Algorithm {
         else System.out.println("No arbitrage opportunity");
     }
     
+    public void initializeSingleSource() {
+        dist = new double[vertex];
+        p = new int[vertex];
+        for (int i = 0; i < vertex; i++) {
+            dist[i] = INF;
+            p[i] = -1;
+        }
+        dist[source] = 0; //chox guman ki, bunun qiymeti sona qeder deyishmemelidi, for.da v.ni 0 verende deyishir, 0 vermeyende de source.den birbasha negative cycle gostermir.. arashdirmaq lazimdi.. princeton numunesine baxdim orda da deyishir..
+    }
+    
 
     public void relax(int u, int v) {
         if (u == v) return;
-        double weight = adj[u][v].getValue();
-//        double weight = -Math.log(adj[u][v].getValue());
+//        double weight = adj[u][v].getValue();
+        double weight = -Math.log(adj[u][v].getValue());
         if (weight != INF /*&& dist[u] != INF*/ && (dist[v] > dist[u] + weight)) {   //if(d[u] != INFINITY && d[v] > d[u] + w) - lazim olsa bu sherti arashdirmaq mene lazimdi ya yox.
             dist[v] = dist[u] + weight;
             p[v] = u;
@@ -106,10 +86,10 @@ public class BellmanFordCormen3 implements Algorithm {
 //                double weight = -Math.log(adj[u][v].getValue());
                 if (dist[v] > dist[u] + weight) {
 //                    hasNegativeCycle = true;
-                    System.out.print("\ndist["+v+"]("+dist[v]+") > dist["+u+"]("+dist[u]+") + weight("+weight+")");
-                    System.out.print("\nNegative cycle detected! path: ");
+//                    System.out.print("\ndist["+v+"]("+dist[v]+") > dist["+u+"]("+dist[u]+") + weight("+weight+")");
+//                    System.out.print("\nNegative cycle detected! path: ");
                     findNegativeCyclePath(v);
-                    System.out.println("");
+//                    System.out.println("");
                 }
             }
         }
@@ -163,7 +143,7 @@ public class BellmanFordCormen3 implements Algorithm {
     }
     
     
-        private void checkArbitrage(){
+    private void checkArbitrage(){
         /**
          * chox guman hesablamada hardasa xirda sehv var, ola bilsin ona gore chox cuzi ferqle
          * duzgun olmayan neqativ cycle. da detect olunur, onu arashdirib tapsam tamamdir
@@ -190,14 +170,16 @@ public class BellmanFordCormen3 implements Algorithm {
                 int n = (int) v.get(i + 1);
                 OptimalRate opt = adj[m][n];
 
-//                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
-                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", stake, currency[m], stake *= Math.exp(-opt.getValue()), currency[n], opt.getName());
+                System.out.printf("%.4f %s = %.4f %s (%s)\n", stake, currencies[m], stake *= opt.getValue(), currencies[n], opt.getName());
+//                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", stake, currencies[m], stake *= Math.exp(-opt.getValue()), currencies[n], opt.getName());
 
             }
         });
     }
     
-    
+
+
+/*        
     private void createNegativeWeightedAdjencyMatrix() {
         for (int i = 0; i < vertex; i++) 
             for (int j = 0; j < vertex; j++) 
@@ -237,7 +219,24 @@ public class BellmanFordCormen3 implements Algorithm {
 //        Data d = new AniMezenneData();
         adj = d.getOptimalRatesArrayTest(d.getBankList(), currency); 
     }
+    
+        
+        
+    public static void main(String[] args) {
 
+        BellmanFordArbitrage b = new BellmanFordArbitrage();
+        b.initializeAdj();
+        b.printArr();
+        b.createNegativeWeightedAdjencyMatrix();
+        b.callBellmanFord(); 
+        
+//        b.printArr();
+        
+        System.out.println("\ndistance arr: "+Arrays.toString(b.dist));
+        System.out.println("\npath arr: "+Arrays.toString(b.p));
+        
+    }
+*/
 
 }
 

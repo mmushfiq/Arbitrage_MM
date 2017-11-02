@@ -9,18 +9,18 @@ import java.util.Map;
 
 /**
  *
- * @author USER
+ * @author MM
  */
-public class Arbitrage {
+public class ArbitrageChecker {
     private final Map<String, Map<String, OptimalRate>> ratesMap;
     private String baseCurrency;
     private Map<Double, List<ArbitrageModel>> arbitrageListMap;
 
-    public Arbitrage() {
+    public ArbitrageChecker() {
         ratesMap = null;
     }
     
-    public Arbitrage(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
+    public ArbitrageChecker(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
         ratesMap = map;
         this.baseCurrency = baseCurrency;
         arbitrageListMap = new LinkedHashMap<>();

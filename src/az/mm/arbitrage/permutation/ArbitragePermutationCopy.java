@@ -2,7 +2,7 @@ package az.mm.arbitrage.permutation;
 
 import az.mm.arbitrage.data.AniMezenneData;
 import az.mm.arbitrage.data.AznTodayData;
-import az.mm.arbitrage.data.Data;
+import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.data.ExcelData;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;

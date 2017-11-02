@@ -1,5 +1,9 @@
 package az.mm.arbitrage.main;
 
+import az.mm.arbitrage.factory.Data;
+import az.mm.arbitrage.factory.AbstractFactory;
+import az.mm.arbitrage.factory.Arbitrage;
+import az.mm.arbitrage.factory.FactoryProducer;
 import java.util.Scanner;
 
 /**
@@ -8,10 +12,20 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Select: 1 - Bellman-Ford, 2 - Princeton Bellman-Ford, 3 - Permutation");
         Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
         
+        System.out.println("\nSelect data: \n \t 1 - Excel, 2 - AznToday, 3 - AniMezenne, 4 - Json");
+        int type = sc.nextInt();
+        AbstractFactory dataFactory = FactoryProducer.getFactory("DATA");
+        Data data = dataFactory.getData(type);
+        
+        System.out.println("Select algorithm: \n \t 1 - Princeton Bellman-Ford, 2 - Bellman-Ford, 3 - Permutation");
+        int algorithm = sc.nextInt();
+
+        AbstractFactory arbitrageFactory = FactoryProducer.getFactory("ARBITRAGE");
+        Arbitrage arbitrage = arbitrageFactory.getArbitrage(algorithm);
+        
+        arbitrage.start(data);
     }
     
 }

@@ -1,13 +1,9 @@
 package az.mm.arbitrage.db;
 
 import az.mm.arbitrage.model.Bank;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  *
@@ -16,9 +12,11 @@ import java.util.List;
 public class DBConnection {
     
     public static void main(String[] args) {
-        for(Bank b: new DBConnection().getAniMezenneBankList()){
-            System.out.println(b);
-        }
+//        for(Bank b: new DBConnection().getAniMezenneBankList()){
+//            System.out.println(b);
+//        }
+        
+        System.out.println("\n\ndate: "+getRandomDate());
     }
     
     private static final DBConnection instance = new DBConnection();
@@ -45,32 +43,27 @@ public class DBConnection {
         return connection;
     }
 
-    private void close(PreparedStatement preparedStatement, Connection connection) {
-        if (preparedStatement != null) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException ex) {
-                infoCatchMessage(ex, "close");
-            }
-        }
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException ex) {
-                infoCatchMessage(ex, "close");
-            }
-        }
-    }
+//    private void close(PreparedStatement preparedStatement, Connection connection) {
+//        if (preparedStatement != null) {
+//            try {
+//                preparedStatement.close();
+//            } catch (SQLException ex) {
+//                infoCatchMessage(ex, "close");
+//            }
+//        }
+//        if (connection != null) {
+//            try {
+//                connection.close();
+//            } catch (SQLException ex) {
+//                infoCatchMessage(ex, "close");
+//            }
+//        }
+//    }
 
     public List<Bank> getAniMezenneBankList() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
         List<Bank> bankList = new ArrayList<>();
-        String period = "";
-        period = " and DATE_FORMAT(date,'%Y-%m-%d')='2017-05-22'";  //DATE_FORMAT(date,'%Y-%m-%d') between '2017-09-02' and '2017-09-07' - DATE_FORMAT(date,'%Y-%m')='2017-09'
-        try {
-            connection = getDBConnection();
-            //sqli sonra deyishmek, view edib ordan chixarmaq..
+
+            //sqli sonra deyishmek, view yaradib ordan chixarmaq..
             String sql = "SELECT name, \n" +
                         "IF(SUM(bUSD)=0, -1, SUM(bUSD)) bUSD, \n" +
                         "IF(SUM(sUSD)=0, -1, SUM(sUSD)) sUSD, \n" +
@@ -101,23 +94,38 @@ public class DBConnection {
                         "(\n" +
                         "SELECT cr.bank_id, b.name, cr.currency_id, cr.buy, cr.sell, cr.date\n" +
                         "FROM currency_rate cr, bank b\n" +
-                        "WHERE cr.currency_id IN (1,2,3,4,6,7) AND cr.bank_id != 27 AND cr.bank_id=b.id\n" + period +
+                        "WHERE cr.currency_id IN (1,2,3,4,6,7) AND cr.bank_id != 27 AND cr.bank_id=b.id and DATE_FORMAT(date,'%Y-%m-%d')=? \n"+
                         "GROUP BY cr.bank_id, cr.currency_id, DATE(cr.date)\n" +
                         "ORDER BY cr.date DESC, cr.bank_id, cr.currency_id) cr) t\n" +
                         "GROUP BY DATE, bank_id\n" +
                         "ORDER BY DATE DESC;";
-//            System.out.println(sql);
-            preparedStatement = connection.prepareStatement(sql);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                bankList.add(new Bank(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDate(12)));
+            
+        System.out.println("sql:\n"+sql);
+        
+        try (Connection connection = getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql); ) {
+            
+            preparedStatement.setDate(1, getRandomDate());
+            try(ResultSet rs = preparedStatement.executeQuery();){
+                while (rs.next()) 
+                    bankList.add(new Bank(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDate(12)));
             }
+            
         } catch (Exception e) {
             infoCatchMessage(e, "getBankList");
-        } finally {
-            close(preparedStatement, connection);
-            return bankList;
         }
+
+        return bankList;
+    }
+    
+    private static java.sql.Date getRandomDate() {
+        Random random = new Random();
+        int minDay = (int) LocalDate.of(2016, 10, 1).toEpochDay();
+        int maxDay = (int) LocalDate.of(2017, 9, 17).toEpochDay();
+        long randomDay = minDay + random.nextInt(maxDay - minDay);
+        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
+        
+        return java.sql.Date.valueOf(randomDate.toString());
     }
 
     public static void infoCatchMessage(Exception e, String methodName) {

@@ -1,4 +1,9 @@
-package az.mm.arbitrage.data;
+package az.mm.arbitrage.factory;
+
+import az.mm.arbitrage.data.AniMezenneData;
+import az.mm.arbitrage.data.AznTodayData;
+import az.mm.arbitrage.data.ExcelData;
+import az.mm.arbitrage.data.JsonData;
 
 /**
  *
@@ -9,7 +14,9 @@ package az.mm.arbitrage.data;
  * 
  * Factory pattern
  */
-public class DataFactory {
+public class DataFactory extends AbstractFactory {
+    
+    @Override
     public Data getData(int n){
          switch (n) {
             case 1:  return new ExcelData();      
@@ -18,5 +25,11 @@ public class DataFactory {
             case 4:  return new JsonData();       
             default: return new ExcelData();      
         }
+    }
+
+ 
+    @Override
+    public Arbitrage getArbitrage(int type) {
+        return null;
     }
 }

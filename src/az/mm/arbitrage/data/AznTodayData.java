@@ -1,5 +1,6 @@
 package az.mm.arbitrage.data;
 
+import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import java.io.IOException;
 import java.util.ArrayList;
