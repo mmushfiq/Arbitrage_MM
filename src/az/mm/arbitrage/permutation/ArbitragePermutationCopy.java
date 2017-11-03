@@ -132,14 +132,14 @@ public class ArbitragePermutationCopy {
             opt = getRate(from, to);
             sb.append(result).append(" "+from+" = ");
             result *= opt.getValue();
-            sb.append(result).append(" "+to).append(" ("+opt.getName()+")\n");
+            sb.append(result).append(" "+to).append(" ("+opt.getBankName()+")\n");
         }
         from = list.get(list.size()-1);
         to = "AZN";
         opt = getRate(from, to);
         sb.append(result).append(" "+from+" = ");
         result *= opt.getValue();
-        sb.append(result).append(" "+to).append(" ("+opt.getName()+")\n");
+        sb.append(result).append(" "+to).append(" ("+opt.getBankName()+")\n");
         
         if(result>1000){
             System.out.printf("Arbitrage %d:\n", ++arbitrageNumber);

@@ -6,23 +6,23 @@ package az.mm.arbitrage.model;
  */
 public class OptimalRate {
     private int id;
-    private String name;
+    private String bankName;
     private Double value;
 
     public OptimalRate() {
         id = 0;
-        name = "";
+        bankName = "";
         value = Double.MIN_VALUE;
     }
 
     public OptimalRate(int id, String name, Double value) {
         this.id = id;
-        this.name = name;
+        this.bankName = name;
         this.value = value;
     }
     
     public OptimalRate(String name, Double value) {
-        this.name = name;
+        this.bankName = name;
         this.value = value;
     }
 
@@ -34,12 +34,12 @@ public class OptimalRate {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public Double getValue() {
@@ -52,7 +52,7 @@ public class OptimalRate {
 
     @Override
     public String toString() {
-        return "OptimalRate{" + "id=" + id + ", name=" + name + ", value=" + value + '}';
+        return "OptimalRate{" + "id=" + id + ", name=" + bankName + ", value=" + value + '}';
     }
     
     

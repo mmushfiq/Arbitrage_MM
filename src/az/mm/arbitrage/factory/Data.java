@@ -54,18 +54,21 @@ public abstract class Data {
                     }
                 }
 
-        printArr(R);
+        printArr(R, cur);
         return R;
     }
     
-    void printArr(OptimalRate[][] R){
+    void printArr(OptimalRate[][] R, String[] cur){
+        System.out.println("-----------------Adjency Matrix------------------");
+        int i = 0;
         for(OptimalRate[] d: R){
+            System.out.print(cur[i++]+"\t");
             for(OptimalRate m: d)
-                System.out.print(m.getValue()+" \t");
+                System.out.printf("%.4f (%s)\t", m.getValue(), m.getBankName());
         System.out.println("");
         }
         
-        System.out.println("-----------------R--------------------------");
+        System.out.println("-----------------Adjency Matrix------------------\n");
     }
 
     

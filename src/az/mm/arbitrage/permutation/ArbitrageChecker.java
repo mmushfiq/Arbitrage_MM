@@ -17,7 +17,7 @@ public class ArbitrageChecker {
     private Map<Double, List<ArbitrageModel>> arbitrageListMap;
 
     public ArbitrageChecker() {
-        ratesMap = null;
+        ratesMap = new HashMap();
     }
     
     public ArbitrageChecker(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
@@ -31,7 +31,6 @@ public class ArbitrageChecker {
         String from, to;
         double startValue = 1000;
         double result = startValue;
-//        StringBuilder sb = new StringBuilder(); //duzgun ishlese bunlari yigishdiracam..
         OptimalRate opt;
         List<ArbitrageModel> arbList = new ArrayList<>();
         
@@ -45,7 +44,7 @@ public class ArbitrageChecker {
             }
             opt = getRate(from, to);
             result *= opt.getValue();
-            arbList.add(new ArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getName()));
+            arbList.add(new ArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getBankName()));
         }
         
         if(result > startValue){

@@ -170,7 +170,7 @@ public class BellmanFordArbitrage implements Arbitrage {
                 int n = (int) v.get(i + 1);
                 OptimalRate opt = adj[m][n];
 
-                System.out.printf("%.4f %s = %.4f %s (%s)\n", stake, currencies[m], stake *= opt.getValue(), currencies[n], opt.getName());
+                System.out.printf("%.4f %s = %.4f %s (%s)\n", stake, currencies[m], stake *= opt.getValue(), currencies[n], opt.getBankName());
 //                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", stake, currencies[m], stake *= Math.exp(-opt.getValue()), currencies[n], opt.getName());
 
             }

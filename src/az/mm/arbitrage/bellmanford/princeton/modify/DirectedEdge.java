@@ -4,8 +4,7 @@ public class DirectedEdge {
     private final int v;
     private final int w;
     private final double weight;
-    
-    private String name;  //bankin adi 14.09.2017
+    private String name;
 
     public DirectedEdge(int v, int w, double weight) {
         if (v < 0) throw new IndexOutOfBoundsException("Vertex names must be nonnegative integers");
@@ -43,10 +42,8 @@ public class DirectedEdge {
         return name;
     }
     
-    
     @Override
     public String toString() {
-//        return v + "->" + w + " " + String.format("%5.2f", weight);
-        return v + "->" + w + " " + weight;
+        return v + "->" + w + " " + String.format("%5.2f", weight);
     }
 }

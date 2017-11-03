@@ -164,7 +164,7 @@ public class BellmanFordCormen2 {
 //                result *= opt.getValue();
 //                System.out.println(result + " " + cur[n]+" ("+opt.getName()+")");
                 
-                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
+                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getBankName());
                 
 //                System.out.println("---------------------------");
                 
@@ -198,7 +198,7 @@ public class BellmanFordCormen2 {
 //                result *= opt.getValue();
 //                System.out.println(result + " " + cur[n]+" ("+opt.getName()+")");
                 
-                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
+                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getBankName());
                 
 //                System.out.println("---------------------------");
                 
@@ -238,7 +238,7 @@ public class BellmanFordCormen2 {
                 OptimalRate opt = adj[m][n];
 
 //                System.out.printf("%.4f %s = %.4f %s (%s)\n", result, cur[m], result *= opt.getValue(), cur[n], opt.getName());
-                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", result, cur[m], result *= Math.exp(-opt.getValue()), cur[n], opt.getName());
+                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", result, cur[m], result *= Math.exp(-opt.getValue()), cur[n], opt.getBankName());
 
             }
         });

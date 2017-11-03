@@ -91,7 +91,7 @@ public class PermutationArbitrage implements Arbitrage {
         map.forEach((k,v) -> {
             System.out.printf("\n%-5s",k);
             v.forEach((k2,v2) -> {
-                System.out.printf("->%s: %.4f - %-17s ", k2, v2.getValue(), v2.getName());
+                System.out.printf("->%s: %.4f - %-17s ", k2, v2.getValue(), v2.getBankName());
             });
         });
     }

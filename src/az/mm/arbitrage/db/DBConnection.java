@@ -10,15 +10,7 @@ import java.util.*;
  * @author MM
  */
 public class DBConnection {
-    
-    public static void main(String[] args) {
-//        for(Bank b: new DBConnection().getAniMezenneBankList()){
-//            System.out.println(b);
-//        }
         
-        System.out.println("\n\ndate: "+getRandomDate());
-    }
-    
     private static final DBConnection instance = new DBConnection();
 
     private DBConnection() {}
@@ -35,7 +27,6 @@ public class DBConnection {
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "root");
-            return connection;
         } catch (SQLException e) {
             infoCatchMessage(e, "getDBConnection");
         }
@@ -43,22 +34,6 @@ public class DBConnection {
         return connection;
     }
 
-//    private void close(PreparedStatement preparedStatement, Connection connection) {
-//        if (preparedStatement != null) {
-//            try {
-//                preparedStatement.close();
-//            } catch (SQLException ex) {
-//                infoCatchMessage(ex, "close");
-//            }
-//        }
-//        if (connection != null) {
-//            try {
-//                connection.close();
-//            } catch (SQLException ex) {
-//                infoCatchMessage(ex, "close");
-//            }
-//        }
-//    }
 
     public List<Bank> getAniMezenneBankList() {
         List<Bank> bankList = new ArrayList<>();
@@ -118,7 +93,7 @@ public class DBConnection {
         return bankList;
     }
     
-    private static java.sql.Date getRandomDate() {
+    private java.sql.Date getRandomDate() {
         Random random = new Random();
         int minDay = (int) LocalDate.of(2016, 10, 1).toEpochDay();
         int maxDay = (int) LocalDate.of(2017, 9, 17).toEpochDay();
@@ -128,7 +103,7 @@ public class DBConnection {
         return java.sql.Date.valueOf(randomDate.toString());
     }
 
-    public static void infoCatchMessage(Exception e, String methodName) {
+    public void infoCatchMessage(Exception e, String methodName) {
         String message = methodName + " method catch --> " + e;
         System.out.println(message);
         e.printStackTrace();
