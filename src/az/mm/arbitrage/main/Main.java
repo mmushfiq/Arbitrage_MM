@@ -14,18 +14,21 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         
-        System.out.println("\nSelect data: \n \t 1 - Excel, 2 - AznToday, 3 - AniMezenne, 4 - Json");
-        int type = sc.nextInt();
-        AbstractFactory dataFactory = FactoryProducer.getFactory("DATA");
-        Data data = dataFactory.getData(type);
-        
-        System.out.println("Select algorithm: \n \t 1 - Princeton Bellman-Ford, 2 - Bellman-Ford, 3 - Permutation");
-        int algorithm = sc.nextInt();
+        while (true) {
+            System.out.println("\nSelect data: \n \t 1 - Excel, 2 - AznToday, 3 - AniMezenne, 4 - Json");
+            int type = sc.nextInt();
+            AbstractFactory dataFactory = FactoryProducer.getFactory("DATA");
+            Data data = dataFactory.getData(type);
 
-        AbstractFactory arbitrageFactory = FactoryProducer.getFactory("ARBITRAGE");
-        Arbitrage arbitrage = arbitrageFactory.getArbitrage(algorithm);
-        
-        arbitrage.start(data);
+            System.out.println("Select algorithm: \n \t 1 - Princeton Bellman-Ford, 2 - Bellman-Ford, 3 - Permutation");
+            int algorithm = sc.nextInt();
+
+            AbstractFactory arbitrageFactory = FactoryProducer.getFactory("ARBITRAGE");
+            Arbitrage arbitrage = arbitrageFactory.getArbitrage(algorithm);
+            arbitrage.start(data);
+            
+            System.out.println("------------------end------------------------");
+        }
     }
     
 }

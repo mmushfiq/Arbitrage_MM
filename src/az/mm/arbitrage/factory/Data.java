@@ -3,18 +3,15 @@ package az.mm.arbitrage.factory;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author MM
  */
-public abstract class Data {
+public abstract class Data implements Cloneable {
 
     public abstract List<Bank> getBankList();
-    
     
     public OptimalRate [][] getOptimalRatesAdjencyMatrix(List<Bank> bankList, String[] cur) {
         
@@ -49,9 +46,9 @@ public abstract class Data {
                     }
 
                     curRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
-                    if (r1 > 0 && r2 > 0 && curRate < r1/r2){
+                    if (r1 > 0 && r2 > 0 && curRate < r1/r2)
                         R[i][j] = new OptimalRate(b.getName(), r1/r2);
-                    }
+                    
                 }
 
         printArr(R, cur);
@@ -59,21 +56,41 @@ public abstract class Data {
     }
     
     void printArr(OptimalRate[][] R, String[] cur){
-        System.out.println("-----------------Adjency Matrix------------------");
+        //eger hansisa mezenne ile bagli umumiyyetle hech bir bankda chevrilme yoxdursa onda NullPointerException verecek, bunu nezere alib duzeltmek sonra da printleri silmek..
+        try {
+        System.out.printf("\n%-10s","");
+        for(String s: cur){
+            System.out.printf("%-30s", s);
+        }
         int i = 0;
         for(OptimalRate[] d: R){
-            System.out.print(cur[i++]+"\t");
+            System.out.printf("\n%-10s",cur[i++]);
+            System.out.println("d: " + Arrays.toString(d));
             for(OptimalRate m: d)
-                System.out.printf("%.4f (%s)\t", m.getValue(), m.getBankName());
-        System.out.println("");
+                System.out.printf("%.4f -> %-20s", m.getValue(), m.getBankName());
+        }
+        }catch(Exception e){
+            System.out.println(e);
+            e.printStackTrace();
         }
         
-        System.out.println("-----------------Adjency Matrix------------------\n");
+        System.out.println();
     }
 
     
+    @Override
+    public Object clone() {
+        Object clone = null;
+        try {
+            clone = super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clone;
+    }
     
-//    /************************* OLD VERSION **********************************************
+    
+/************************* OLD VERSION **********************************************
       
     public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList) {
         String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY",};
@@ -96,7 +113,7 @@ public abstract class Data {
         }
     }
 
-    // It is written elaborately to understand the above first getOptimalRatesMap() method.
+    // It is written elaborately to understand the above first method.
     public OptimalRate getOptimalRates(String from, String to, List<Bank> bankList) {
         int id = 0;
         String name = null;
@@ -556,6 +573,6 @@ public abstract class Data {
         return Math.round(value * 10000.0) / 10000.0;
      }
     
-//    * *************************************************************************/
+*******************************************************************************/
   
 }

@@ -52,7 +52,7 @@ public class OptimalRate {
 
     @Override
     public String toString() {
-        return "OptimalRate{" + "id=" + id + ", name=" + bankName + ", value=" + value + '}';
+        return "\nOptimalRate{name=" + bankName + ", value=" + value + '}';
     }
     
     

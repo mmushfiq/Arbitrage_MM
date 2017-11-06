@@ -1,5 +1,6 @@
 package az.mm.arbitrage.permutation;
 
+import az.mm.arbitrage.model.PermutationArbitrageModel;
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.Map;
 public class ArbitrageChecker {
     private final Map<String, Map<String, OptimalRate>> ratesMap;
     private String baseCurrency;
-    private Map<Double, List<ArbitrageModel>> arbitrageListMap;
+    private Map<Double, List<PermutationArbitrageModel>> arbitrageListMap;
 
     public ArbitrageChecker() {
         ratesMap = new HashMap();
@@ -32,7 +33,7 @@ public class ArbitrageChecker {
         double startValue = 1000;
         double result = startValue;
         OptimalRate opt;
-        List<ArbitrageModel> arbList = new ArrayList<>();
+        List<PermutationArbitrageModel> arbList = new ArrayList<>();
         
         for (int i = 0, size = list.size(); i <= size; i++) {
             if(i == size){
@@ -44,7 +45,7 @@ public class ArbitrageChecker {
             }
             opt = getRate(from, to);
             result *= opt.getValue();
-            arbList.add(new ArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getBankName()));
+            arbList.add(new PermutationArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getBankName()));
         }
         
         if(result > startValue){
@@ -69,7 +70,7 @@ public class ArbitrageChecker {
     }
     
     
-    public Map<Double, List<ArbitrageModel>> getArbitrageListMap(){
+    public Map<Double, List<PermutationArbitrageModel>> getArbitrageListMap(){
         return new LinkedHashMap<>(arbitrageListMap);
     }
 }

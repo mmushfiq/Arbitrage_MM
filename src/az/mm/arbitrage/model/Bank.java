@@ -177,7 +177,7 @@ public class Bank {
     
     @Override
     public String toString() {
-        return "\nBank{" + "id=" + id + ", name=" + name + ", bUSD=" + bUSD + ", sUSD=" + sUSD + ", bEUR=" + bEUR + ", sEUR=" + sEUR + ", bRUB=" + bRUB + ", sRUB=" + sRUB + ", bGBP=" + bGBP + ", sGBP=" + sGBP + ", bTRY=" + bTRY + ", sTRY=" + sTRY +", date=" + date + '}';
+        return "\nBank{" + "name=" + name + ", bUSD=" + bUSD + ", sUSD=" + sUSD + ", bEUR=" + bEUR + ", sEUR=" + sEUR + ", bRUB=" + bRUB + ", sRUB=" + sRUB + ", bGBP=" + bGBP + ", sGBP=" + sGBP + ", bTRY=" + bTRY + ", sTRY=" + sTRY +", date=" + date + '}';
     }
 
 

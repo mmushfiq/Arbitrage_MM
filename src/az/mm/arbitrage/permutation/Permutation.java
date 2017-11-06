@@ -1,5 +1,6 @@
 package az.mm.arbitrage.permutation;
 
+import az.mm.arbitrage.model.PermutationArbitrageModel;
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,12 +14,9 @@ import java.util.Map;
 public class Permutation {
 
     private ArbitrageChecker arb;
-    private int count;
-    private final String baseCurrency;
 
     public Permutation(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
         arb = new ArbitrageChecker(map, baseCurrency);
-        this.baseCurrency = baseCurrency;
     }
 
     // a is the original array
@@ -29,10 +27,7 @@ public class Permutation {
         return allPermutations;
     }
 
-    // a is the original array
-    // n is the array size
-    // k is the number of elements in each permutation
-    // allPermutations is all different permutations
+
     private void enumerate(List<String> a, int n, int k, ArrayList<ArrayList<String>> allPermutations) {
         if (k == 0) {
             ArrayList<String> singlePermutation = new ArrayList<>();
@@ -51,23 +46,13 @@ public class Permutation {
         }
     }
 
-    // helper function that swaps a.get(i) and a.get(j)
     private void swap(List<String> a, int i, int j) {
         String temp = a.get(i);
         a.set(i, a.get(j));
         a.set(j, temp);
     }
-
-    private void printPermutation(List<String> permutation) {
-        System.out.println(" - say: " + permutation.size());
-        System.out.printf("%d. %s --> ", count++, baseCurrency);
-        for (String s : permutation) {
-            System.out.print(s + " --> ");
-        }
-        System.out.println(baseCurrency);
-    }
     
-    public Map<Double, List<ArbitrageModel>> getArbitrageListMap(){
+    public Map<Double, List<PermutationArbitrageModel>> getArbitrageListMap(){
         return arb.getArbitrageListMap();
     }
     
