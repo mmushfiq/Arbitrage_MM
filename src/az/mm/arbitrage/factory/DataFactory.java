@@ -19,11 +19,11 @@ public class DataFactory extends AbstractFactory {
     @Override
     public Data getData(int n){
          switch (n) {
-            case 1:  return new ExcelData();      
-            case 2:  return new AznTodayData();   
-            case 3:  return new AniMezenneData();   
-            case 4:  return new JsonData();       
-            default: return new ExcelData();      
+            case 1:  return new ExcelData(n);      
+            case 2:  return new AznTodayData(n);   
+            case 3:  return new AniMezenneData(n);   
+            case 4:  return new JsonData(n);       
+            default: return new ExcelData(n);      
         }
     }
 

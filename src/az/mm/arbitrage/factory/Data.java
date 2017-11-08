@@ -2,19 +2,21 @@ package az.mm.arbitrage.factory;
 
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
  *
  * @author MM
  */
-public abstract class Data implements Cloneable {
+public abstract class Data {
 
     public abstract List<Bank> getBankList();
+    public abstract int getDataId();
+    public abstract LocalDate getDate();
     
-    public OptimalRate [][] getOptimalRatesAdjencyMatrix(List<Bank> bankList, String[] cur) {
-        
+    public OptimalRate [][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
+        List<Bank> bankList = data.getBankList();
         double curRate, r1 = 0, r2 = 0;
         OptimalRate R[][] = new OptimalRate[cur.length][cur.length];
 
@@ -51,21 +53,22 @@ public abstract class Data implements Cloneable {
                     
                 }
 
-        printArr(R, cur);
+        printArr(data, R, cur);
         return R;
     }
     
-    void printArr(OptimalRate[][] R, String[] cur){
+    void printArr(Data data, OptimalRate[][] R, String[] cur){
         //eger hansisa mezenne ile bagli umumiyyetle hech bir bankda chevrilme yoxdursa onda NullPointerException verecek, bunu nezere alib duzeltmek sonra da printleri silmek..
         try {
-        System.out.printf("\n%-10s","");
+            System.out.printf("%s (%s)", data.getClass().getSimpleName(), data.getDate());
+        System.out.printf("\n%-17s", "");
         for(String s: cur){
             System.out.printf("%-30s", s);
         }
         int i = 0;
         for(OptimalRate[] d: R){
-            System.out.printf("\n%-10s",cur[i++]);
-            System.out.println("d: " + Arrays.toString(d));
+            System.out.printf("\n%-17s",cur[i++]);
+//            System.out.println("d: " + Arrays.toString(d));
             for(OptimalRate m: d)
                 System.out.printf("%.4f -> %-20s", m.getValue(), m.getBankName());
         }
@@ -77,19 +80,7 @@ public abstract class Data implements Cloneable {
         System.out.println();
     }
 
-    
-    @Override
-    public Object clone() {
-        Object clone = null;
-        try {
-            clone = super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return clone;
-    }
-    
-    
+ 
 /************************* OLD VERSION **********************************************
       
     public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList) {

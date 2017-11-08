@@ -40,22 +40,7 @@ public class Bank {
 
     }
     
-    public Bank(int id, String name, double bUSD, double sUSD, double bEUR, double sEUR, double bRUB, double sRUB, double bGBP, double sGBP, double bTRY, double sTRY) {
-        this.id = id;
-        this.name = name;
-        this.bUSD = bUSD;
-        this.sUSD = sUSD;
-        this.bEUR = bEUR;
-        this.sEUR = sEUR;
-        this.bRUB = bRUB;
-        this.sRUB = sRUB;
-        this.bGBP = bGBP;
-        this.sGBP = sGBP;
-        this.bTRY = bTRY;
-        this.sTRY = sTRY;
-
-    }
-    
+  
     public Bank(String name, double bUSD, double sUSD, double bEUR, double sEUR, double bRUB, double sRUB, double bGBP, double sGBP, double bTRY, double sTRY, Date date) {
         this.name = name;
         this.bUSD = bUSD;

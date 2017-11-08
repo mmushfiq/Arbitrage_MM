@@ -4,6 +4,7 @@ import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.db.DBConnection;
 import az.mm.arbitrage.model.Bank;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -18,7 +19,12 @@ public class AniMezenneData extends Data {
     
     private static Hashtable<String, List<Data>> aniMezenneMap = new Hashtable(); //bunu hele ki saxlayib umumi Data classina tetbiq etmek..
     private static List<Bank> bankList; 
-    
+    private Date randomDate;
+
+    public AniMezenneData(int id) {
+        randomDate = getRandomDate();
+    }
+
     static {
         bankList = DBConnection.getInstance().getAniMezenneBankList();
     }
@@ -31,13 +37,21 @@ public class AniMezenneData extends Data {
         else 
             aniMezenneBankList = DBConnection.getInstance().getAniMezenneBankList();
         
-        Date randomDate = getRandomDate();
         aniMezenneBankList = aniMezenneBankList.stream()
                                 .filter(b -> b.getDate().equals(randomDate))
                                 .collect(Collectors.toList());
         return aniMezenneBankList;
     }
     
+    @Override
+    public int getDataId(){
+        return randomDate.hashCode();
+    }
+    
+    @Override
+    public LocalDate getDate() {
+        return randomDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
     
     private Date getRandomDate() {
         Random random = new Random();
@@ -47,7 +61,6 @@ public class AniMezenneData extends Data {
         LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
 
         return java.sql.Date.valueOf(randomDate);
-    }
-    
+    } 
 
 }

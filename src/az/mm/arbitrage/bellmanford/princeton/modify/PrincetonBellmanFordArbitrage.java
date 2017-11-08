@@ -2,6 +2,7 @@ package az.mm.arbitrage.bellmanford.princeton.modify;
 
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.factory.Arbitrage;
+import az.mm.arbitrage.factory.DataCache;
 import az.mm.arbitrage.model.OptimalRate;
 import edu.princeton.cs.introcs.StdOut;
 
@@ -13,7 +14,8 @@ public class PrincetonBellmanFordArbitrage implements Arbitrage {
 
         // create complete network
         EdgeWeightedDigraph G = new EdgeWeightedDigraph(V);      
-        OptimalRate[][] R = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
+//        OptimalRate[][] R = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
+        OptimalRate [][] R = DataCache.getAdjencyMatrix(data, currencies);
           for (int v = 0; v < V; v++) 
             for (int w = 0; w < V; w++) {
                 double rate = R[v][w].getValue();
@@ -25,6 +27,7 @@ public class PrincetonBellmanFordArbitrage implements Arbitrage {
         // find negative cycle
         BellmanFordSP spt = new BellmanFordSP(G, 0);
         if (spt.hasNegativeCycle()) {
+            System.out.println("\nArbitrage:");
             double stake = 1000.0;
             for (DirectedEdge e : spt.negativeCycle()) {
                 StdOut.printf("%10.5f %s ", stake, currencies[e.from()]);

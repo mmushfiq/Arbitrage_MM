@@ -438,8 +438,8 @@ public class BellmanFordCormen2 {
 //        String[] cur = {"AZN", "USD", "EUR", "GBP", "RUB","TRY"};
 //        Data d = new ExcelData();
 //        Data d = new AznTodayData();
-        Data d = new AniMezenneData();
-        adj = d.getOptimalRatesAdjencyMatrix(d.getBankList(), cur);
+        Data d = new AniMezenneData(-654); //muveqqeti
+        adj = d.getOptimalRatesAdjencyMatrix(d, cur);
         
 //        for(OptimalRate[] opt: adj){
 //            for(OptimalRate o: opt){

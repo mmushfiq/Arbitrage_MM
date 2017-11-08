@@ -3,6 +3,8 @@ package az.mm.arbitrage.permutation;
 import az.mm.arbitrage.model.PermutationArbitrageModel;
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.factory.Arbitrage;
+import static az.mm.arbitrage.factory.Arbitrage.currencies;
+import az.mm.arbitrage.factory.DataCache;
 import az.mm.arbitrage.model.OptimalRate;
 import java.util.*;
 
@@ -48,7 +50,8 @@ public class PermutationArbitrage implements Arbitrage {
     private Map<String, Map<String, OptimalRate>> getOptimalRatesMap(Data data) {
         String cur[] = Arrays.copyOf(currencies, currencies.length+1);
         cur[cur.length-1] = baseCurrency; 
-        OptimalRate [][] R = data.getOptimalRatesAdjencyMatrix(data.getBankList(), cur);
+//        OptimalRate [][] R = data.getOptimalRatesAdjencyMatrix(data.getBankList(), cur);
+        OptimalRate [][] R = DataCache.getAdjencyMatrix(data, cur);
         Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
         Map<String, OptimalRate> curMap;
 

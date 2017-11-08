@@ -2,6 +2,7 @@ package az.mm.arbitrage.bellmanford.mine;
 
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.factory.Arbitrage;
+import az.mm.arbitrage.factory.DataCache;
 import az.mm.arbitrage.model.OptimalRate;
 import az.mm.arbitrage.princeton.Stack;
 import java.util.ArrayList;
@@ -37,7 +38,8 @@ public class BellmanFordArbitrage implements Arbitrage {
 
     @Override
     public void start(Data data) {
-        adj = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
+//        adj = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
+        adj = DataCache.getAdjencyMatrix(data, currencies);
         callBellmanFord();
     }
     
@@ -64,7 +66,7 @@ public class BellmanFordArbitrage implements Arbitrage {
             dist[i] = INF;
             p[i] = -1;
         }
-        dist[source] = 0; //chox guman ki, bunun qiymeti sona qeder deyishmemelidi, for.da v.ni 0 verende deyishir, 0 vermeyende de source.den birbasha negative cycle gostermir.. arashdirmaq lazimdi.. princeton numunesine baxdim orda da deyishir..
+        dist[source] = 0;
     }
     
 
@@ -126,18 +128,18 @@ public class BellmanFordArbitrage implements Arbitrage {
 //        } while (v != 0 || !visited[v]);
         
 
-        System.out.println("Stack Negative cycle: ");
+//        System.out.println("Stack Negative cycle: ");
 
         cycle = new ArrayList();
         for (Integer i : path) {
-            System.out.print(i + " ");
+//            System.out.print(i + " ");
 
             if(cycle.contains(i)) break;
             cycle.add(i);
         }
         
         if (cycle.size() > 1) cycle.add(cycle.get(0));
-        System.out.println("\nlist: "+cycle);
+//        System.out.println("\nlist: "+cycle);
         
         cycleList.add(cycle);
     }

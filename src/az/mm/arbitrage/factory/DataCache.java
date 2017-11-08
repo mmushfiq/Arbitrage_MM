@@ -1,7 +1,8 @@
 package az.mm.arbitrage.factory;
 
 import az.mm.arbitrage.model.OptimalRate;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -9,15 +10,18 @@ import java.util.Hashtable;
  */
 public class DataCache {
 
-    private static Hashtable<String, OptimalRate [][]> dataMap = new Hashtable();
+    private static Map<Integer, OptimalRate [][]> cachedDataMap = new HashMap();
 
-//    public static Data getData(String dataId) {
-//        Data cachedShape = dataMap.get(dataId);
-//        return (Data) cachedShape.clone();
-//    }
-    
-    public static OptimalRate [][] getAdjencyMatrix(Data data, String dataId) {
-        OptimalRate [][] cachedMatrix = dataMap.get(dataId);
-        return cachedMatrix.clone();
+    public static OptimalRate [][] getAdjencyMatrix(Data data, String[] currencies) {
+        OptimalRate [][] optArr;
+        int key = data.getDataId();
+        if(cachedDataMap.containsKey(key))
+            optArr = cachedDataMap.get(key);
+        else {
+            optArr = data.getOptimalRatesAdjencyMatrix(data, currencies);
+            cachedDataMap.put(key, optArr);
+        }
+        
+        return optArr;
     }
 }

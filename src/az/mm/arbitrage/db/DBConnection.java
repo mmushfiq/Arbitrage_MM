@@ -39,9 +39,9 @@ public class DBConnection {
         List<Bank> bankList = new ArrayList<>();
 
             //sqli sonra deyishmek, view yaradib ordan chixarmaq..
-            String sql = "SELECT name, SUM(bUSD) bUSD, SUM(sUSD) sUSD, SUM(bEUR) bEUR, SUM(sEUR) sEUR, SUM(bRUB) bRUB, SUM(sRUB) sRUB, SUM(bGBP) bGBP, SUM(sGBP) sGBP, SUM(bTRY) bTRY, SUM(sTRY) sTRY, DATE \n" +
+            String sql = "SELECT b.name, SUM(bUSD) bUSD, SUM(sUSD) sUSD, SUM(bEUR) bEUR, SUM(sEUR) sEUR, SUM(bRUB) bRUB, SUM(sRUB) sRUB, SUM(bGBP) bGBP, SUM(sGBP) sGBP, SUM(bTRY) bTRY, SUM(sTRY) sTRY, DATE \n" +
                         "FROM (\n" +
-                        "SELECT cr.bank_id, cr.name, \n" +
+                        "SELECT cr.bank_id,  \n" +
                         "IF(cr.currency_id=1, cr.buy, 0) AS bUSD, \n" +
                         "IF(cr.currency_id=1, cr.sell, 0) AS sUSD, \n" +
                         "IF(cr.currency_id=3, cr.buy, 0) AS bEUR, \n" +
@@ -54,15 +54,14 @@ public class DBConnection {
                         "IF(cr.currency_id=6, cr.sell, 0) AS sTRY, \n" +
                         "DATE(cr.date) AS DATE\n" +
                         "FROM (\n" +
-                        "SELECT cr.bank_id, b.name, cr.currency_id, cr.buy, cr.sell, cr.date\n" +
-                        "FROM currency_rate cr, bank b\n" +
-                        "WHERE cr.currency_id IN (1,2,3,4,6,7) AND cr.bank_id != 27 AND cr.bank_id=b.id \n"+
+                        "SELECT cr.bank_id, cr.currency_id, cr.buy, cr.sell, cr.date FROM currency_rate cr\n" +
+                        "WHERE cr.currency_id IN (1,2,3,4,6,7) AND cr.bank_id != 27  \n" +
                         "GROUP BY cr.bank_id, cr.currency_id, DATE(cr.date)\n" +
-                        "ORDER BY cr.date DESC, cr.bank_id, cr.currency_id) cr) t\n" +
-                        "GROUP BY DATE, bank_id\n" +
-                        "ORDER BY DATE DESC;";
+                        ") cr\n" +
+                        ") t, bank b where t.bank_id=b.id \n" +
+                        "GROUP BY DATE, bank_id  ORDER BY DATE DESC;";
             
-        System.out.println("sql:\n"+sql);
+//        System.out.println("sql:\n"+sql);
         
         try (Connection connection = getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql); ) {

@@ -4,37 +4,57 @@ import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  *
  * @author MM
  */
 public class ExcelData extends Data {
+    private int dataId;
+    private LocalDate date;
+
+    public ExcelData(int dataId) {
+        this.dataId = dataId;
+    }
+    
+    
+    @Override
+    public int getDataId() {
+        return dataId;
+    }
+    
+    @Override
+    public LocalDate getDate() {
+        return date;
+    }
 
     @Override
     public List<Bank> getBankList() {
         List<Bank> bankList = new ArrayList<>();
-        Bank b;
+        Bank b = null;
 
         try(FileInputStream file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xls")); ) {
 
-            HSSFWorkbook workbook = new HSSFWorkbook(file);
-            HSSFSheet sheet = workbook.getSheetAt(0);
+            Workbook workbook = new HSSFWorkbook(file);
+            Sheet sheet = workbook.getSheetAt(0);
 
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 if (row.getRowNum() == 0) continue;
 
-                b = new Bank(row.getRowNum(),
-                        getCellValue(row, 0),
+                b = new Bank(getCellValue(row, 0),
                         getCellValue(row, 1),
                         getCellValue(row, 2),
                         getCellValue(row, 3),
@@ -44,13 +64,16 @@ public class ExcelData extends Data {
                         getCellValue(row, 7),
                         getCellValue(row, 8),
                         getCellValue(row, 9),
-                        getCellValue(row, 10));
+                        getCellValue(row, 10),
+                        row.getCell(11).getDateCellValue());
                 bankList.add(b);
             }
 
         } catch (Exception ex) {
             ex.printStackTrace();
-        } 
+        }
+        
+        if(b != null) date = b.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         return bankList;
     }
@@ -74,5 +97,5 @@ public class ExcelData extends Data {
         
         return (T)cellValue;
     } 
-
+    
 }

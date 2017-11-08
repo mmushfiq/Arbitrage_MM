@@ -2,6 +2,7 @@ package az.mm.arbitrage.data;
 
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.jsoup.Jsoup;
@@ -14,6 +15,12 @@ import org.jsoup.select.Elements;
  * @author MM
  */
 public class AznTodayData extends Data {
+    private int dataId;
+
+    public AznTodayData(int dataId) {
+        this.dataId = dataId;
+    }
+      
 
     @Override
     public List<Bank> getBankList() {
@@ -49,6 +56,16 @@ public class AznTodayData extends Data {
         } finally {
             return aznTodayBankList;
         }
+    }
+
+    @Override
+    public int getDataId() {
+        return dataId;
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return LocalDate.now();
     }
     
 }
