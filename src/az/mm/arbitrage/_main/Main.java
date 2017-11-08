@@ -1,4 +1,4 @@
-package az.mm.arbitrage.main;
+package az.mm.arbitrage._main;
 
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.factory.AbstractFactory;
