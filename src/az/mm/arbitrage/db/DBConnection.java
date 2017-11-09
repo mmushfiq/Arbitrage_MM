@@ -2,7 +2,6 @@ package az.mm.arbitrage.db;
 
 import az.mm.arbitrage.model.Bank;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -26,7 +25,7 @@ public class DBConnection {
         //url, login, password-u sonra kodun icherisinden chixarmaq..
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "root");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "mm654874");
         } catch (SQLException e) {
             infoCatchMessage(e, "getDBConnection");
         }
@@ -62,6 +61,7 @@ public class DBConnection {
                         "GROUP BY DATE, bank_id  ORDER BY DATE DESC;";
             
 //        System.out.println("sql:\n"+sql);
+            System.out.println("Loading data from database..");
         
         try (Connection connection = getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql); ) {

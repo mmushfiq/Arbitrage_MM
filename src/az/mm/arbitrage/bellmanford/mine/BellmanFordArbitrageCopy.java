@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author MM
  */
-public class BellmanFordArbitrage implements Arbitrage {
+public class BellmanFordArbitrageCopy implements Arbitrage {
     private double[] dist;         // distance array
     private int[] p;               // predecessor array
     private OptimalRate adj[][];   // adjency matrix
@@ -19,7 +19,7 @@ public class BellmanFordArbitrage implements Arbitrage {
     private Set<List> cycleList;
     
 
-    public BellmanFordArbitrage() {
+    public BellmanFordArbitrageCopy() {
         cycleList = new LinkedHashSet();
     }
     
@@ -79,8 +79,19 @@ public class BellmanFordArbitrage implements Arbitrage {
         return !cycleList.isEmpty();
     }
     
+
+  
+    /*chox qeribedi, bu kod metoddan chole compile xetasi vermir, kodu chalishdirdiqda da main metod yoxdur xetasi verir..
+        StdOut.printf("%10.5f %s ", stake, name[e.from()]);
+        stake *= Math.exp(-e.weight());
+        StdOut.printf("= %10.5f %s", stake, name[e.to()]);
+    */
+    
+
+    
     private void findNegativeCyclePath(int v) {
         if(v == 0) return;
+        System.out.println("v="+v);
         boolean visited[] = new boolean[p.length];
 
         Stack<Integer> path = new Stack<>();
@@ -99,13 +110,19 @@ public class BellmanFordArbitrage implements Arbitrage {
 //        } while (v != 0 || !visited[v]);
         
 
+//        System.out.println("Stack Negative cycle: ");
+
         cycle = new ArrayList();
         for (Integer i : path) {
+//            System.out.print(i + " ");
+
             if(cycle.contains(i)) break;
             cycle.add(i);
         }
         
         if (cycle.size() > 1) cycle.add(cycle.get(0));
+//        System.out.println("\nlist: "+cycle);
+        
         cycleList.add(cycle);
     }
     
@@ -124,9 +141,14 @@ public class BellmanFordArbitrage implements Arbitrage {
          * 
          * */
         
+        number = 1;
+        System.out.println("\n---------------");
+        System.out.println("set: "+cycleList);
+        
         cycleList.forEach(v -> {
-            System.out.printf("\nArbitrage %d: \n", ++number);
+            System.out.printf("\nArbitrage %d: \n", number++);
             double stake = 1000;
+            System.out.println(v);
             for (int i = 0; i < v.size() - 1; i++) {
                 int m = (int) v.get(i);
                 int n = (int) v.get(i + 1);
@@ -134,9 +156,71 @@ public class BellmanFordArbitrage implements Arbitrage {
 
                 System.out.printf("%.4f %s = %.4f %s (%s)\n", stake, currencies[m], stake *= opt.getValue(), currencies[n], opt.getBankName());
 //                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", stake, currencies[m], stake *= Math.exp(-opt.getValue()), currencies[n], opt.getName());
+
             }
         });
     }
+    
+
+
+/*        
+    private void createNegativeWeightedAdjencyMatrix() {
+        for (int i = 0; i < vertex; i++) 
+            for (int j = 0; j < vertex; j++) 
+                adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
+    }
+
+
+    private double round(double value) {
+        return Math.round(value * 10000.0) / 10000.0;
+    }
+    
+    
+    private void printArr(){
+        System.out.println("");
+         for (int i = 0; i < adj.length; i++) {
+            for (int j = 0; j < adj.length; j++) {
+//                System.out.printf("%f ", adj[i][j]);
+                System.out.print(adj[i][j].getValue()+" \t");
+            }
+             System.out.println("");
+        }
+         
+        System.out.println("------------------------------------------------");
+        for (int i = 0; i < adj.length; i++) {
+            for (int j = 0; j < adj.length; j++) {
+                System.out.print(-Math.log(adj[i][j].getValue())+" \t");
+            }
+             System.out.println("");
+        }
+    }
+    
+    
+    private void initializeAdj() {
+//        String[] cur = {"AZN", "USD", "EUR", "GBP", "RUB","TRY"};
+        Data d = new ExcelData();
+//        Data d = new AznTodayData();
+//        Data d = new AniMezenneData();
+        adj = d.getOptimalRatesArrayTest(d.getBankList(), currency); 
+    }
+    
+        
+        
+    public static void main(String[] args) {
+
+        BellmanFordArbitrage b = new BellmanFordArbitrage();
+        b.initializeAdj();
+        b.printArr();
+        b.createNegativeWeightedAdjencyMatrix();
+        b.callBellmanFord(); 
+        
+//        b.printArr();
+        
+        System.out.println("\ndistance arr: "+Arrays.toString(b.dist));
+        System.out.println("\npath arr: "+Arrays.toString(b.p));
+        
+    }
+*/
 
 }
 

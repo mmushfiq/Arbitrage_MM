@@ -1,12 +1,7 @@
 package az.mm.arbitrage.permutation;
 
-import az.mm.arbitrage.model.PermutationArbitrageModel;
-import az.mm.arbitrage.model.OptimalRate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import az.mm.arbitrage.model.*;
+import java.util.*;
 
 /**
  *
@@ -28,12 +23,12 @@ public class ArbitrageChecker {
     }
  
 
-    public boolean hasArbitrage(ArrayList<String> list) {
+    public boolean hasArbitrage(List<String> list) {
         String from, to;
         double startValue = 1000;
         double result = startValue;
         OptimalRate opt;
-        List<PermutationArbitrageModel> arbList = new ArrayList<>();
+        List<PermutationArbitrageModel> arbList = new ArrayList();
         
         for (int i = 0, size = list.size(); i <= size; i++) {
             if(i == size){

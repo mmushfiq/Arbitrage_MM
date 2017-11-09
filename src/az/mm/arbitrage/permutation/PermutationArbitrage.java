@@ -1,11 +1,7 @@
 package az.mm.arbitrage.permutation;
 
-import az.mm.arbitrage.model.PermutationArbitrageModel;
-import az.mm.arbitrage.factory.Data;
-import az.mm.arbitrage.factory.Arbitrage;
-import static az.mm.arbitrage.factory.Arbitrage.currencies;
-import az.mm.arbitrage.factory.DataCache;
-import az.mm.arbitrage.model.OptimalRate;
+import az.mm.arbitrage.model.*;
+import az.mm.arbitrage.factory.*;
 import java.util.*;
 
 /**
@@ -14,9 +10,8 @@ import java.util.*;
  */
 public class PermutationArbitrage implements Arbitrage {
 
-    private Map<Integer, ArrayList<ArrayList<String>>> allPermutationMap;
-    private static String baseCurrency;
-    private String[] currencies;
+    private Map<Integer, List<List<String>>> allPermutationMap;
+    private static String baseCurrency, currencies[];
     private int count;
     
     
@@ -64,7 +59,7 @@ public class PermutationArbitrage implements Arbitrage {
             ratesMap.put(cur[i], curMap);
         }
         
-        printMap(ratesMap);
+//        printMap(ratesMap);
 
         return ratesMap;
     }
@@ -80,13 +75,14 @@ public class PermutationArbitrage implements Arbitrage {
             System.out.println("No arbitrage opportunity!\n");
         else {
             Map<Double, List<PermutationArbitrageModel>> treeMap = new TreeMap<>(
-                    (Comparator<Double>) (o1, o2) -> o2.compareTo(o1) //for desc order
-            );
+                    (Comparator<Double>) (o1, o2) -> o2.compareTo(o1) ); //for desc order
+                     
             treeMap.putAll(arbitrageListMap);
             treeMap.forEach((key, value) -> {
                 System.out.printf("\nArbitrage %d: (profit - %.2f %s) \n", ++count, key, baseCurrency);
-                for(PermutationArbitrageModel a: value)
+                value.forEach(a -> {
                     System.out.printf("%.4f %s = %.4f %s (%s)\n", a.getFirstResult(), a.getFromCur(), a.getLastResult(), a.getToCur(), a.getBankName());
+                });
             });
         }
     }
@@ -95,8 +91,8 @@ public class PermutationArbitrage implements Arbitrage {
     private void printMap(Map<String, Map<String, OptimalRate>> map){
         map.forEach((k,v) -> {
             System.out.printf("\n%-5s",k);
-            v.forEach((k2,v2) -> {
-                System.out.printf("->%s: %.4f - %-17s ", k2, v2.getValue(), v2.getBankName());
+            v.forEach((k2,opt) -> {
+                System.out.printf("->%s: %.4f - %-17s ", k2, opt.getValue(), opt.getBankName());
             });
         });
     }

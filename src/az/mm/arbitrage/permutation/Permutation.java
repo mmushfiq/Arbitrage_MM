@@ -1,11 +1,7 @@
 package az.mm.arbitrage.permutation;
 
-import az.mm.arbitrage.model.PermutationArbitrageModel;
-import az.mm.arbitrage.model.OptimalRate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import az.mm.arbitrage.model.*;
+import java.util.*;
 
 /**
  *
@@ -13,7 +9,7 @@ import java.util.Map;
  */
 public class Permutation {
 
-    private ArbitrageChecker arb;
+    private final ArbitrageChecker arb;
 
     public Permutation(Map<String, Map<String, OptimalRate>> map, String baseCurrency) {
         arb = new ArbitrageChecker(map, baseCurrency);
@@ -21,16 +17,16 @@ public class Permutation {
 
     // a is the original array
     // k is the number of elements in each permutation
-    public ArrayList<ArrayList<String>> permute(List<String> a, int k) {
-        ArrayList<ArrayList<String>> allPermutations = new ArrayList<ArrayList<String>>();
+    public List<List<String>> permute(List<String> a, int k) {
+        List<List<String>> allPermutations = new ArrayList();
         enumerate(a, a.size(), k, allPermutations);
         return allPermutations;
     }
 
 
-    private void enumerate(List<String> a, int n, int k, ArrayList<ArrayList<String>> allPermutations) {
+    private void enumerate(List<String> a, int n, int k, List<List<String>> allPermutations) {
         if (k == 0) {
-            ArrayList<String> singlePermutation = new ArrayList<>();
+            List<String> singlePermutation = new ArrayList();
             for (int i = n; i < a.size(); i++) {
                 singlePermutation.add(a.get(i));
             }

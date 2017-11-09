@@ -3,17 +3,11 @@ package az.mm.arbitrage.data;
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -66,23 +60,26 @@ public class JsonData extends Data {
     public OptimalRate[][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
         
         //https://stackoverflow.com/questions/2265266/convert-hash-map-to-2d-array
-     OptimalRate[][] R = new OptimalRate[currencies.length][currencies.length];
-         for (int i = 0; i < R.length; i++) 
-                for (int j = 0; j < R.length; j++) {
-                    
-                    if (i == j){
-                        R[i][j] = new OptimalRate("", 1.);
-                        continue;
-                    } 
-        
-        getRatesMap().forEach((k,v) -> {
-            
-            System.out.printf("\n%-5s",k);
-            v.forEach((k2,v2) -> {
-                System.out.printf("->%s: %.4f - %-17s ", k2, v2.getValue(), v2.getBankName());
-            });
-        });
-    }
+        OptimalRate[][] R = new OptimalRate[currencies.length][currencies.length];
+        for (int i = 0; i < R.length; i++) {
+            for (int j = 0; j < R.length; j++) {
+
+                if (i == j) {
+                    R[i][j] = new OptimalRate("", 1.);
+                    continue;
+                }
+
+                getRatesMap().forEach((k, v) -> {
+
+//                    System.out.printf("\n%-5s", k);
+//                    v.forEach((k2, v2) -> {
+//                        System.out.printf("->%s: %.4f - %-17s ", k2, v2.getValue(), v2.getBankName());
+//                    });
+                });
+            }
+        }
+         
+         return R;
     }
     
     
@@ -111,9 +108,9 @@ public class JsonData extends Data {
             
             StringBuilder sb = new StringBuilder();
             int cp;
-            while ((cp = rd.read()) != -1) {
+            while ((cp = rd.read()) != -1) 
                 sb.append((char) cp);
-            }
+            
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(sb.toString());
             jsonObject = (JSONObject) obj;

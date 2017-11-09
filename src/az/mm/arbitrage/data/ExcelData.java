@@ -44,7 +44,7 @@ public class ExcelData extends Data {
         List<Bank> bankList = new ArrayList<>();
         Bank b = null;
 
-        try(FileInputStream file = new FileInputStream(new File("C:\\Users\\MM\\Desktop\\arbitrage.xls")); ) {
+        try(FileInputStream file = new FileInputStream(new File("C:\\Users\\User\\Desktop\\arbitrage.xls")); ) {
 
             Workbook workbook = new HSSFWorkbook(file);
             Sheet sheet = workbook.getSheetAt(0);
