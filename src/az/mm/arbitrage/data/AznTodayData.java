@@ -67,10 +67,5 @@ public class AznTodayData extends Data {
     public LocalDate getDate() {
         return LocalDate.now();
     }
-
-    @Override
-    public String[] getCurrencies() {
-        return currencies;
-    }
     
 }

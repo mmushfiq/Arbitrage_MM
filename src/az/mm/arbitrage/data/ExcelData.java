@@ -33,10 +33,6 @@ public class ExcelData extends Data {
         return date;
     }
     
-    @Override
-    public String[] getCurrencies() {
-        return currencies;
-    }
 
     @Override
     public List<Bank> getBankList() {

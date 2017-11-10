@@ -53,9 +53,4 @@ public class AniMezenneData extends Data {
         return java.sql.Date.valueOf(localDate);
     } 
 
-    @Override
-    public String[] getCurrencies() {
-        return currencies;
-    }
-
 }

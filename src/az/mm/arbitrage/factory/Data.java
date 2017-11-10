@@ -11,12 +11,16 @@ import java.util.List;
  */
 public abstract class Data {
     
-    public final String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY"};
+    private final String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY"};
 
     public abstract List<Bank> getBankList();
     public abstract int getDataId();
     public abstract LocalDate getDate();
-    public abstract String[] getCurrencies();
+    
+    
+    public String[] getCurrencies(){
+        return currencies;
+    }
     
     public OptimalRate [][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
         List<Bank> bankList = data.getBankList();

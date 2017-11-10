@@ -72,26 +72,6 @@ public class JsonData extends Data {
     }
 
 
-    /**
-     * Bu metodu ola bilsin ki silim, hele ki saxlayiram..
-     */
-//    @Override
-    public Map<String, Map<String, OptimalRate>> getOptimalRatesMap(List<Bank> bankList, String baseCurrency, String[] cur) {
-        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
-        getRatesMap().forEach((key, value) -> {
-            Map<String, OptimalRate> map = new HashMap();
-            value.forEach((k2, v2) -> {
-                OptimalRate opt = new OptimalRate();
-                opt.setValue(v2);
-                map.put(k2, opt);
-            });
-            ratesMap.put(key, map);
-        });
-
-        return ratesMap;
-    }
-
-    
     public Map<String, Map<String, Double>> getRatesMap() {
         Map<String, Map<String, Double>> ratesMap = new LinkedHashMap();
         JSONObject jsonObject = null;
@@ -164,43 +144,4 @@ public class JsonData extends Data {
         SSLContext.setDefault(ctx);
     }
 
-
-
-    
-    public static void main(String[] args) {
-       new JsonData(1).test(); 
- 
-    }
-    
-    
-    void test() {
-        preventSSLHandshakeException();
-
-        Map<String, Map<String, Double>> map = getRatesMap();
-        System.out.println(map + "\n\n");
-
-        OptimalRate[][] R = new OptimalRate[currencies.length][currencies.length];
-
-        map.forEach((key, value) -> {
-            System.out.println("\n"+key+" : "+value+"\n");
-            
-            value.forEach((cur, rate) -> {
-
-                    System.out.print(cur+" : "+rate+"\t");
-                    int index = Arrays.asList(currencies).indexOf(cur);
-                    R[i][index] = new OptimalRate("", rate);
-
-            });
-            R[i][i] = new OptimalRate("", 1.);
-            i++;
-        });
-
-        for (int k = 0; k < R.length; k++) {
-            for (int m = 0; m < R[k].length; m++) {
-                System.out.printf("\narr[%d][%d] = %-5s", k, m, R[k][m]);
-            }
-            System.out.println("");
-        }
-    }
-    
 }
