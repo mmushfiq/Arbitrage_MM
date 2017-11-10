@@ -12,7 +12,7 @@ import org.jsoup.select.Elements;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class AznTodayData extends Data {
     private int dataId;
@@ -66,6 +66,11 @@ public class AznTodayData extends Data {
     @Override
     public LocalDate getDate() {
         return LocalDate.now();
+    }
+
+    @Override
+    public String[] getCurrencies() {
+        return currencies;
     }
     
 }

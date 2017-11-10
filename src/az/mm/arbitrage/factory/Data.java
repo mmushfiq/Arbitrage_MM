@@ -7,13 +7,16 @@ import java.util.List;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public abstract class Data {
+    
+    public final String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY"};
 
     public abstract List<Bank> getBankList();
     public abstract int getDataId();
     public abstract LocalDate getDate();
+    public abstract String[] getCurrencies();
     
     public OptimalRate [][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
         List<Bank> bankList = data.getBankList();
@@ -57,11 +60,11 @@ public abstract class Data {
         return R;
     }
     
-    void printArr(Data data, OptimalRate[][] R, String[] cur){
+    public void printArr(Data data, OptimalRate[][] R, String[] cur){
         //eger hansisa mezenne ile bagli umumiyyetle hech bir bankda chevrilme yoxdursa onda NullPointerException verecek, bunu nezere alib duzeltmek sonra da printleri silmek..
         try {
-            System.out.printf("%s (%s)", data.getClass().getSimpleName(), data.getDate());
-        System.out.printf("\n%-17s", "");
+            System.out.printf("\nDate: %s ", data.getDate());
+        System.out.printf("\n%-17s", data.getClass().getSimpleName());
         for(String s: cur){
             System.out.printf("%-30s", s);
         }

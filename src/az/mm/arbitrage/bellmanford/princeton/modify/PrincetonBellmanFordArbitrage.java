@@ -4,10 +4,17 @@ import az.mm.arbitrage.factory.*;
 import az.mm.arbitrage.model.OptimalRate;
 import edu.princeton.cs.introcs.StdOut;
 
+/**
+ *
+ * @author MM <mushfiqazeri@gmail.com>
+ */
 public class PrincetonBellmanFordArbitrage implements Arbitrage {
+    
+    private String currencies[];
 
     @Override
     public void start(Data data) {
+        currencies = data.getCurrencies();
         int V = currencies.length;
 
         // create complete network

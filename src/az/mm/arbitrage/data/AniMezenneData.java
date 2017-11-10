@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class AniMezenneData extends Data {
     
@@ -52,5 +52,10 @@ public class AniMezenneData extends Data {
 
         return java.sql.Date.valueOf(localDate);
     } 
+
+    @Override
+    public String[] getCurrencies() {
+        return currencies;
+    }
 
 }

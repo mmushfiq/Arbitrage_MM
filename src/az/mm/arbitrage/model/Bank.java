@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class Bank {
 

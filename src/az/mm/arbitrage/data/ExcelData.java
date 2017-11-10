@@ -6,19 +6,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class ExcelData extends Data {
     private int dataId;
@@ -38,13 +32,18 @@ public class ExcelData extends Data {
     public LocalDate getDate() {
         return date;
     }
+    
+    @Override
+    public String[] getCurrencies() {
+        return currencies;
+    }
 
     @Override
     public List<Bank> getBankList() {
         List<Bank> bankList = new ArrayList<>();
         Bank b = null;
 
-        try(FileInputStream file = new FileInputStream(new File("C:\\Users\\User\\Desktop\\arbitrage.xls")); ) {
+        try(FileInputStream file = new FileInputStream(new File("D:\\arbitrage.xls")); ) {
 
             Workbook workbook = new HSSFWorkbook(file);
             Sheet sheet = workbook.getSheetAt(0);

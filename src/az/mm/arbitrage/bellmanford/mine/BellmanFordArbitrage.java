@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class BellmanFordArbitrage implements Arbitrage {
     private double[] dist;         // distance array
@@ -17,6 +17,7 @@ public class BellmanFordArbitrage implements Arbitrage {
     private int vertex, source, number;
     private List<Integer> cycle;
     private Set<List> cycleList;
+    private String currencies[];
     
 
     public BellmanFordArbitrage() {
@@ -27,6 +28,7 @@ public class BellmanFordArbitrage implements Arbitrage {
     @Override
     public void start(Data data) {
 //        adj = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
+        this.currencies = data.getCurrencies();
         adj = DataCache.getAdjencyMatrix(data, currencies);
         vertex = adj.length;
         source = 0;

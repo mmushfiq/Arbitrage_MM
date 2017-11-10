@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class DBConnection {
         
@@ -25,7 +25,7 @@ public class DBConnection {
         //url, login, password-u sonra kodun icherisinden chixarmaq..
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "mm654874");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "root");
         } catch (SQLException e) {
             infoCatchMessage(e, "getDBConnection");
         }

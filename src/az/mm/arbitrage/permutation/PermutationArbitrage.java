@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class PermutationArbitrage implements Arbitrage {
 
@@ -17,8 +17,9 @@ public class PermutationArbitrage implements Arbitrage {
     
     @Override
     public void start(Data data) {
+        currencies = data.getCurrencies();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Currency list: AZN USD EUR GBP RUB TRY");
+        System.out.println("Currency list: " + String.join(" ", currencies));
         System.out.println("Select base currency from the list: ");
         baseCurrency = sc.next().toUpperCase();
         
@@ -58,8 +59,6 @@ public class PermutationArbitrage implements Arbitrage {
             }
             ratesMap.put(cur[i], curMap);
         }
-        
-//        printMap(ratesMap);
 
         return ratesMap;
     }
@@ -73,18 +72,23 @@ public class PermutationArbitrage implements Arbitrage {
         
         if(arbitrageListMap.isEmpty())
             System.out.println("No arbitrage opportunity!\n");
-        else {
-            Map<Double, List<PermutationArbitrageModel>> treeMap = new TreeMap<>(
-                    (Comparator<Double>) (o1, o2) -> o2.compareTo(o1) ); //for desc order
-                     
-            treeMap.putAll(arbitrageListMap);
-            treeMap.forEach((key, value) -> {
+        else {       
+//            arbitrageListMap = sortedMaxProfit(arbitrageListMap); 
+            arbitrageListMap.forEach((key, value) -> {
                 System.out.printf("\nArbitrage %d: (profit - %.2f %s) \n", ++count, key, baseCurrency);
                 value.forEach(a -> {
                     System.out.printf("%.4f %s = %.4f %s (%s)\n", a.getFirstResult(), a.getFromCur(), a.getLastResult(), a.getToCur(), a.getBankName());
                 });
             });
         }
+    }
+    
+    private Map<Double, List<PermutationArbitrageModel>> sortedMaxProfit(Map<Double, List<PermutationArbitrageModel>> arbitrageListMap){
+        Map<Double, List<PermutationArbitrageModel>> treeMap = new TreeMap<>(
+                    (Comparator<Double>) (o1, o2) -> o2.compareTo(o1) ); //for desc order
+        treeMap.putAll(arbitrageListMap);
+        
+        return treeMap;
     }
     
     

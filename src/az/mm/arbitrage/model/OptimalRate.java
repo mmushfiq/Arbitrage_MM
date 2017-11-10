@@ -2,7 +2,7 @@ package az.mm.arbitrage.model;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class OptimalRate {
     private int id;

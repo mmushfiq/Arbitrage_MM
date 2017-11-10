@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  *
- * @author MM
+ * @author MM <mushfiqazeri@gmail.com>
  */
 public class Permutation {
 

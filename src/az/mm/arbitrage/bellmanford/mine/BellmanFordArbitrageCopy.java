@@ -17,6 +17,7 @@ public class BellmanFordArbitrageCopy implements Arbitrage {
     private int vertex, source, number;
     private List<Integer> cycle;
     private Set<List> cycleList;
+    private String currencies[];
     
 
     public BellmanFordArbitrageCopy() {
@@ -27,6 +28,7 @@ public class BellmanFordArbitrageCopy implements Arbitrage {
     @Override
     public void start(Data data) {
 //        adj = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
+        this.currencies = data.getCurrencies();
         adj = DataCache.getAdjencyMatrix(data, currencies);
         vertex = adj.length;
         source = 0;
