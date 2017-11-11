@@ -40,11 +40,12 @@ public class ArbitrageChecker {
             }
             opt = getRate(from, to);
             result *= opt.getValue();
-            arbList.add(new PermutationArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getBankName()));
+//            arbList.add(new PermutationArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getBankName()));
+            arbList.add(new PermutationArbitrageModel(result/opt.getValue(), result, from, to, opt.getBankName()));
         }
         
         if(result > startValue){
-            arbitrageListMap.put(result-startValue, arbList);
+            arbitrageListMap.put(result-startValue, arbList); //eger profit eyni olsa insert yox update olacaq ve itki bash verecek.. 
             return true;
         } 
         else

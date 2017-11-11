@@ -5,7 +5,6 @@ import az.mm.arbitrage.model.Bank;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -60,7 +59,7 @@ public class ExcelData extends Data {
                         getCellValue(row, 8),
                         getCellValue(row, 9),
                         getCellValue(row, 10),
-                        row.getCell(11).getDateCellValue());
+                        new java.sql.Date(row.getCell(11).getDateCellValue().getTime()).toLocalDate()); //getTime() meselesini bir de arashdirmaq, zone ferqli ola biler..
                 bankList.add(b);
             }
 
@@ -68,7 +67,7 @@ public class ExcelData extends Data {
             ex.printStackTrace();
         }
         
-        if(b != null) date = b.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if(b != null) date = b.getDate();
 
         return bankList;
     }

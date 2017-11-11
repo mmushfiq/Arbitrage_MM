@@ -1,5 +1,6 @@
 package az.mm.arbitrage.bellmanford.mine;
 
+import az.mm.arbitrage.cache.DataCache;
 import az.mm.arbitrage.factory.*;
 import az.mm.arbitrage.model.OptimalRate;
 import az.mm.arbitrage.princeton.Stack;

@@ -1,8 +1,8 @@
 package az.mm.arbitrage.bellmanford.mine;
 
+import az.mm.arbitrage.cache.DataCache;
 import az.mm.arbitrage.factory.*;
 import az.mm.arbitrage.model.OptimalRate;
-import az.mm.arbitrage.princeton.Stack;
 import java.util.*;
 
 /**
@@ -27,13 +27,24 @@ public class BellmanFordArbitrage implements Arbitrage {
 
     @Override
     public void start(Data data) {
-//        adj = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
-        this.currencies = data.getCurrencies();
+        currencies = data.getCurrencies();
         adj = DataCache.getAdjencyMatrix(data, currencies);
         vertex = adj.length;
         source = 0;
+//        createNegativeWeightedAdjencyMatrix();
         callBellmanFord();
     }
+    
+    /**
+     * Bunu ola bilsin ki legv edim, deyerleri deyishdikde cache edilmish 
+     * massivde de OptimalRate classinin deyerleri deyishir
+     *
+    private void createNegativeWeightedAdjencyMatrix() {
+        for (int i = 0; i < vertex; i++) 
+            for (int j = 0; j < vertex; j++) 
+                adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
+    }
+    */
     
 
     public void callBellmanFord() {
@@ -47,7 +58,7 @@ public class BellmanFordArbitrage implements Arbitrage {
         else System.out.println("No arbitrage opportunity");
     }
     
-    public void initializeSingleSource() {
+    private void initializeSingleSource() {
         dist = new double[vertex];
         p = new int[vertex];
         for (int i = 0; i < vertex; i++) {
@@ -58,7 +69,7 @@ public class BellmanFordArbitrage implements Arbitrage {
     }
     
 
-    public void relax(int u, int v) {
+    private void relax(int u, int v) {
         if (u == v) return;
 //        double weight = adj[u][v].getValue();
         double weight = -Math.log(adj[u][v].getValue());
@@ -72,8 +83,8 @@ public class BellmanFordArbitrage implements Arbitrage {
         for (int u = 0; u < vertex; u++) 
             for (int v = 0; v < vertex; v++) {
                 if(u == v) continue;
-                double weight = adj[u][v].getValue();
-//                double weight = -Math.log(adj[u][v].getValue());
+//                double weight = adj[u][v].getValue();
+                double weight = -Math.log(adj[u][v].getValue());
                 if (dist[v] > dist[u] + weight) 
                     findNegativeCyclePath(v);
             }
@@ -130,12 +141,12 @@ public class BellmanFordArbitrage implements Arbitrage {
             System.out.printf("\nArbitrage %d: \n", ++number);
             double stake = 1000;
             for (int i = 0; i < v.size() - 1; i++) {
-                int m = (int) v.get(i);
-                int n = (int) v.get(i + 1);
-                OptimalRate opt = adj[m][n];
+                int from = (int) v.get(i);
+                int to = (int) v.get(i + 1);
+                OptimalRate opt = adj[from][to];
 
-                System.out.printf("%.4f %s = %.4f %s (%s)\n", stake, currencies[m], stake *= opt.getValue(), currencies[n], opt.getBankName());
-//                System.out.printf("%10.5f %s = %10.5f %s (%s)\n", stake, currencies[m], stake *= Math.exp(-opt.getValue()), currencies[n], opt.getName());
+//                System.out.printf("%10.4f %s = %10.4f %s (%s)\n", stake, currencies[from], stake *= Math.exp(-opt.getValue()), currencies[to], opt.getBankName());
+                System.out.printf("%10.4f %s = %10.4f %s (%s)\n", stake, currencies[from], stake *= opt.getValue(), currencies[to], opt.getBankName());
             }
         });
     }

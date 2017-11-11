@@ -403,7 +403,7 @@ public class BellmanFordCormen2 {
 //                    adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
 //                continue;
 //                } 
-                adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
+//                adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
             }
         }
     }

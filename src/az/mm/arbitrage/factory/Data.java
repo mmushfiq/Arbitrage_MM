@@ -24,7 +24,7 @@ public abstract class Data {
     
     public OptimalRate [][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
         List<Bank> bankList = data.getBankList();
-        double curRate, r1 = 0, r2 = 0;
+        double currentRate, newRate, r1 = 0, r2 = 0;
         OptimalRate R[][] = new OptimalRate[cur.length][cur.length];
 
         for (Bank b : bankList)
@@ -54,9 +54,11 @@ public abstract class Data {
                         case "TRY": r2 = b.getsTRY(); break;
                     }
 
-                    curRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
-                    if (r1 > 0 && r2 > 0 && curRate < r1/r2)
-                        R[i][j] = new OptimalRate(b.getName(), r1/r2);
+                    currentRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
+//                    newRate = Math.round(r1/r2 * 10000.0) / 10000.0; //sifirdan sonraki 4 reqeme qeder yuvarlaqlashdirilir, amma yuvarlaqlashdirma olduqda 10000-den sonraki deqiqlikle goturmur banki..
+                    newRate = r1/r2;
+                    if (r1 > 0 && r2 > 0 && currentRate < newRate)
+                        R[i][j] = new OptimalRate(b.getName(), newRate);
                     
                 }
 

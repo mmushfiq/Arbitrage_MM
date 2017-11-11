@@ -1,5 +1,6 @@
 package az.mm.arbitrage.permutation;
 
+import az.mm.arbitrage.cache.DataCache;
 import az.mm.arbitrage.model.*;
 import az.mm.arbitrage.factory.*;
 import java.util.*;
@@ -46,7 +47,6 @@ public class PermutationArbitrage implements Arbitrage {
     private Map<String, Map<String, OptimalRate>> getOptimalRatesMap(Data data) {
         String cur[] = Arrays.copyOf(currencies, currencies.length+1);
         cur[cur.length-1] = baseCurrency; 
-//        OptimalRate [][] R = data.getOptimalRatesAdjencyMatrix(data.getBankList(), cur);
         OptimalRate [][] R = DataCache.getAdjencyMatrix(data, cur);
         Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
         Map<String, OptimalRate> curMap;
@@ -73,7 +73,7 @@ public class PermutationArbitrage implements Arbitrage {
         if(arbitrageListMap.isEmpty())
             System.out.println("No arbitrage opportunity!\n");
         else {       
-//            arbitrageListMap = sortedMaxProfit(arbitrageListMap); 
+            arbitrageListMap = sortedMaxProfit(arbitrageListMap); 
             arbitrageListMap.forEach((key, value) -> {
                 System.out.printf("\nArbitrage %d: (profit - %.2f %s) \n", ++count, key, baseCurrency);
                 value.forEach(a -> {

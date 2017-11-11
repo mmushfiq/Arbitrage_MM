@@ -72,7 +72,7 @@ public class JsonData extends Data {
     }
 
 
-    public Map<String, Map<String, Double>> getRatesMap() {
+    private Map<String, Map<String, Double>> getRatesMap() {
         Map<String, Map<String, Double>> ratesMap = new LinkedHashMap();
         JSONObject jsonObject = null;
         

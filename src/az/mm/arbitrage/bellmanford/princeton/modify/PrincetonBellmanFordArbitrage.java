@@ -1,5 +1,6 @@
 package az.mm.arbitrage.bellmanford.princeton.modify;
 
+import az.mm.arbitrage.cache.DataCache;
 import az.mm.arbitrage.factory.*;
 import az.mm.arbitrage.model.OptimalRate;
 import edu.princeton.cs.introcs.StdOut;
@@ -10,16 +11,12 @@ import edu.princeton.cs.introcs.StdOut;
  */
 public class PrincetonBellmanFordArbitrage implements Arbitrage {
     
-    private String currencies[];
-
     @Override
     public void start(Data data) {
-        currencies = data.getCurrencies();
+        String currencies[] = data.getCurrencies();
         int V = currencies.length;
 
-        // create complete network
         EdgeWeightedDigraph G = new EdgeWeightedDigraph(V);      
-//        OptimalRate[][] R = data.getOptimalRatesAdjencyMatrix(data.getBankList(), currencies);
         OptimalRate [][] R = DataCache.getAdjencyMatrix(data, currencies);
           for (int v = 0; v < V; v++) 
             for (int w = 0; w < V; w++) {
@@ -37,7 +34,6 @@ public class PrincetonBellmanFordArbitrage implements Arbitrage {
                 StdOut.printf("%10.5f %s ", stake, currencies[e.from()]);
                 stake *= Math.exp(-e.weight());
                 StdOut.printf("= %10.5f %s (%s)\n", stake, currencies[e.to()], e.getBankName());
-//                System.out.printf(" (%s)\n", e.getBankName());  
             }
         } else 
             StdOut.println("No arbitrage opportunity");

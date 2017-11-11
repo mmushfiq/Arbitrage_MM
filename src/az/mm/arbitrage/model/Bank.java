@@ -1,6 +1,6 @@
 package az.mm.arbitrage.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Bank {
     private double sTRY;
     private double bGBP;
     private double sGBP;
-    private Date date;
+    private LocalDate date;
 
     public Bank() {
     }
@@ -41,7 +41,7 @@ public class Bank {
     }
     
   
-    public Bank(String name, double bUSD, double sUSD, double bEUR, double sEUR, double bRUB, double sRUB, double bGBP, double sGBP, double bTRY, double sTRY, Date date) {
+    public Bank(String name, double bUSD, double sUSD, double bEUR, double sEUR, double bRUB, double sRUB, double bGBP, double sGBP, double bTRY, double sTRY, LocalDate date) {
         this.name = name;
         this.bUSD = bUSD;
         this.sUSD = sUSD;
@@ -152,11 +152,11 @@ public class Bank {
         this.sGBP = sGBP;
     }
     
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
     

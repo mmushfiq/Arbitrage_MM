@@ -25,7 +25,7 @@ public class DBConnection {
         //url, login, password-u sonra kodun icherisinden chixarmaq..
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "root");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "mm654874");
         } catch (SQLException e) {
             infoCatchMessage(e, "getDBConnection");
         }
@@ -37,38 +37,38 @@ public class DBConnection {
     public List<Bank> getAniMezenneBankList() {
         List<Bank> bankList = new ArrayList<>();
 
-            //sqli sonra deyishmek, view yaradib ordan chixarmaq..
-            String sql = "SELECT b.name, SUM(bUSD) bUSD, SUM(sUSD) sUSD, SUM(bEUR) bEUR, SUM(sEUR) sEUR, SUM(bRUB) bRUB, SUM(sRUB) sRUB, SUM(bGBP) bGBP, SUM(sGBP) sGBP, SUM(bTRY) bTRY, SUM(sTRY) sTRY, DATE \n" +
-                        "FROM (\n" +
-                        "SELECT cr.bank_id,  \n" +
-                        "IF(cr.currency_id=1, cr.buy, 0) AS bUSD, \n" +
-                        "IF(cr.currency_id=1, cr.sell, 0) AS sUSD, \n" +
-                        "IF(cr.currency_id=3, cr.buy, 0) AS bEUR, \n" +
-                        "IF(cr.currency_id=3, cr.sell, 0) AS sEUR, \n" +
-                        "IF(cr.currency_id=4, cr.buy, 0) AS bRUB, \n" +
-                        "IF(cr.currency_id=4, cr.sell, 0) AS sRUB, \n" +
-                        "IF(cr.currency_id=2, cr.buy, 0) AS bGBP, \n" +
-                        "IF(cr.currency_id=2, cr.sell, 0) AS sGBP, \n" +
-                        "IF(cr.currency_id=6, cr.buy, 0) AS bTRY, \n" +
-                        "IF(cr.currency_id=6, cr.sell, 0) AS sTRY, \n" +
-                        "DATE(cr.date) AS DATE\n" +
-                        "FROM (\n" +
-                        "SELECT cr.bank_id, cr.currency_id, cr.buy, cr.sell, cr.date FROM currency_rate cr\n" +
-                        "WHERE cr.currency_id IN (1,2,3,4,6,7) AND cr.bank_id != 27  \n" +
-                        "GROUP BY cr.bank_id, cr.currency_id, DATE(cr.date)\n" +
-                        ") cr\n" +
-                        ") t, bank b where t.bank_id=b.id \n" +
-                        "GROUP BY DATE, bank_id  ORDER BY DATE DESC;";
+        //sqli sonra deyishmek, view yaradib ordan chixarmaq..
+        String sql = "SELECT b.name, SUM(bUSD) bUSD, SUM(sUSD) sUSD, SUM(bEUR) bEUR, SUM(sEUR) sEUR, SUM(bRUB) bRUB, SUM(sRUB) sRUB, SUM(bGBP) bGBP, SUM(sGBP) sGBP, SUM(bTRY) bTRY, SUM(sTRY) sTRY, DATE \n" +
+                    "FROM (\n" +
+                    "SELECT cr.bank_id,  \n" +
+                    "IF(cr.currency_id=1, cr.buy, 0) AS bUSD, \n" +
+                    "IF(cr.currency_id=1, cr.sell, 0) AS sUSD, \n" +
+                    "IF(cr.currency_id=3, cr.buy, 0) AS bEUR, \n" +
+                    "IF(cr.currency_id=3, cr.sell, 0) AS sEUR, \n" +
+                    "IF(cr.currency_id=4, cr.buy, 0) AS bRUB, \n" +
+                    "IF(cr.currency_id=4, cr.sell, 0) AS sRUB, \n" +
+                    "IF(cr.currency_id=2, cr.buy, 0) AS bGBP, \n" +
+                    "IF(cr.currency_id=2, cr.sell, 0) AS sGBP, \n" +
+                    "IF(cr.currency_id=6, cr.buy, 0) AS bTRY, \n" +
+                    "IF(cr.currency_id=6, cr.sell, 0) AS sTRY, \n" +
+                    "DATE(cr.date) AS DATE\n" +
+                    "FROM (\n" +
+                    "SELECT cr.bank_id, cr.currency_id, cr.buy, cr.sell, cr.date FROM currency_rate cr\n" +
+                    "WHERE cr.currency_id IN (1,2,3,4,6,7) AND cr.bank_id != 27  \n" +
+                    "GROUP BY cr.bank_id, cr.currency_id, DATE(cr.date)\n" +
+                    ") cr\n" +
+                    ") t, bank b where t.bank_id=b.id \n" +
+                    "GROUP BY DATE, bank_id  ORDER BY DATE DESC;";
             
 //        System.out.println("sql:\n"+sql);
-            System.out.println("Loading data from database..");
+        System.out.println("Loading data from database..");
         
         try (Connection connection = getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql); ) {
             
             try(ResultSet rs = preparedStatement.executeQuery();){
                 while (rs.next()) 
-                    bankList.add(new Bank(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDate(12)));
+                    bankList.add(new Bank(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDate(12).toLocalDate()));
             }
             
         } catch (Exception e) {

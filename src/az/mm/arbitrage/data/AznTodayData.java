@@ -53,9 +53,9 @@ public class AznTodayData extends Data {
 
         } catch (Exception ex) {
             System.out.println(ex);
-        } finally {
-            return aznTodayBankList;
         }
+        
+        return aznTodayBankList;
     }
 
     @Override

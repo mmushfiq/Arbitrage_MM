@@ -4,7 +4,6 @@ import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.db.DBConnection;
 import az.mm.arbitrage.model.Bank;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,16 +14,16 @@ import java.util.stream.Collectors;
 public class AniMezenneData extends Data {
     
     private static final List<Bank> bankList; 
-    private Date randomDate;
+    private LocalDate randomDate;
+    
+    static {
+        bankList = DBConnection.getInstance().getAniMezenneBankList();
+    }
 
     public AniMezenneData(int id) {
         randomDate = getRandomDate();
     }
 
-    static {
-        bankList = DBConnection.getInstance().getAniMezenneBankList();
-    }
-    
     @Override
     public List<Bank> getBankList(){
         List<Bank> oneDayList = bankList.stream()
@@ -40,17 +39,15 @@ public class AniMezenneData extends Data {
     
     @Override
     public LocalDate getDate() {
-//        return randomDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return new java.sql.Date(randomDate.getTime()).toLocalDate();
+        return randomDate;
     }
     
-    private Date getRandomDate() {
+    private LocalDate getRandomDate() {
         int minDay = (int) LocalDate.of(2016, 10, 29).toEpochDay();
         int maxDay = (int) LocalDate.of(2017, 9, 17).toEpochDay();
         long randomDay = minDay + new Random().nextInt(maxDay - minDay);
-        LocalDate localDate = LocalDate.ofEpochDay(randomDay);
 
-        return java.sql.Date.valueOf(localDate);
+        return LocalDate.ofEpochDay(randomDay);
     } 
 
 }
