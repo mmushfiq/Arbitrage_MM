@@ -1,6 +1,7 @@
 package az.mm.arbitrage.db;
 
 import az.mm.arbitrage.model.Bank;
+import java.io.FileInputStream;
 import java.sql.*;
 import java.util.*;
 
@@ -21,14 +22,15 @@ public class DBConnection {
 
     private Connection getDBConnection() {
         Connection connection = null;
+        Properties props = new Properties();
 
-        //url, login, password-u sonra kodun icherisinden chixarmaq..
-        try {
+        try( FileInputStream in = new FileInputStream("src/az/mm/arbitrage/resources/db.properties"); ) {
+            props.load(in);
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/animezenne?zeroDateTimeBehavior=convertToNull", "root", "mm654874");
-        } catch (SQLException e) {
+            connection = DriverManager.getConnection(props.getProperty("db.url"));
+        } catch (Exception e) {
             infoCatchMessage(e, "getDBConnection");
-        }
+        } 
 
         return connection;
     }

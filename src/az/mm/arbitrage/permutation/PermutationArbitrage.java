@@ -12,7 +12,7 @@ import java.util.*;
 public class PermutationArbitrage implements Arbitrage {
 
     private Map<Integer, List<List<String>>> allPermutationMap;
-    private static String baseCurrency, currencies[];
+    private String baseCurrency, currencies[];
     private int count;
     
     
@@ -47,12 +47,13 @@ public class PermutationArbitrage implements Arbitrage {
     private Map<String, Map<String, OptimalRate>> getOptimalRatesMap(Data data) {
         String cur[] = Arrays.copyOf(currencies, currencies.length+1);
         cur[cur.length-1] = baseCurrency; 
-        OptimalRate [][] R = DataCache.getAdjencyMatrix(data, cur);
-        Map<String, Map<String, OptimalRate>> ratesMap = new HashMap();
+//        OptimalRate [][] R = DataCache.getAdjencyMatrix(data, cur);   // Bunu niye gore ishletmeme sebebini DataCache classinda qeyd etmishem..
+        OptimalRate [][] R = data.getOptimalRatesAdjencyMatrix(data, cur);
+        Map<String, Map<String, OptimalRate>> ratesMap = new LinkedHashMap();
         Map<String, OptimalRate> curMap;
 
         for (int i = 0; i < R.length; i++) {
-            curMap = new HashMap();
+            curMap = new LinkedHashMap();
             for (int j = 0; j < R.length; j++) {
                 if (i == j) continue;
                 curMap.put(cur[j], R[i][j]);
@@ -60,6 +61,7 @@ public class PermutationArbitrage implements Arbitrage {
             ratesMap.put(cur[i], curMap);
         }
 
+        printMap(ratesMap);
         return ratesMap;
     }
 
@@ -73,7 +75,7 @@ public class PermutationArbitrage implements Arbitrage {
         if(arbitrageListMap.isEmpty())
             System.out.println("No arbitrage opportunity!\n");
         else {       
-            arbitrageListMap = sortedMaxProfit(arbitrageListMap); 
+//            arbitrageListMap = sortedMaxProfit(arbitrageListMap); 
             arbitrageListMap.forEach((key, value) -> {
                 System.out.printf("\nArbitrage %d: (profit - %.2f %s) \n", ++count, key, baseCurrency);
                 value.forEach(a -> {

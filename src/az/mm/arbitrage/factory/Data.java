@@ -19,7 +19,7 @@ public abstract class Data {
     
     
     public String[] getCurrencies(){
-        return currencies;
+        return currencies.clone();
     }
     
     public OptimalRate [][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
@@ -70,22 +70,23 @@ public abstract class Data {
         //eger hansisa mezenne ile bagli umumiyyetle hech bir bankda chevrilme yoxdursa onda NullPointerException verecek, bunu nezere alib duzeltmek sonra da printleri silmek..
         try {
             System.out.printf("\nDate: %s ", data.getDate());
-        System.out.printf("\n%-17s", data.getClass().getSimpleName());
-        for(String s: cur){
-            System.out.printf("%-30s", s);
-        }
-        int i = 0;
-        for(OptimalRate[] d: R){
-            System.out.printf("\n%-17s",cur[i++]);
+            System.out.printf("\n%-17s", data.getClass().getSimpleName());
+            for (String s : cur) {
+                System.out.printf("%-30s", s);
+            }
+            int i = 0;
+            for (OptimalRate[] arr : R) {
+                System.out.printf("\n%-17s", cur[i++]);
 //            System.out.println("d: " + Arrays.toString(d));
-            for(OptimalRate m: d)
-                System.out.printf("%.4f -> %-20s", m.getValue(), m.getBankName());
-        }
-        }catch(Exception e){
-            System.out.println(e);
+                for (OptimalRate opt : arr) {
+                    System.out.printf("%.4f -> %-20s", opt.getValue(), opt.getBankName());
+                }
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Array is empty or is not filled correctly!");
             e.printStackTrace();
         }
-        
+
         System.out.println();
     }
 

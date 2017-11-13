@@ -22,7 +22,7 @@ import org.json.simple.parser.JSONParser;
 public class JsonData extends Data {
     private int dataId, i;
     private LocalDate date;
-    private final String[] currencies = {"USD", "CHF", "GBP", "JPY", "RUB", "TRY", "EUR"};
+    private String[] currencies = {"USD", "CHF", "GBP", "JPY", "RUB", "TRY", "EUR"};
 
     
     public JsonData(int dataId) {
@@ -46,12 +46,13 @@ public class JsonData extends Data {
     
     @Override
     public String[] getCurrencies() {
-        return currencies;
+        return currencies.clone();
     }
 
     
     @Override
     public OptimalRate[][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
+        currencies = cur; // permutation alqoritminde sechim deyishe biler, ona gore de bu mutleq olmalidir
         return getOptimalRatesAdjencyMatrix();
     }
     
