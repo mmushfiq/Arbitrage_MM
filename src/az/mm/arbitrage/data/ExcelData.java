@@ -1,5 +1,6 @@
 package az.mm.arbitrage.data;
 
+import az.mm.arbitrage.exceptionHandler.ExceptionHandler;
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import java.io.File;
@@ -64,7 +65,7 @@ public class ExcelData extends Data {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
         }
         
         if(b != null) date = b.getDate();

@@ -26,7 +26,7 @@ public class DataCache {
         OptimalRate [][] optArr;
         int key = data.getDataId();
         if(cachedDataMap.containsKey(key))
-            optArr = cachedDataMap.get(key);
+            optArr = cachedDataMap.get(key).clone();
         else {
             optArr = data.getOptimalRatesAdjencyMatrix(data, currencies);
             cachedDataMap.put(key, optArr);

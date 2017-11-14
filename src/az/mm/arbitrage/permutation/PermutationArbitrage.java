@@ -1,6 +1,5 @@
 package az.mm.arbitrage.permutation;
 
-import az.mm.arbitrage.cache.DataCache;
 import az.mm.arbitrage.model.*;
 import az.mm.arbitrage.factory.*;
 import java.util.*;
@@ -40,7 +39,6 @@ public class PermutationArbitrage implements Arbitrage {
         }
         
         checkArbitrageOpportunity(p);
-//        printAllPermutations();
     }
     
     
@@ -61,7 +59,6 @@ public class PermutationArbitrage implements Arbitrage {
             ratesMap.put(cur[i], curMap);
         }
 
-        printMap(ratesMap);
         return ratesMap;
     }
 

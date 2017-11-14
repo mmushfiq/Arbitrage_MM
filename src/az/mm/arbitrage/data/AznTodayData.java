@@ -1,5 +1,6 @@
 package az.mm.arbitrage.data;
 
+import az.mm.arbitrage.exceptionHandler.ExceptionHandler;
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import java.time.LocalDate;
@@ -43,7 +44,7 @@ public class AznTodayData extends Data {
                     } catch (NumberFormatException nex) {
                         curRate[i] = -1;
                     } catch (Exception ex) {
-                        System.out.println(ex);
+                        ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
                     }
                 }
 
@@ -52,7 +53,7 @@ public class AznTodayData extends Data {
             }
 
         } catch (Exception ex) {
-            System.out.println(ex);
+            ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
         }
         
         return aznTodayBankList;

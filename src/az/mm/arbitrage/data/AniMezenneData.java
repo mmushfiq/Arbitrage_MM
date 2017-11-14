@@ -14,10 +14,12 @@ import java.util.stream.Collectors;
 public class AniMezenneData extends Data {
     
     private static final List<Bank> bankList; 
+    private static Map<String, LocalDate> maxMinDate;
     private LocalDate randomDate;
     
     static {
         bankList = DBConnection.getInstance().getAniMezenneBankList();
+        maxMinDate = DBConnection.getInstance().getMaxMinDate();
     }
 
     public AniMezenneData(int id) {
@@ -43,8 +45,8 @@ public class AniMezenneData extends Data {
     }
     
     private LocalDate getRandomDate() {
-        int minDay = (int) LocalDate.of(2016, 10, 29).toEpochDay();
-        int maxDay = (int) LocalDate.of(2017, 9, 17).toEpochDay();
+        int minDay = (int) maxMinDate.get("min").toEpochDay();
+        int maxDay = (int) maxMinDate.get("max").toEpochDay();
         long randomDay = minDay + new Random().nextInt(maxDay - minDay);
 
         return LocalDate.ofEpochDay(randomDay);

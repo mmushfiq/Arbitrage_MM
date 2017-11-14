@@ -1,5 +1,6 @@
 package az.mm.arbitrage.data;
 
+import az.mm.arbitrage.exceptionHandler.ExceptionHandler;
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
@@ -52,39 +53,39 @@ public class JsonData extends Data {
     
     @Override
     public OptimalRate[][] getOptimalRatesAdjencyMatrix(Data data, String[] cur) {
-        currencies = cur; // permutation alqoritminde sechim deyishe biler, ona gore de bu mutleq olmalidir
-        return getOptimalRatesAdjencyMatrix();
+//        currencies = cur; // permutation alqoritminde sechim deyishe biler, ona gore de bu mutleq olmalidir
+        return getOptimalRatesAdjencyMatrix(cur);
     }
     
-    private OptimalRate[][] getOptimalRatesAdjencyMatrix(){
-        OptimalRate[][] R = new OptimalRate[currencies.length][currencies.length];
+    private OptimalRate[][] getOptimalRatesAdjencyMatrix(String[] cur){
+        OptimalRate[][] R = new OptimalRate[cur.length][cur.length];
 
-        getRatesMap().forEach((key, value) -> {
+        getRatesMap(cur).forEach((key, value) -> {
             value.forEach((currency, rate) -> {
-                int index = Arrays.asList(currencies).indexOf(currency);
+                int index = Arrays.asList(cur).indexOf(currency);
                 R[i][index] = new OptimalRate("", rate);
             });
             R[i][i] = new OptimalRate("", 1.);
             i++;
         });
 
-        printArr(this, R, currencies);
+        printArr(this, R, cur);
         return R;
     }
 
 
-    private Map<String, Map<String, Double>> getRatesMap() {
+    private Map<String, Map<String, Double>> getRatesMap(String[] cur) {
         Map<String, Map<String, Double>> ratesMap = new LinkedHashMap();
         JSONObject jsonObject = null;
         
-        String symbols = String.join(",", currencies);
+        String symbols = String.join(",", cur);
         StringBuilder sb;
-        for (int i = 0; i < currencies.length; i++) {
+        for (int i = 0; i < cur.length; i++) {
             sb = new StringBuilder("https://api.fixer.io/latest?base=");
-            sb.append(currencies[i]).append("&symbols=").append(symbols);
+            sb.append(cur[i]).append("&symbols=").append(symbols);
             jsonObject = readJsonFromUrl(sb.toString());
             Map<String, Double> map = (Map) jsonObject.get("rates");
-            ratesMap.put(currencies[i], map);
+            ratesMap.put(cur[i], map);
         }
 
         if(jsonObject != null) date = LocalDate.parse(jsonObject.get("date").toString());
@@ -108,8 +109,7 @@ public class JsonData extends Data {
             Object obj = parser.parse(sb.toString());
             jsonObject = (JSONObject) obj;
         } catch(Exception ex){
-            System.out.println(ex);
-            ex.printStackTrace();
+            ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
         } 
         
         return jsonObject;
@@ -122,7 +122,7 @@ public class JsonData extends Data {
      * normal qoshuldugum halda sonradan exception verdi. https ile qoshulduqda
      * ise bele basha dushdum sertifikati JVM-e import etmelisen..
      */
-    private static void preventSSLHandshakeException() {
+    private void preventSSLHandshakeException() {
         SSLContext ctx = null;
         TrustManager[] trustAllCerts = new X509TrustManager[]{new X509TrustManager() {
             @Override
@@ -139,7 +139,7 @@ public class JsonData extends Data {
             ctx = SSLContext.getInstance("SSL");
             ctx.init(null, trustAllCerts, null);
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            e.printStackTrace();
+            ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
         }
 
         SSLContext.setDefault(ctx);
