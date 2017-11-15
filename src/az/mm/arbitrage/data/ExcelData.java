@@ -5,6 +5,7 @@ import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -64,7 +65,7 @@ public class ExcelData extends Data {
                 bankList.add(b);
             }
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
         }
         

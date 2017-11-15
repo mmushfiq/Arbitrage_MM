@@ -6,6 +6,7 @@ import com.ibatis.common.jdbc.ScriptRunner;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -33,7 +34,7 @@ public class DBConnection {
             props.load(in);
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             connection = DriverManager.getConnection(props.getProperty("db.url"));
-        } catch (Exception e) {
+        } catch (SQLException | IOException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
         } 
 
@@ -80,8 +81,7 @@ public class DBConnection {
                 while (rs.next()) 
                     bankList.add(new Bank(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDate(12).toLocalDate()));
             }
-            throw new Exception();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
         }
 
@@ -107,7 +107,7 @@ public class DBConnection {
                     }
             }
             
-        } catch (Exception e) {
+        } catch (SQLException | IOException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
             
         }
@@ -125,7 +125,7 @@ public class DBConnection {
                     map.put("max", rs.getDate(2).toLocalDate());
                 } 
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
         }
         

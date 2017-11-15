@@ -31,20 +31,8 @@ public class BellmanFordArbitrage implements Arbitrage {
         adj = DataCache.getAdjencyMatrix(data, currencies);
         vertex = adj.length;
         source = 0;
-//        createNegativeWeightedAdjencyMatrix();
         callBellmanFord();
     }
-    
-    /**
-     * Bunu ola bilsin ki legv edim, deyerleri deyishdikde cache edilmish 
-     * massivde de OptimalRate classinin deyerleri deyishir
-     *
-    private void createNegativeWeightedAdjencyMatrix() {
-        for (int i = 0; i < vertex; i++) 
-            for (int j = 0; j < vertex; j++) 
-                adj[i][j].setValue(-Math.log(adj[i][j].getValue())); 
-    }
-    */
     
 
     public void callBellmanFord() {
@@ -57,6 +45,7 @@ public class BellmanFordArbitrage implements Arbitrage {
         if (hasNegativeCycle()) checkArbitrage();
         else System.out.println("No arbitrage opportunity");
     }
+    
     
     private void initializeSingleSource() {
         dist = new double[vertex];
@@ -71,7 +60,6 @@ public class BellmanFordArbitrage implements Arbitrage {
 
     private void relax(int u, int v) {
         if (u == v) return;
-//        double weight = adj[u][v].getValue();
         double weight = -Math.log(adj[u][v].getValue());
         if (weight != INF /*&& dist[u] != INF*/ && (dist[v] > dist[u] + weight)) {   //if(d[u] != INFINITY && d[v] > d[u] + w) - lazim olsa bu sherti arashdirmaq mene lazimdi ya yox.
             dist[v] = dist[u] + weight;
@@ -83,7 +71,6 @@ public class BellmanFordArbitrage implements Arbitrage {
         for (int u = 0; u < vertex; u++) 
             for (int v = 0; v < vertex; v++) {
                 if(u == v) continue;
-//                double weight = adj[u][v].getValue();
                 double weight = -Math.log(adj[u][v].getValue());
                 if (dist[v] > dist[u] + weight) 
                     findNegativeCyclePath(v);

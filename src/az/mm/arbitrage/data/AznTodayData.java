@@ -3,6 +3,7 @@ package az.mm.arbitrage.data;
 import az.mm.arbitrage.exceptionHandler.ExceptionHandler;
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,21 +39,18 @@ public class AznTodayData extends Data {
                 String name = e.select("td:nth-child(1) > h4").text();
 
                 double curRate[] = new double[10];
-                for (int i = 0; i < curRate.length; i++) {
+                for (int i = 0; i < curRate.length; i++) 
                     try {
                         curRate[i] = Double.parseDouble(e.select("td:nth-child(" + (i + 2) + ")").text());
-                    } catch (NumberFormatException nex) {
+                    } catch (NumberFormatException ex) {
                         curRate[i] = -1;
-                    } catch (Exception ex) {
-                        ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
-                    }
-                }
+                    } 
 
                 bank = new Bank(name, curRate[0], curRate[1], curRate[2], curRate[3], curRate[4], curRate[5], curRate[8], curRate[9], curRate[6], curRate[7]); //26.09.2017 - indekslerin yeri sehv idi deyisdirildi
                 aznTodayBankList.add(bank);
             }
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
         }
         

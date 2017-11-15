@@ -1,5 +1,6 @@
 package az.mm.arbitrage.factory;
 
+import az.mm.arbitrage.exceptionHandler.ExceptionHandler;
 import az.mm.arbitrage.model.Bank;
 import az.mm.arbitrage.model.OptimalRate;
 import java.time.LocalDate;
@@ -63,7 +64,7 @@ public abstract class Data {
                 }
 
         printArr(data, R, cur);
-        return R;
+        return R.clone();
     }
     
     public void printArr(Data data, OptimalRate[][] R, String[] cur){
@@ -74,17 +75,33 @@ public abstract class Data {
             for (String s : cur) {
                 System.out.printf("%-30s", s);
             }
-            int i = 0;
-            for (OptimalRate[] arr : R) {
-                System.out.printf("\n%-17s", cur[i++]);
-//            System.out.println("d: " + Arrays.toString(d));
-                for (OptimalRate opt : arr) {
-                    System.out.printf("%.4f -> %-20s", opt.getValue(), opt.getBankName());
+            
+//            int i = 0;
+//            for (OptimalRate[] arr : R) {
+//                System.out.printf("\n%-17s", cur[i++]);
+////            System.out.println("d: " + Arrays.toString(d));
+//                for (OptimalRate opt : arr) {
+//                    if(opt != null) System.out.printf("%.4f -> %-20s", opt.getValue(), opt.getBankName());
+//                    else            System.out.printf("%.4s -> %-20s", "x", "");
+//                }
+//            }
+            
+            // Eger valyuta ile bagli umumiyyetle hech bir bankda konvertasiya movcud deyilse
+            //daha yaxsi olar ki, olmayan valyutani cur massivinden ve R array.dan cixarim
+            //performans baximindan bu daha yaxsi olar, fikirlesecem bu barede..
+            for (int m = 0; m < R.length; m++){ 
+                System.out.printf("\n%-17s", cur[m]);
+                for (int n = 0; n < R.length; n++) {
+                    if(R[m][n] != null) System.out.printf("%.4f -> %-20s", R[m][n].getValue(), R[m][n].getBankName());
+                    else{
+                        R[m][n] = new OptimalRate("", -1);
+                        System.out.printf("%.4s -> %-20s", "x", "");
+                    }            
                 }
             }
+            
         } catch (NullPointerException e) {
-            System.out.println("Array is empty or is not filled correctly!");
-            e.printStackTrace();
+            ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e, "Array is empty or is not filled correctly!");
         }
 
         System.out.println();
