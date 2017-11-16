@@ -25,7 +25,7 @@ public class AniMezenneData extends Data {
 
     public AniMezenneData(int id) {
         randomDate = getRandomDate();
-//        randomDate = LocalDate.of(2017, 2, 5);
+//        randomDate = LocalDate.of(2017, 2, 5); //null pointeri yoxlamaq uchun..
     }
 
     @Override

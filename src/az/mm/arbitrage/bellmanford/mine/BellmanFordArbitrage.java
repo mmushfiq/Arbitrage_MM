@@ -67,17 +67,35 @@ public class BellmanFordArbitrage implements Arbitrage {
         }
     }
     
+    /**
+     * En chox vaxtimi alan qraflarda butun neqativ cycle-lerin tapilmasi oldu,
+     * chunki xeyli mendeden arashdirdim, konkret ele bir menbe chixmadi qarshima
+     * ki, orda qeyd olunsun ki, bu mumkundur. Princeton numunesinde de ancaq bir 
+     * negative cycle gosterilir. Xeyli arashdirmalardan sonra oxudugum meqalelerden
+     * formalashan tesevvure esasen bunu oz mentiqimle improvizasiya elemishem, 
+     * amma yene de tam duzgun men isteyen neticeni vermir.
+     * 0.01, 0.001 ferqe gore > sherti odenir ve onu negative cycle kimi 
+     * qebul edir. Ola biler tam ededlerle duzgun ishlesin, amma double ededlerin
+     * loqarifmini alib muqayise aparanda ola bilsin ki, arada suruhsmeler bash verir
+     * 
+     * http://www.informit.com/articles/article.aspx?p=169575&seqNum=8 - bu linkde  
+     * de Sedgovichin kohne meqalesi var, orda arbitraj qrafinin negative cycle.ye
+     * chevrilmish varianti ile ozumdeki kod ile yaratdigim numunei yoxladim,
+     * reqemlerle cuzi ferqlenmeler var, ele bu ferqlenmeler de bu sehv neticeni 
+     * vere biler. Loqraifmlemeni bir de arashdirim gerek.. 
+     */
     private boolean hasNegativeCycle() {
         for (int u = 0; u < vertex; u++) 
             for (int v = 0; v < vertex; v++) {
                 if(u == v) continue;
                 double weight = -Math.log(adj[u][v].getValue());
-                if (dist[v] > dist[u] + weight) 
+                if (dist[v] > dist[u] + weight)
                     findNegativeCyclePath(v);
             }
         
         return !cycleList.isEmpty();
     }
+    
     
     private void findNegativeCyclePath(int v) {
         if(v == 0) return;
@@ -89,15 +107,6 @@ public class BellmanFordArbitrage implements Arbitrage {
             if (v == 0 || visited[v]) break;
             else visited[v] = true;
         }
-        
-        //hele ki duzgun ishlemedi..
-//        do {
-//            System.out.println("do while v: "+v);
-//            path.push(v);
-//            visited[v] = true;
-//            v = p[v];
-//        } while (v != 0 || !visited[v]);
-        
 
         cycle = new ArrayList();
         for (Integer i : path) {
@@ -132,10 +141,13 @@ public class BellmanFordArbitrage implements Arbitrage {
                 int to = (int) v.get(i + 1);
                 OptimalRate opt = adj[from][to];
 
-//                System.out.printf("%10.4f %s = %10.4f %s (%s)\n", stake, currencies[from], stake *= Math.exp(-opt.getValue()), currencies[to], opt.getBankName());
                 System.out.printf("%10.4f %s = %10.4f %s (%s)\n", stake, currencies[from], stake *= opt.getValue(), currencies[to], opt.getBankName());
             }
         });
+    }
+    
+    private double round(double value) {
+        return Math.round(value * 10000.0) / 10000.0;
     }
 
 }

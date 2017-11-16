@@ -91,6 +91,8 @@ public class DBConnection {
      * Lakin localda baza movcud deyilse, baza ve cedvellerin yaradilmasi scripti
      * ishe dushur ve sadece test uchun bir ay - 2017-ci ilin avqust ayi uchun 
      * melumatlar elave edilir (ancaq 2 cedvel)
+     * 
+     * Qeyd: PacketTooBigException bash vererse: https://confluence.atlassian.com/confkb/exceeds-max-allowed-packet-for-mysql-179443425.html 
      */
     private void checkDatabaseExist() {
         try (Connection connection = getDBConnection(); 
