@@ -61,11 +61,11 @@ public class DBConnection {
                     "IF(r.c_id=6, r.sell, 0) AS sTRY, \n" +
                     "DATE(r.date) AS DATE\n" +
                     "FROM (\n" +
-                    "SELECT r.b_id, r.c_id, r.buy, r.sell, r.date FROM rates r\n" +
+                    "SELECT r.b_id, r.c_id, r.buy, r.sell, r.date FROM animezenne.rates r\n" +
                     "WHERE r.c_id IN (1,2,3,4,6,7) AND r.b_id != 27  \n" +
                     "GROUP BY r.b_id, r.c_id, DATE(r.date)\n" +
                     ") r\n" +
-                    ") t, banks b where t.b_id=b.id \n" +
+                    ") t, animezenne.banks b where t.b_id=b.id \n" +
                     "GROUP BY DATE, b_id  ORDER BY DATE DESC;";
             
 //        System.out.println("sql:\n"+sql);
@@ -89,8 +89,8 @@ public class DBConnection {
     /**
      * Bazada texminen 1 illik melumat movcuddur: 2016.10.29 - 2017.09.17
      * Lakin localda baza movcud deyilse, baza ve cedvellerin yaradilmasi scripti
-     * ishe dushur ve sadece bir ay - 2017-ci ilin avqust ayi uchun melumatlar 
-     * elave edilir
+     * ishe dushur ve sadece test uchun bir ay - 2017-ci ilin avqust ayi uchun 
+     * melumatlar elave edilir (ancaq 2 cedvel)
      */
     private void checkDatabaseExist() {
         try (Connection connection = getDBConnection(); 
@@ -114,7 +114,7 @@ public class DBConnection {
     public Map<String, LocalDate> getMaxMinDate(){
         Map<String, LocalDate> map = new HashMap();
         try (Connection connection = getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT date(min(r.date)) as min, date(max(r.date)) as max FROM rates r"); ) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT date(min(r.date)) as min, date(max(r.date)) as max FROM animezenne.rates r"); ) {
             
             try(ResultSet rs = preparedStatement.executeQuery();){
                 while (rs.next()){

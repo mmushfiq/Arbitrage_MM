@@ -24,8 +24,8 @@ public class AniMezenneData extends Data {
     }
 
     public AniMezenneData(int id) {
-//        randomDate = getRandomDate();
-        randomDate = LocalDate.of(2017, 2, 5);
+        randomDate = getRandomDate();
+//        randomDate = LocalDate.of(2017, 2, 5);
     }
 
     @Override

@@ -54,21 +54,21 @@ INSERT INTO `banks` (`id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `rates` (
     `id` INT(11) NOT NULL AUTO_INCREMENT, 	
-    `bank_id` INT(11) NOT NULL, 	
-    `currency_id` INT(11) NOT NULL, 	
+    `b_id` INT(11) NOT NULL, 	
+    `c_id` INT(11) NOT NULL, 	
     `buy` DOUBLE NOT NULL, 	
     `sell` DOUBLE NOT NULL, 	
     `date` DATETIME NOT NULL, 
     PRIMARY KEY (`id`), 
-    INDEX `idx_rate` (`bank_id`, `currency_id`), 
-    INDEX `idx_currency_id` (`currency_id`), 
-    CONSTRAINT `fk_b_id` FOREIGN KEY (`bank_id`) REFERENCES `banks` (`id`)
+    INDEX `idx_rate` (`b_id`, `c_id`), 
+    INDEX `idx_currency_id` (`c_id`), 
+    CONSTRAINT `fk_b_id` FOREIGN KEY (`b_id`) REFERENCES `banks` (`id`)
 ) 
 COLLATE='utf8_general_ci' 
 ENGINE=InnoDB;
 
 DELETE FROM `rates`;
-INSERT INTO `rates`(`bank_id`, `currency_id`, `buy`, `sell`, `date`) VALUES
+INSERT INTO `rates`(`b_id`, `c_id`, `buy`, `sell`, `date`) VALUES
 (27, 4, 0, 0.0285, '2017-08-01 00:00:08'),
 (27, 2, 0, 2.2326, '2017-08-01 00:00:10'),
 (27, 6, 0, 0.4815, '2017-08-01 00:00:11'),
