@@ -3,6 +3,7 @@ package az.mm.arbitrage.data;
 import az.mm.arbitrage.exceptionHandler.ExceptionHandler;
 import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.model.Bank;
+import az.mm.arbitrage.resources.Props;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class ExcelData extends Data {
         List<Bank> bankList = new ArrayList<>();
         Bank b = null;
 
-        try(FileInputStream file = new FileInputStream(new File("src/az/mm/arbitrage/resources/arbitrage.xls")); ) {   // D:\\arbitrage.xls
+        try(FileInputStream file = new FileInputStream(new File(Props.getInstance().getProperty("source.excel"))); ) {
 
             Workbook workbook = new HSSFWorkbook(file);
             Sheet sheet = workbook.getSheetAt(0);

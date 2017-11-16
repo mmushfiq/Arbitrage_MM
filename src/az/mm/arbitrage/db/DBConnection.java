@@ -2,9 +2,9 @@ package az.mm.arbitrage.db;
 
 import az.mm.arbitrage.exceptionHandler.ExceptionHandler;
 import az.mm.arbitrage.model.Bank;
+import az.mm.arbitrage.resources.Props;
 import com.ibatis.common.jdbc.ScriptRunner;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
@@ -28,13 +28,10 @@ public class DBConnection {
 
     private Connection getDBConnection() {
         Connection connection = null;
-        Properties props = new Properties();
-
-        try( FileInputStream in = new FileInputStream("src/az/mm/arbitrage/resources/db.properties"); ) {
-            props.load(in);
+        try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            connection = DriverManager.getConnection(props.getProperty("db.url"));
-        } catch (SQLException | IOException e) {
+            connection = DriverManager.getConnection(Props.getInstance().getProperty("db.url"));
+        } catch (SQLException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
         } 
 
@@ -101,7 +98,7 @@ public class DBConnection {
             
             try(ResultSet rs = preparedStatement.executeQuery();){
                 if (!rs.next())
-                    try(BufferedReader br = new BufferedReader(new FileReader("src/az/mm/arbitrage/resources/create.sql"));){
+                    try(BufferedReader br = new BufferedReader(new FileReader(Props.getInstance().getProperty("source.sql")))){
                         ScriptRunner runner = new ScriptRunner(connection, false, false);
                         runner.runScript(br);
                     }
