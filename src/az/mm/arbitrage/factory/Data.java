@@ -94,7 +94,7 @@ public abstract class Data {
                 for (int n = 0; n < R.length; n++) {
                     if(R[m][n] != null) System.out.printf("%.4f -> %-20s", R[m][n].getValue(), R[m][n].getBankName());
                     else{
-                        R[m][n] = new OptimalRate("", -1);
+//                        R[m][n] = new OptimalRate("", -1); //bu olanda permutation alqoritm xeta vermir ve sehv netice chixardir..
                         System.out.printf("%.4s -> %-20s", "x", "");
                     }            
                 }
