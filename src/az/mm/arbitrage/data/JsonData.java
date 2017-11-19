@@ -69,7 +69,7 @@ public class JsonData extends Data {
             i++;
         });
 
-        printArr(this, R, cur);
+        checkAndPrintArr(this, R, cur);
         return R;
     }
 

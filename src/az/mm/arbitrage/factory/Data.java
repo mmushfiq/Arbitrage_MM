@@ -63,48 +63,36 @@ public abstract class Data {
                     
                 }
 
-        printArr(data, R, cur);
+        checkAndPrintArr(data, R, cur);
         return R.clone();
     }
     
-    public void printArr(Data data, OptimalRate[][] R, String[] cur){
-        //eger hansisa mezenne ile bagli umumiyyetle hech bir bankda chevrilme yoxdursa onda NullPointerException verecek, bunu nezere alib duzeltmek sonra da printleri silmek..
+    public void checkAndPrintArr(Data data, OptimalRate[][] R, String[] cur){
         try {
-            System.out.printf("\nDate: %s ", data.getDate());
-            System.out.printf("\n%-17s", data.getClass().getSimpleName());
-            for (String s : cur) {
-                System.out.printf("%-30s", s);
-            }
-            
-//            int i = 0;
-//            for (OptimalRate[] arr : R) {
-//                System.out.printf("\n%-17s", cur[i++]);
-////            System.out.println("d: " + Arrays.toString(d));
-//                for (OptimalRate opt : arr) {
-//                    if(opt != null) System.out.printf("%.4f -> %-20s", opt.getValue(), opt.getBankName());
-//                    else            System.out.printf("%.4s -> %-20s", "x", "");
-//                }
-//            }
+            System.out.printf("\nDate: %s \n%-17s", data.getDate(), data.getClass().getSimpleName());
+            for (String s : cur) System.out.printf("%-30s", s);
             
             // Eger valyuta ile bagli umumiyyetle hech bir bankda konvertasiya movcud deyilse
             //daha yaxsi olar ki, olmayan valyutani cur massivinden ve R array.dan cixarim
             //performans baximindan bu daha yaxsi olar, fikirlesecem bu barede..
+            //bir elave ciddi problem de chixdi, ola biler cemi bir bankda cchevrilme olsun,
+            //amma o bankin da mutleq diger butun valyutalara chevrilmesi olmalidi,
+            //yoxsa xeta verecek. 2017-02-24 tarixi uchun Ziraatbank numunesi
+            
             for (int m = 0; m < R.length; m++){ 
                 System.out.printf("\n%-17s", cur[m]);
-                for (int n = 0; n < R.length; n++) {
-                    if(R[m][n] != null) System.out.printf("%.4f -> %-20s", R[m][n].getValue(), R[m][n].getBankName());
-                    else{
-//                        R[m][n] = new OptimalRate("", -1); //bu olanda permutation alqoritm xeta vermir ve sehv netice chixardir..
+                for (int n = 0; n < R.length; n++) 
+                    if(R[m][n] != null) 
+                        System.out.printf("%.4f -> %-20s", R[m][n].getValue(), R[m][n].getBankName());
+                    else {
+                        R[m][n] = new OptimalRate("", -1);  // set -1 if there is no conversion between two currencies
                         System.out.printf("%.4s -> %-20s", "x", "");
                     }            
-                }
             }
-            
+            System.out.println("");
         } catch (NullPointerException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e, "Array is empty or is not filled correctly!");
         }
-
-        System.out.println();
     }
 
  
@@ -131,7 +119,7 @@ public abstract class Data {
         }
     }
 
-    // It is written elaborately to understand the above first method.
+    // This method is written elaborately to understand the above first method.
     public OptimalRate getOptimalRates(String from, String to, List<Bank> bankList) {
         int id = 0;
         String name = null;

@@ -39,9 +39,8 @@ public class ArbitrageChecker {
                 to = list.get(i);
             }
             opt = getRate(from, to);
-            result *= opt.getValue();
-//            arbList.add(new PermutationArbitrageModel(round(result/opt.getValue()), round(result), from, to, opt.getBankName()));
-            arbList.add(new PermutationArbitrageModel(result/opt.getValue(), result, from, to, opt.getBankName()));
+            if(opt.getValue() == -1) return false;  // no conversion
+            arbList.add(new PermutationArbitrageModel(result, result *= opt.getValue(), from, to, opt.getBankName()));
         }
         
         if(result > startValue){

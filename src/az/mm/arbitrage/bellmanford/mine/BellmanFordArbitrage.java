@@ -59,9 +59,10 @@ public class BellmanFordArbitrage implements Arbitrage {
     
 
     private void relax(int u, int v) {
-        if (u == v) return;
-        double weight = -Math.log(adj[u][v].getValue());
-        if (weight != INF /*&& dist[u] != INF*/ && (dist[v] > dist[u] + weight)) {   //if(d[u] != INFINITY && d[v] > d[u] + w) - lazim olsa bu sherti arashdirmaq mene lazimdi ya yox.
+        double weight = adj[u][v].getValue();
+        if (u == v || weight == -1) return; //no conversion
+        weight = -Math.log(weight);
+        if (dist[v] > dist[u] + weight) {
             dist[v] = dist[u] + weight;
             p[v] = u;
         }
@@ -87,8 +88,9 @@ public class BellmanFordArbitrage implements Arbitrage {
     private boolean hasNegativeCycle() {
         for (int u = 0; u < vertex; u++) 
             for (int v = 0; v < vertex; v++) {
-                if(u == v) continue;
-                double weight = -Math.log(adj[u][v].getValue());
+                double weight = adj[u][v].getValue();
+                if(u == v || weight == -1) continue;
+                weight = -Math.log(weight);
                 if (dist[v] > dist[u] + weight)
                     findNegativeCyclePath(v);
             }

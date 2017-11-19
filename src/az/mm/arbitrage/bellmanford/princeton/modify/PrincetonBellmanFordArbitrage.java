@@ -21,6 +21,7 @@ public class PrincetonBellmanFordArbitrage implements Arbitrage {
           for (int v = 0; v < V; v++) 
             for (int w = 0; w < V; w++) {
                 double rate = R[v][w].getValue();
+                if(rate == -1) continue; //no conversion
                 DirectedEdge e = new DirectedEdge(v, w, -Math.log(rate), R[v][w].getBankName());
                 G.addEdge(e);
             }

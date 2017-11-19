@@ -26,10 +26,13 @@ public class PermutationArbitrage implements Arbitrage {
         System.out.println("Select currencies which you want:");
         sc.nextLine(); //bunu yazmayanda Exception verir..
         String curString = sc.nextLine();
-        currencies = curString.trim().toUpperCase().split(" ");
+        
+        List<String> tempList = "".equals(curString) ? Arrays.asList(currencies) : Arrays.asList(curString.trim().toUpperCase().split(" "));
+        tempList = new ArrayList(tempList); // prevent UnsupportedOperationException
+        tempList.removeIf(s -> s.equals(baseCurrency));
+        currencies = tempList.toArray(new String[tempList.size()]);
         
         allPermutationMap = new LinkedHashMap<>();
-
         Permutation p = new Permutation(getOptimalRatesMap(data), baseCurrency);
         List<String> curList = Arrays.asList(currencies);
         System.out.println("");
@@ -64,11 +67,7 @@ public class PermutationArbitrage implements Arbitrage {
 
 
     private void checkArbitrageOpportunity(Permutation p){
-//        Arbitrage arb = new Arbitrage(); 
-//        Map<Integer, List<ArbitrageModel>> arbitrageListMap = arb.getArbitrageListMap();  //arb obyekti ile birbasha bunu almaq olmur, Permutation obyekti ile elaqelendirib almaq lazimdi, ona gore de helelik map.i static eledim..
-        
         Map<Double, List<PermutationArbitrageModel>> arbitrageListMap = p.getArbitrageListMap();
-        
         if(arbitrageListMap.isEmpty())
             System.out.println("No arbitrage opportunity!\n");
         else {       
@@ -76,7 +75,7 @@ public class PermutationArbitrage implements Arbitrage {
             arbitrageListMap.forEach((key, value) -> {
                 System.out.printf("\nArbitrage %d: (profit - %.2f %s) \n", ++count, key, baseCurrency);
                 value.forEach(a -> {
-                    System.out.printf("%.4f %s = %.4f %s (%s)\n", a.getFirstResult(), a.getFromCur(), a.getLastResult(), a.getToCur(), a.getBankName());
+                    System.out.printf("%10.4f %s = %10.4f %s (%s)\n", a.getFirstResult(), a.getFromCur(), a.getLastResult(), a.getToCur(), a.getBankName());
                 });
             });
         }

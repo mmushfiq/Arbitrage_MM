@@ -77,7 +77,7 @@ public class BellmanFordArbitrageCopy implements Arbitrage {
                 R[i][j] = new OptimalRate("", negArr[k++]);
             }
 
-        data.printArr(data, R, cur);
+        data.checkAndPrintArr(data, R, cur);
         return R.clone();
     }
     

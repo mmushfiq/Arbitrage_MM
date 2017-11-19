@@ -4,7 +4,6 @@ import az.mm.arbitrage.factory.Data;
 import az.mm.arbitrage.db.DBConnection;
 import az.mm.arbitrage.model.Bank;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +25,7 @@ public class AniMezenneData extends Data {
     public AniMezenneData(int id) {
         randomDate = getRandomDate();
 //        randomDate = LocalDate.of(2017, 2, 5); //null pointeri yoxlamaq uchun..
+//        randomDate = LocalDate.of(2017, 2, 24); //null pointeri yoxlamaq uchun..
     }
 
     @Override
