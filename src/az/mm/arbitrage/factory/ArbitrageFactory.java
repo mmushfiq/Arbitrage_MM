@@ -16,7 +16,7 @@ public class ArbitrageFactory extends AbstractFactory{
             case 1:  return new PrincetonBellmanFordArbitrage();      
             case 2:  return new BellmanFordArbitrage();   
             case 3:  return new PermutationArbitrage();      
-            default: return new PermutationArbitrage();      
+            default: throw new IllegalArgumentException("Incorrect number! Please enter the number between 1 and 3.");
         }
     }
 

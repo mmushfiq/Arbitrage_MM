@@ -70,7 +70,7 @@ public class BellmanFordArbitrage implements Arbitrage {
     
     /**
      * En chox vaxtimi alan qraflarda butun neqativ cycle-lerin tapilmasi oldu,
-     * chunki xeyli mendeden arashdirdim, konkret ele bir menbe chixmadi qarshima
+     * chunki xeyli menbeden arashdirdim, konkret ele bir menbe chixmadi qarshima
      * ki, orda qeyd olunsun ki, bu mumkundur. Princeton numunesinde de ancaq bir 
      * negative cycle gosterilir. Xeyli arashdirmalardan sonra oxudugum meqalelerden
      * formalashan tesevvure esasen bunu oz mentiqimle improvizasiya elemishem, 
@@ -81,7 +81,7 @@ public class BellmanFordArbitrage implements Arbitrage {
      * 
      * http://www.informit.com/articles/article.aspx?p=169575&seqNum=8 - bu linkde  
      * de Sedgovichin kohne meqalesi var, orda arbitraj qrafinin negative cycle.ye
-     * chevrilmish varianti ile ozumdeki kod ile yaratdigim numunei yoxladim,
+     * chevrilmish varianti ile ozumdeki kod ile yaratdigim numuneni yoxladim,
      * reqemlerle cuzi ferqlenmeler var, ele bu ferqlenmeler de bu sehv neticeni 
      * vere biler. Loqraifmlemeni bir de arashdirim gerek.. 
      */

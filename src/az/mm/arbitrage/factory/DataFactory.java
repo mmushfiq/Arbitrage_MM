@@ -23,7 +23,7 @@ public class DataFactory extends AbstractFactory {
             case 2:  return new AznTodayData(n);   
             case 3:  return new AniMezenneData(n);   
             case 4:  return new JsonData(n);       
-            default: return new ExcelData(n);      
+            default: throw new IllegalArgumentException("Incorrect number! Please enter the number between 1 and 4.");
         }
     }
 
