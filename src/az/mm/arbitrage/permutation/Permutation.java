@@ -15,7 +15,7 @@ public class Permutation {
         arb = new ArbitrageChecker(map, baseCurrency);
     }
 
-    // a is the original array
+    
     // k is the number of elements in each permutation
     public List<List<String>> permute(List<String> a, int k) {
         List<List<String>> allPermutations = new ArrayList();

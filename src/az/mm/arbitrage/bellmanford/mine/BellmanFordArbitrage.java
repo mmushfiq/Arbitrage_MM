@@ -83,7 +83,7 @@ public class BellmanFordArbitrage implements Arbitrage {
      * de Sedgovichin kohne meqalesi var, orda arbitraj qrafinin negative cycle.ye
      * chevrilmish varianti ile ozumdeki kod ile yaratdigim numuneni yoxladim,
      * reqemlerle cuzi ferqlenmeler var, ele bu ferqlenmeler de bu sehv neticeni 
-     * vere biler. Loqraifmlemeni bir de arashdirim gerek.. 
+     * vere biler. Loqarifmlemeni bir de arashdirim gerek.. 
      */
     private boolean hasNegativeCycle() {
         for (int u = 0; u < vertex; u++) 

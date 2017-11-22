@@ -46,7 +46,7 @@ public class AznTodayData extends Data {
                         curRate[i] = -1;
                     } 
 
-                bank = new Bank(name, curRate[0], curRate[1], curRate[2], curRate[3], curRate[4], curRate[5], curRate[8], curRate[9], curRate[6], curRate[7]); //26.09.2017 - indekslerin yeri sehv idi deyisdirildi
+                bank = new Bank(name, curRate[0], curRate[1], curRate[2], curRate[3], curRate[4], curRate[5], curRate[8], curRate[9], curRate[6], curRate[7]);  // indekslerin yeri sehv idi deyisdirildi
                 aznTodayBankList.add(bank);
             }
 

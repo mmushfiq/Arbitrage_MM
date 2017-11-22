@@ -87,7 +87,6 @@ public class JsonData extends Data {
             Map<String, Double> map = (Map) jsonObject.get("rates");
             ratesMap.put(cur[i], map);
         }
-
         if(jsonObject != null) date = LocalDate.parse(jsonObject.get("date").toString());
         
         return ratesMap;

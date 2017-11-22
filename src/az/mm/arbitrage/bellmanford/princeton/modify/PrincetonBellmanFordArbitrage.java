@@ -6,6 +6,8 @@ import az.mm.arbitrage.model.OptimalRate;
 import edu.princeton.cs.introcs.StdOut;
 
 /**
+ * Bu paketdeki classlar Princeton numunesinin modifikasiya olunmush formalaridir.
+ * Orijinal classlar az.mm.arbitrage.princeton paketindedir.
  *
  * @author MM <mushfiqazeri@gmail.com>
  */

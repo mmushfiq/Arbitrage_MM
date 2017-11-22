@@ -15,7 +15,9 @@ public abstract class Data {
     private final String[] currencies = {"AZN", "USD", "EUR", "GBP", "RUB", "TRY"};
 
     public abstract List<Bank> getBankList();
+    
     public abstract int getDataId();
+    
     public abstract LocalDate getDate();
     
     
@@ -56,28 +58,20 @@ public abstract class Data {
                     }
 
                     currentRate = R[i][j] != null ? R[i][j].getValue() : Double.MIN_VALUE;
-//                    newRate = Math.round(r1/r2 * 10000.0) / 10000.0; //sifirdan sonraki 4 reqeme qeder yuvarlaqlashdirilir, amma yuvarlaqlashdirma olduqda 10000-den sonraki deqiqlikle goturmur banki..
                     newRate = r1/r2;
                     if (r1 > 0 && r2 > 0 && currentRate < newRate)
                         R[i][j] = new OptimalRate(b.getName(), newRate);
-                    
                 }
 
         checkAndPrintArr(data, R, cur);
         return R.clone();
     }
     
+    
     public void checkAndPrintArr(Data data, OptimalRate[][] R, String[] cur){
         try {
             System.out.printf("\nDate: %s \n%-17s", data.getDate(), data.getClass().getSimpleName());
             for (String s : cur) System.out.printf("%-30s", s);
-            
-            // Eger valyuta ile bagli umumiyyetle hech bir bankda konvertasiya movcud deyilse
-            //daha yaxsi olar ki, olmayan valyutani cur massivinden ve R array.dan cixarim
-            //performans baximindan bu daha yaxsi olar, fikirlesecem bu barede..
-            //bir elave ciddi problem de chixdi, ola biler cemi bir bankda cchevrilme olsun,
-            //amma o bankin da mutleq diger butun valyutalara chevrilmesi olmalidi,
-            //yoxsa xeta verecek. 2017-02-24 tarixi uchun Ziraatbank numunesi
             
             for (int m = 0; m < R.length; m++){ 
                 System.out.printf("\n%-17s", cur[m]);

@@ -62,14 +62,13 @@ public class ExcelData extends Data {
                         getCellValue(row, 8),
                         getCellValue(row, 9),
                         getCellValue(row, 10),
-                        new java.sql.Date(row.getCell(11).getDateCellValue().getTime()).toLocalDate()); //getTime() meselesini bir de arashdirmaq, zone ferqli ola biler..
+                        new java.sql.Date(row.getCell(11).getDateCellValue().getTime()).toLocalDate());
                 bankList.add(b);
             }
 
         } catch (IOException ex) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), ex);
         }
-        
         if(b != null) date = b.getDate();
 
         return bankList;

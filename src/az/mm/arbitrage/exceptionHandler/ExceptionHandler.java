@@ -19,8 +19,7 @@ public class ExceptionHandler {
         System.err.println(message.toString());
         e.printStackTrace();
         
-//        String mName = new Object(){}.getClass().getEnclosingMethod().getName(); //Burada hele ki duzgun ishlemir, gelen metodu yox cari metodu gosterir
-
+        // Logger de elave etmek olar
     }
     
 }

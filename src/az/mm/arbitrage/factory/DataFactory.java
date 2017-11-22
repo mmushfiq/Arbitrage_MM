@@ -10,10 +10,6 @@ import az.mm.arbitrage.data.JsonData;
  * @author MM <mushfiqazeri@gmail.com>
  */
 
-/**
- * 
- * Factory pattern
- */
 public class DataFactory extends AbstractFactory {
     
     @Override
@@ -26,7 +22,6 @@ public class DataFactory extends AbstractFactory {
             default: throw new IllegalArgumentException("Incorrect number! Please enter the number between 1 and 4.");
         }
     }
-
  
     @Override
     public Arbitrage getArbitrage(int type) {

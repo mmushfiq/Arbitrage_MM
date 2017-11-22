@@ -64,7 +64,6 @@ public class ArbitrageChecker {
         return Math.round(value * 10000.0) / 10000.0;
     }
     
-    
     public Map<Double, List<PermutationArbitrageModel>> getArbitrageListMap(){
         return new LinkedHashMap<>(arbitrageListMap);
     }

@@ -7,6 +7,7 @@ import az.mm.arbitrage.factory.FactoryProducer;
 import java.util.Scanner;
 
 /**
+ * For more info: ...
  *
  * @author MM <mushfiqazeri@gmail.com>
  */

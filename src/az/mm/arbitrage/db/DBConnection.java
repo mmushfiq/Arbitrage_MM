@@ -16,11 +16,10 @@ import java.util.*;
  * @author MM <mushfiqazeri@gmail.com>
  */
 public class DBConnection {
-        
+       
     private static final DBConnection instance = new DBConnection();
-
     private DBConnection() {}
-    
+
     //Singleton pattern
     public static DBConnection getInstance() {
         return instance;
@@ -108,7 +107,6 @@ public class DBConnection {
             
         } catch (SQLException | IOException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
-            
         }
     }
     

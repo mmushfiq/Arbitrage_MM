@@ -37,10 +37,8 @@ public class Bank {
         this.sGBP = sGBP;
         this.bTRY = bTRY;
         this.sTRY = sTRY;
-
     }
     
-  
     public Bank(String name, double bUSD, double sUSD, double bEUR, double sEUR, double bRUB, double sRUB, double bGBP, double sGBP, double bTRY, double sTRY, LocalDate date) {
         this.name = name;
         this.bUSD = bUSD;

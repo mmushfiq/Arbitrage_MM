@@ -12,8 +12,8 @@ public class OptimalRate {
     private final String bankName;
     private final double value;
 
-    public OptimalRate(String name, double value) {
-        this.bankName = name;
+    public OptimalRate(String bankName, double value) {
+        this.bankName = bankName;
         this.value = value;
     }
 
@@ -27,8 +27,7 @@ public class OptimalRate {
 
     @Override
     public String toString() {
-        return "\nOptimalRate{name=" + bankName + ", value=" + value + '}';
+        return "\nOptimalRate{bankName=" + bankName + ", value=" + value + '}';
     }
-    
     
 }
