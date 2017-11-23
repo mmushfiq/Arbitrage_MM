@@ -7,7 +7,8 @@ import az.mm.arbitrage.factory.FactoryProducer;
 import java.util.Scanner;
 
 /**
- * For more info: ...
+ * For more info: 
+ * http://www.mycertnotes.com/az/valyuta-alqi-satqisindan-qazanc-elde-etmek-bellman-ford-alqoritmi/
  *
  * @author MM <mushfiqazeri@gmail.com>
  */
