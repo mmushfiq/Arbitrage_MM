@@ -71,12 +71,12 @@ public class DBConnection {
         System.out.println("Loading data from database..");
         
         try (Connection connection = getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql); ) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql); 
+             ResultSet rs = preparedStatement.executeQuery(); ) {
             
-            try(ResultSet rs = preparedStatement.executeQuery();){
-                while (rs.next()) 
-                    bankList.add(new Bank(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDate(12).toLocalDate()));
-            }
+            while (rs.next()) 
+                bankList.add(new Bank(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getDouble(8), rs.getDouble(9), rs.getDouble(10), rs.getDouble(11), rs.getDate(12).toLocalDate()));
+       
         } catch (SQLException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
         }
@@ -95,15 +95,14 @@ public class DBConnection {
      */
     private void checkDatabaseExist() {
         try (Connection connection = getDBConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement("Show databases like 'animezenne'");) {
+             PreparedStatement preparedStatement = connection.prepareStatement("Show databases like 'animezenne'");
+             ResultSet rs = preparedStatement.executeQuery(); ) {
             
-            try(ResultSet rs = preparedStatement.executeQuery();){
-                if (!rs.next())
-                    try(BufferedReader br = new BufferedReader(new FileReader(Props.getInstance().getProperty("source.sql")))){
-                        ScriptRunner runner = new ScriptRunner(connection, false, false);
-                        runner.runScript(br);
-                    }
-            }
+            if (!rs.next())
+                try(BufferedReader br = new BufferedReader(new FileReader(Props.getInstance().getProperty("source.sql")))){
+                    ScriptRunner runner = new ScriptRunner(connection, false, false);
+                    runner.runScript(br);
+                }
             
         } catch (SQLException | IOException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
@@ -114,14 +113,14 @@ public class DBConnection {
     public Map<String, LocalDate> getMaxMinDate(){
         Map<String, LocalDate> map = new HashMap();
         try (Connection connection = getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT date(min(r.date)) as min, date(max(r.date)) as max FROM animezenne.rates r"); ) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT date(min(r.date)) as min, date(max(r.date)) as max FROM animezenne.rates r"); 
+             ResultSet rs = preparedStatement.executeQuery(); ) {
             
-            try(ResultSet rs = preparedStatement.executeQuery();){
-                while (rs.next()){
-                    map.put("min", rs.getDate(1).toLocalDate());
-                    map.put("max", rs.getDate(2).toLocalDate());
-                } 
-            }
+            while (rs.next()){
+                map.put("min", rs.getDate(1).toLocalDate());
+                map.put("max", rs.getDate(2).toLocalDate());
+            } 
+            
         } catch (SQLException e) {
             ExceptionHandler.catchMessage(this, new Object(){}.getClass().getEnclosingMethod().getName(), e);
         }
